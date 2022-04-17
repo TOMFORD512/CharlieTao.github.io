@@ -243,6 +243,13 @@
   </url>
   
   <url>
+    <loc>http://example.com/tags/Flume/</loc>
+    <lastmod>2022-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://example.com/tags/HBase/</loc>
     <lastmod>2022-04-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -251,13 +258,6 @@
   
   <url>
     <loc>http://example.com/tags/Hadoop/</loc>
-    <lastmod>2022-04-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/tags/Flume/</loc>
     <lastmod>2022-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -336,7 +336,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/categories/Bigdata/HBase/</loc>
+    <loc>http://example.com/categories/Bigdata/Flume/</loc>
     <lastmod>2022-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -350,14 +350,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/categories/Bigdata/Hadoop/</loc>
+    <loc>http://example.com/categories/Bigdata/HBase/</loc>
     <lastmod>2022-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://example.com/categories/Bigdata/Flume/</loc>
+    <loc>http://example.com/categories/Bigdata/Hadoop/</loc>
     <lastmod>2022-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
