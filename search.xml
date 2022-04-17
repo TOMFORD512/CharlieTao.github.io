@@ -1,0 +1,1359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>CnetOS时间同步</title>
+    <url>/2020/06/13/CentOS%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><hr>
+<blockquote>
+<p>本文所述的CnetOS时间同步方法用于CDH安装时准备工作。以下是服务器的一些基本信息:</p>
+<ol>
+<li>环境：自建虚拟机</li>
+<li>系统：CentOS 7</li>
+<li>NTP服务器：阿里云（ntp.aliyun.com）</li>
+<li>同步频率：开机自动同步</li>
+</ol>
+</blockquote>
+<span id="more"></span>
+
+<h1 id="NTP安装与配置"><a href="#NTP安装与配置" class="headerlink" title="NTP安装与配置"></a>NTP安装与配置</h1><hr>
+<h2 id="1-下载"><a href="#1-下载" class="headerlink" title="1. 下载"></a>1. 下载</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum -y install ntp</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-修改配置文件-x2F-etc-x2F-ntp-conf）"><a href="#2-修改配置文件-x2F-etc-x2F-ntp-conf）" class="headerlink" title="2. 修改配置文件(&#x2F;etc&#x2F;ntp.conf）"></a>2. 修改配置文件(&#x2F;etc&#x2F;ntp.conf）</h2><figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#注释掉一下内容：</span></span><br><span class="line"><span class="attr">server</span> <span class="string">0.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="attr">server</span> <span class="string">1.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="attr">server</span> <span class="string">2.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="attr">server</span> <span class="string">3.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#添加以下内容：</span></span><br><span class="line"><span class="attr">server</span> <span class="string">ntp.aliyun.com</span></span><br><span class="line"><span class="attr">server</span> <span class="string">ntp.aliyun.com</span></span><br><span class="line"><span class="attr">server</span> <span class="string">ntp.aliyun.com</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-开启服务"><a href="#3-开启服务" class="headerlink" title="3. 开启服务"></a>3. 开启服务</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl start ntpd</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-设置NTP服务开机自启"><a href="#4-设置NTP服务开机自启" class="headerlink" title="4. 设置NTP服务开机自启"></a>4. 设置NTP服务开机自启</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> ntpd</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-将系统时钟同步到NTP服务器"><a href="#5-将系统时钟同步到NTP服务器" class="headerlink" title="5. 将系统时钟同步到NTP服务器"></a>5. 将系统时钟同步到NTP服务器</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ntpdate -u ntp.aliyun.com</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-将硬件时钟与系统时钟同步"><a href="#6-将硬件时钟与系统时钟同步" class="headerlink" title="6. 将硬件时钟与系统时钟同步"></a>6. 将硬件时钟与系统时钟同步</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hwclock --systohc</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>尖叫提示</code>：</p>
+<ol>
+<li>本次同步的频率为开机自启，也可以设置Linux自带的crontab定时器定时执行。具体根据自身需求而定。</li>
+<li>由于本次时间同步环境为自建虚拟机，时区在新建时就已经设置了；如果是线上服务器，可能会自动设置。具体后面会进一步补充。</li>
+<li>更换时区命令：ln -sf &#x2F;usr&#x2F;share&#x2F;zoneinfo&#x2F;Asia&#x2F;Shanghai &#x2F;etc&#x2F;localtime</li>
+<li>查看当前时区命令： ll &#x2F;etc&#x2F;localtime</li>
+</ol>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>CentOS</category>
+      </categories>
+      <tags>
+        <tag>CentOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CnetOS更换镜像</title>
+    <url>/2020/06/13/CentOS%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><hr>
+<blockquote>
+<p>由于新建虚拟机时，使用系统自带的CentOS镜像在使用yum命令下载各种软件的速度不太理想，因此本文用于记录更换原始镜像为国内镜像的步骤。以下是服务器信息：</p>
+<ol>
+<li>环境：自建虚拟机</li>
+<li>系统：CentOS 7</li>
+<li>镜像：阿里云</li>
+</ol>
+</blockquote>
+<span id="more"></span>
+
+<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><hr>
+<h2 id="安装wget-x2F-curl"><a href="#安装wget-x2F-curl" class="headerlink" title="安装wget&#x2F;curl"></a>安装wget&#x2F;curl</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum -y install wget</span><br><span class="line"></span><br><span class="line">yum -y install curl</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><hr>
+<h2 id="1-备份原本的镜像"><a href="#1-备份原本的镜像" class="headerlink" title="1. 备份原本的镜像"></a>1. 备份原本的镜像</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-下载镜像并写入指定文件中"><a href="#2-下载镜像并写入指定文件中" class="headerlink" title="2. 下载镜像并写入指定文件中"></a>2. 下载镜像并写入指定文件中</h2><ul>
+<li>以下两种方式均可下载目标镜像</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#使用Wget命令</span></span><br><span class="line">wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用curl命令</span></span><br><span class="line">curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>尖叫提示</code>：-o后面路径+指定文件名，作用是将目标镜像中的内容写到指定目录的指定文件中</p>
+</blockquote>
+<h2 id="3-更新镜像源"><a href="#3-更新镜像源" class="headerlink" title="3. 更新镜像源"></a>3. 更新镜像源</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#清除缓存</span></span><br><span class="line">yum clean all</span><br><span class="line"></span><br><span class="line"><span class="comment">#生成缓存</span></span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>尖叫提示</code>：网上有一篇博客说要将跟换后的CentOS-Base.repo中的所有http开头的更改为https，作用暂时未知（可能网络安全），后续了解后，会进一步补充。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>CentOS</category>
+      </categories>
+      <tags>
+        <tag>CentOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Flume-1.9.0安装文档</title>
+    <url>/2020/06/05/Flume-1-9-0%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><h2 id="JDK的安装"><a href="#JDK的安装" class="headerlink" title="JDK的安装"></a>JDK的安装</h2><blockquote>
+<p>注：Flume安装的前提条件取决于Flume的Sink类型。如果为KafkaSink则需要安装Kafka，如果为HDFS Sink则需要安装Hadoop，以此类推。</p>
+</blockquote>
+<span id="more"></span>
+
+<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><hr>
+<h2 id="1-浏览器下载"><a href="#1-浏览器下载" class="headerlink" title="1. 浏览器下载"></a>1. 浏览器下载</h2><p><a href="https://mirror-hk.koddos.net/apache/flume/1.9.0/apache-flume-1.9.0-bin.tar.gz">Apache Flume官网下载</a></p>
+<p><a href="https://mirrors.tuna.tsinghua.edu.cn/apache/flume/1.9.0/apache-flume-1.9.0-bin.tar.gz">Apache国内镜像下载</a></p>
+<h2 id="2-服务器本地下载"><a href="#2-服务器本地下载" class="headerlink" title="2. 服务器本地下载"></a>2. 服务器本地下载</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Apache Flume官网下载</span></span><br><span class="line">wget https://mirror-hk.koddos.net/apache/flume/1.9.0/apache-flume-1.9.0-bin.tar.gz</span><br><span class="line">	</span><br><span class="line"><span class="comment">#Apache国内镜像下载</span></span><br><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/flume/1.9.0/apache-flume-1.9.0-bin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><hr>
+<h2 id="1-创建conf-file文件"><a href="#1-创建conf-file文件" class="headerlink" title="1. 创建conf-file文件"></a>1. 创建conf-file文件</h2><blockquote>
+<p>注：推荐在Flume根目录下创建一个job文件夹，用于存放以后满足各种需求的conf-file文件</p>
+</blockquote>
+<h2 id="2-配置环境变量"><a href="#2-配置环境变量" class="headerlink" title="2. 配置环境变量"></a>2. 配置环境变量</h2><blockquote>
+<p>注：配置环境变量极为简单，这里不做赘述</p>
+</blockquote>
+<h2 id="3-示例"><a href="#3-示例" class="headerlink" title="3. 示例"></a>3. 示例</h2><blockquote>
+<p>注：Flume需要根据不同的业务配置不同的conf-flie，下面以三种不同类型的业务需求来了解 如何设置conf-file</p>
+</blockquote>
+<h3 id="（1）Flume采集端口信息，并打印到控制台"><a href="#（1）Flume采集端口信息，并打印到控制台" class="headerlink" title="（1）Flume采集端口信息，并打印到控制台"></a>（1）Flume采集端口信息，并打印到控制台</h3><ul>
+<li>安装测试工具<strong>telnlt</strong>（如果机器没有安装）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo rpm -ivh telnet-server-0.17-59.el7.x86_64.rpm </span><br><span class="line">sudo rpm -ivh telnet-0.17-59.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看我们之后用到的端口是否被占用</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">netstat -an | grep 44444</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>编写conf-file文件（在job目录下创建<strong>flume-telnet-logger.conf</strong>文件，写入以下内容）</li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Name the components on this agent</span></span><br><span class="line"><span class="attr">a1.sources</span> = <span class="string">r1</span></span><br><span class="line"><span class="attr">a1.sinks</span> = <span class="string">k1</span></span><br><span class="line"><span class="attr">a1.channels</span> = <span class="string">c1</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># Describe/configure the source</span></span><br><span class="line"><span class="attr">a1.sources.r1.type</span> = <span class="string">netcat</span></span><br><span class="line"><span class="attr">a1.sources.r1.bind</span> = <span class="string">localhost</span></span><br><span class="line"><span class="attr">a1.sources.r1.port</span> = <span class="string">44444</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># Describe the sink</span></span><br><span class="line"><span class="attr">a1.sinks.k1.type</span> = <span class="string">logger</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># Use a channel which buffers events in memory</span></span><br><span class="line"><span class="attr">a1.channels.c1.type</span> = <span class="string">memory</span></span><br><span class="line"><span class="attr">a1.channels.c+1.capacity</span> = <span class="string">1000</span></span><br><span class="line"><span class="attr">a1.channels.c1.transactionCapacity</span> = <span class="string">100</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># Bind the source and sink to the channel</span></span><br><span class="line"><span class="attr">a1.sources.r1.channels</span> = <span class="string">c1</span></span><br><span class="line"><span class="attr">a1.sinks.k1.channel</span> = <span class="string">c1</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>开启Flume进程（控制台运行）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">flume-ng agent --conf conf/ --conf-file */flume/job/flume-telnet-logger.conf --name a1 -Dflume.root.logger==INFO,console</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：<br>     1. –conf			表示Flume默认的配置文件<br>     2. –conf-flie		表示用户自定义的配置文件（随业务需求而变）<br>     3. –name			表示agent的名字，与配置文件中的每一行的开头相同</p>
+</blockquote>
+<ul>
+<li>打开新的窗口简历Telnet通话</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">telnet localhost 44444</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在telnet端输入数据，在 flume 监听端就可以接收到，至此Flume监听端口信息采集数据到控制台完成</li>
+</ul>
+<h3 id="（2）Flume采集日志文件到HDFS"><a href="#（2）Flume采集日志文件到HDFS" class="headerlink" title="（2）Flume采集日志文件到HDFS"></a>（2）Flume采集日志文件到HDFS</h3><ul>
+<li>编写conf-file文件<strong>flume-file-hdfs.conf</strong></li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Name the components on this agent</span></span><br><span class="line"><span class="attr">a2.sources</span> = <span class="string">r2</span></span><br><span class="line"><span class="attr">a2.sinks</span> = <span class="string">k2</span></span><br><span class="line"><span class="attr">a2.channels</span> = <span class="string">c2</span></span><br><span class="line"><span class="comment"># Describe/configure the source</span></span><br><span class="line"><span class="attr">a2.sources.r2.type</span> = <span class="string">exec</span></span><br><span class="line"><span class="attr">a2.sources.r2.command</span> = <span class="string">tail -F /opt/module/hive-2.3.3/logs/hive.log</span></span><br><span class="line"><span class="attr">a2.sources.r2.shell</span> = <span class="string">/bin/bash -c</span></span><br><span class="line"><span class="comment"># Describe the sink</span></span><br><span class="line"><span class="attr">a2.sinks.k2.type</span> = <span class="string">hdfs</span></span><br><span class="line"><span class="attr">a2.sinks.k2.hdfs.path</span> = <span class="string">hdfs://hadoop201:9000/flume/%Y%m%d/%H</span></span><br><span class="line"><span class="comment">#上传文件的前缀</span></span><br><span class="line"><span class="attr">a2.sinks.k2.hdfs.filePrefix</span> = <span class="string">logs-</span></span><br><span class="line"><span class="comment">#是否按照时间滚动文件夹</span></span><br><span class="line"><span class="attr">a2.sinks.k2.hdfs.round</span> = <span class="string">true</span></span><br><span class="line"><span class="comment">#多少时间单位创建一个新的文件夹</span></span><br><span class="line"><span class="attr">a2.sinks.k2.hdfs.roundValue</span> = <span class="string">1</span></span><br><span class="line"><span class="comment">#重新定义时间单位</span></span><br><span class="line"><span class="attr">a2.sinks.k2.hdfs.roundUnit</span> = <span class="string">hour</span></span><br><span class="line"><span class="comment">#是否使用本地时间戳</span></span><br><span class="line"><span class="attr">a2.sinks.k2.hdfs.useLocalTimeStamp</span> = <span class="string">true</span></span><br><span class="line"><span class="comment">#积攒多少个Event才flush到HDFS一次</span></span><br><span class="line"><span class="attr">a2.sinks.k2.hdfs.batchSize</span> = <span class="string">1000</span></span><br><span class="line"><span class="comment">#设置文件类型，可支持压缩</span></span><br><span class="line"><span class="attr">a2.sinks.k2.hdfs.fileType</span> = <span class="string">DataStream</span></span><br><span class="line"><span class="comment">#多久生成一个新的文件</span></span><br><span class="line"><span class="attr">a2.sinks.k2.hdfs.rollInterval</span> = <span class="string">600</span></span><br><span class="line"><span class="comment">#设置每个文件的滚动大小</span></span><br><span class="line"><span class="attr">a2.sinks.k2.hdfs.rollSize</span> = <span class="string">134217700</span></span><br><span class="line"><span class="comment">#文件的滚动与Event数量无关</span></span><br><span class="line"><span class="attr">a2.sinks.k2.hdfs.rollCount</span> = <span class="string">0</span></span><br><span class="line"><span class="comment">#最小冗余数</span></span><br><span class="line"><span class="attr">a2.sinks.k2.hdfs.minBlockReplicas</span> = <span class="string">1</span></span><br><span class="line"><span class="comment"># Use a channel which buffers events in memory</span></span><br><span class="line"><span class="attr">a2.channels.c2.type</span> = <span class="string">memory</span></span><br><span class="line"><span class="attr">a2.channels.c2.capacity</span> = <span class="string">1000</span></span><br><span class="line"><span class="attr">a2.channels.c2.transactionCapacity</span> = <span class="string">100</span></span><br><span class="line"><span class="comment"># Bind the source and sink to the channel</span></span><br><span class="line"><span class="attr">a2.sources.r2.channels</span> = <span class="string">c2</span></span><br><span class="line"><span class="attr">a2.sinks.k2.channel</span> = <span class="string">c2</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>开启Flume进程</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#控制台运行</span></span><br><span class="line">flume-ng agent --conf conf --conf-file */flume/job/flume-file-hdfs.conf --name a2 -Dflume.root.logger=INFO,console</span><br><span class="line"><span class="comment">#后台运行</span></span><br><span class="line"><span class="built_in">nohup</span> flume-ng agent --conf conf --conf-file */flume/job/flume-file-hdfs.conf --name a2 1&gt;/dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>检查日志有新增数据时，HDFS上是否出现新文件。若有新文件产生，则Flume采集日志文件到HDFS完成</li>
+</ul>
+<h3 id="（3）Flume采集日志文件到Kafka（实时）"><a href="#（3）Flume采集日志文件到Kafka（实时）" class="headerlink" title="（3）Flume采集日志文件到Kafka（实时）"></a>（3）Flume采集日志文件到Kafka（实时）</h3><ul>
+<li>编写conf-file文件<strong>flume-kafka.conf</strong></li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">a1.sources</span> = <span class="string">r1</span></span><br><span class="line"><span class="attr">a1.sinks</span> = <span class="string">k1</span></span><br><span class="line"><span class="attr">a1.channels</span> = <span class="string">c1</span></span><br><span class="line"><span class="comment"># Describe/configure the source</span></span><br><span class="line"><span class="attr">a1.sources.r1.type</span> = <span class="string">exec</span></span><br><span class="line"><span class="attr">a1.sources.r1.command</span> = <span class="string">tail -F /home/xuanfu/logs/user/iag-video-info.log</span></span><br><span class="line"><span class="comment"># Describe the sink</span></span><br><span class="line"><span class="comment">#a1.sinks.k1.type = logger</span></span><br><span class="line"><span class="attr">a1.sinks.k1.type</span> = <span class="string">org.apache.flume.sink.kafka.KafkaSink</span></span><br><span class="line"><span class="attr">a1.sinks.k1.topic</span> = <span class="string">video_record</span></span><br><span class="line"><span class="attr">a1.sinks.k1.brokerList</span> = <span class="string">172.16.221.82:9092,172.16.221.80:9092,172.16.221.81:9092</span></span><br><span class="line"><span class="attr">a1.sinks.k1.requiredAcks</span> = <span class="string">1</span></span><br><span class="line"><span class="attr">a1.sinks.k1.batchSize</span> = <span class="string">20</span></span><br><span class="line"><span class="comment"># Use a channel which buffers events in memory</span></span><br><span class="line"><span class="attr">a1.channels.c1.type</span> = <span class="string">memory</span></span><br><span class="line"><span class="attr">a1.channels.c1.capacity</span> = <span class="string">1000</span></span><br><span class="line"><span class="attr">a1.channels.c1.transactionCapacity</span> = <span class="string">100</span></span><br><span class="line"><span class="comment"># Bind the source and sink to the channel</span></span><br><span class="line"><span class="attr">a1.sources.r1.channels</span> = <span class="string">c1</span></span><br><span class="line"><span class="attr">a1.sinks.k1.channel</span> = <span class="string">c1</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>开启Flume进程</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#控制台运行</span></span><br><span class="line">flume-ng agent --conf conf --conf-file */flume/job/flume-kafka.conf --name a1 -Dflume.root.logger=INFO,console</span><br><span class="line"><span class="comment">#后台运行</span></span><br><span class="line"><span class="built_in">nohup</span> flume-ng agent --conf conf --conf-file */flume/job/flume-kafka.conf --name a1 1&gt;/dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>开启一个Kafka控制台消费者进程。检查日志有新增数据时，控制台上是否有数据显示。若有数据显示，则Flume采集日志文件到Kafka完成</li>
+</ul>
+]]></content>
+      <categories>
+        <category>BigData</category>
+        <category>Flume</category>
+      </categories>
+      <tags>
+        <tag>Flume</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HBase-1.3.6安装文档</title>
+    <url>/2020/06/07/HBase-1-3-6%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><ol>
+<li>Zookeeper的安装</li>
+<li>Hadoop的安装</li>
+<li>JDK的安装</li>
+</ol>
+<blockquote>
+<p>注：</p>
+<ol>
+<li>虽然HBase内部存在Zookeeper，但是业内不推荐这种做法。建议使用外部自行安装的Zookeeper进行管理，以便好的集成大数据其他组件。</li>
+<li>HBase与Hive相似，数据存储在HDFS上，因此需要提前搭建好Hadoop</li>
+</ol>
+</blockquote>
+<span id="more"></span>
+
+<h1 id="角色分类"><a href="#角色分类" class="headerlink" title="角色分类"></a>角色分类</h1><table>
+<thead>
+<tr>
+<th align="center">机器名</th>
+<th align="center">bigdata001</th>
+<th align="center">bigdata002</th>
+<th align="center">bigdata003</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">QuorumPeerMain</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">HMaster</td>
+<td align="center"></td>
+<td align="center">√(Backup   )</td>
+<td align="center">√(Active)</td>
+</tr>
+<tr>
+<td align="center">HRegionServer</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+</tbody></table>
+<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><h2 id="1-自行下载源码，编译（Git）"><a href="#1-自行下载源码，编译（Git）" class="headerlink" title="1. 自行下载源码，编译（Git）"></a>1. 自行下载源码，编译（Git）</h2><h2 id="2-浏览器下载"><a href="#2-浏览器下载" class="headerlink" title="2. 浏览器下载"></a>2. 浏览器下载</h2><ul>
+<li><p><a href="https://apache.website-solution.net/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz">HBase官网下载</a></p>
+</li>
+<li><p><a href="https://mirrors.tuna.tsinghua.edu.cn/apache/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz">国内镜像下载</a></p>
+</li>
+</ul>
+<h2 id="3-服务器下载"><a href="#3-服务器下载" class="headerlink" title="3. 服务器下载"></a>3. 服务器下载</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#官网镜像</span></span><br><span class="line">wget https://apache.website-solution.net/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment">#国内镜像</span></span><br><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
+<li>在conf&#x2F;hbase-site.xml⽂件中添加以下内容</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 开启集群模式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.cluster.distributed<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 元数据在HDFS上的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.rootdir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://bigdata1:9000/hbase<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Zookeeper连接地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.zookeeper.quorum<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata1,bigdata2,bigdata3<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Zookeeper元数据地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.zookeeper.property.dataDir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/worker/software/zookeeper/zkData<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 文件存放地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/worker/software/hbase/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>更改conf&#x2F; hbase-env.sh ⽂件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Java环境变量：</span></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/home/worker/software/jdk</span><br><span class="line"></span><br><span class="line"><span class="comment">#禁用HBASE内置Zookeeper：</span></span><br><span class="line"><span class="built_in">export</span> HBASE_MANAGES_ZK=<span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#HBASE PID地址（若果不添加以下内容，启动和停止HBASE时会自动去tmp目录下寻找改文件，报错）</span></span><br><span class="line"><span class="built_in">export</span> HBASE_PID_DIR=/home/worker/software/hbase/conf/hadoop/pids</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>更改conf&#x2F;regionservers⽂件</li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在该文件中添加你的集群中即将充当HRegionserver角色的机器名</span></span><br><span class="line"><span class="attr">bigdata1</span></span><br><span class="line"><span class="attr">bigdata2</span></span><br><span class="line"><span class="attr">bigdata3</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建backup-masters⽂件</li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在改文件中添加你的集群中即将充当backup HMaster角色的机器名</span></span><br><span class="line"><span class="attr">bigdata2</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>分发HBASE整个⽬录到各个机器上（scp）</li>
+<li>配置HBASE环境变量<blockquote>
+<p>环境变量的配置较为简单，这里不做过多赘述。集群的整个环境变量配置在Hadoop集群搭建中已给出。</p>
+</blockquote>
+</li>
+</ul>
+<h1 id="启动与关闭"><a href="#启动与关闭" class="headerlink" title="启动与关闭"></a>启动与关闭</h1><ul>
+<li>在被认定为HMaster的机器上执⾏以下命令</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#启动</span></span><br><span class="line">start-hbase.sh</span><br><span class="line"></span><br><span class="line"><span class="comment">#关闭</span></span><br><span class="line">stop-hbase.sh</span><br></pre></td></tr></table></figure>
+
+<h1 id="检验"><a href="#检验" class="headerlink" title="检验"></a>检验</h1><p>浏览器中输⼊<a href="http://bigdata3:16010、http://bigdata2:16010查看Master以及Backup">http://bigdata3:16010、http://bigdata2:16010查看Master以及Backup</a> Master</p>
+<blockquote>
+<p>注：HBASE默认Web UI端⼝号为16010，可在配置⽂件中更改。若显⽰正常，则安装完成。</p>
+</blockquote>
+<p>HMaster页面如下：<br><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/HBase/HBASEMaster.png?raw=true"></p>
+<p>Backup HMaster⻚⾯如下：<br><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/HBase/BackupMaster.png?raw=true"></p>
+]]></content>
+      <categories>
+        <category>BigData</category>
+        <category>HBase</category>
+      </categories>
+      <tags>
+        <tag>HBase</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hadoop-2.7.7安装文档</title>
+    <url>/2020/06/07/Hadoop-2-7-7%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><ol>
+<li>免密登录</li>
+<li>关闭防⽕墙</li>
+<li>JDK的安装</li>
+<li>Zookeeper的安装</li>
+</ol>
+<blockquote>
+<p>注：搭配的Spark版本是2.3.4</p>
+</blockquote>
+<span id="more"></span>
+
+<h1 id="角色分配"><a href="#角色分配" class="headerlink" title="角色分配"></a>角色分配</h1><table>
+<thead>
+<tr>
+<th align="center">机器名称</th>
+<th align="center">bigdata001</th>
+<th align="center">bigdata002</th>
+<th align="center">bigdata003</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">QuorumPeerMain</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">NameNode</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">DataNode</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">JournalNode</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">ResourceManager</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">NodeManager</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">ZKFC</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><h2 id="1-浏览器下载"><a href="#1-浏览器下载" class="headerlink" title="1. 浏览器下载"></a>1. 浏览器下载</h2><ul>
+<li><p><a href="https://archive.apache.org/dist/hadoop/common/hadoop-2.7.7/hadoop-2.7.7.tar.gz"><strong>Hadoop官网下载</strong></a></p>
+</li>
+<li><p><a href="https://mirrors.tuna.tsinghua.edu.cn/apache/hadoop/common/hadoop-2.7.7/hadoop-2.7.7.tar.gz"><strong>国内镜像下载</strong></a></p>
+</li>
+</ul>
+<h2 id="2-服务器本地下载"><a href="#2-服务器本地下载" class="headerlink" title="2. 服务器本地下载"></a>2. 服务器本地下载</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#官网镜像</span></span><br><span class="line">wget https://archive.apache.org/dist/hadoop/common/hadoop-2.7.7/hadoop- 2.7.7.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment">#国内镜像</span></span><br><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/hadoop/common/hadoop- 2.7.7/hadoop-2.7.7.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="1-修改配置文件："><a href="#1-修改配置文件：" class="headerlink" title="1. 修改配置文件："></a>1. 修改配置文件：</h2><ul>
+<li>apache-hadoop-2.7.7&#x2F;etc&#x2F;hadoop&#x2F;core-site.xml</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- hdfs地址，ha模式中是连接到nameservice --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://ns1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 这里的路径默认是NameNode、DataNode、JournalNode等存放数据的公共目录，也可以单独指定 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/xuanfu01/software/hadoop/data/dfs<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定ZooKeeper集群的地址和端口。注意，数量一定是奇数，且不少于三个节点 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>ha.zookeeper.quorum<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:2181,bigdata002:2181,bigdata003:2181<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.proxyuser.worker.groups<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.proxyuser.worker.hosts<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>apache-hadoop-2.7.7&#x2F;etc&#x2F;hadoop&#x2F;hadoop-env.sh</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/home/xuanfu01/software/jdk</span><br><span class="line"><span class="built_in">export</span> HDFS_NAMENODE_USER=root</span><br><span class="line"><span class="built_in">export</span> HDFS_DATANODE_USER=root</span><br><span class="line"><span class="built_in">export</span> HDFS_DATANODE_SECURE_USER=hdfs</span><br><span class="line"><span class="built_in">export</span> HDFS_ZKFC_USER=root</span><br><span class="line"><span class="built_in">export</span> HDFS_JOURNALNODE_USER=root</span><br><span class="line"><span class="built_in">export</span> HDFS_SECONDARYNAMENODE_USER=root</span><br><span class="line"><span class="built_in">export</span> YARN_NODEMANAGER_USER=root</span><br><span class="line"><span class="built_in">export</span> YARN_RESOURCEMANAGER_USER=root</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>apache-hadoop-2.7.7&#x2F;etc&#x2F;hadoop&#x2F;hdfs-site.xml</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 指定副本数，不能超过机器节点数 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>3<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 为namenode集群定义一个services name --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.nameservices<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>ns1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- nameservice 包含哪些namenode，为各个namenode起名 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.namenodes.ns1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>nn1,nn2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 名为nn1的namenode的rpc地址和端口号，rpc用来和datanode通讯 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.rpc-address.ns1.nn1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 名为nn2的namenode的rpc地址和端口号，rpc用来和datanode通讯 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.rpc-address.ns1.nn2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--名为nn1的namenode的http地址和端口号，用来和web客户端通讯 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.http-address.ns1.nn1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:50070<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 名为nn2的namenode的http地址和端口号，用来和web客户端通讯 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.http-address.ns1.nn2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:50070<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        </span><br><span class="line">    <span class="comment">&lt;!-- namenode间用于共享编辑日志的journal节点列表 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.shared.edits.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>qjournal://bigdata001:8485;bigdata002:8485;bigdata003:8485/ns1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定该集群出现故障时，是否自动切换到另一台namenode --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.automatic-failover.enabled.ns1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- journalnode 上用于存放edits日志的目录 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.journalnode.edits.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/xuanfu01/software/hadoop/data/dfs/journalnode<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--指定namenode dir的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/xuanfu01/software/hadoop/data/dfs/namenode<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--指定datanode dir的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/xuanfu01/software/hadoop/data/dfs/datanode<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 客户端连接可用状态的NameNode所用的代理类 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.client.failover.proxy.provider.ns1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 一旦需要NameNode切换，使用ssh方式进行操作 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.fencing.methods<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>sshfence<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 如果使用ssh进行故障切换，使用ssh通信时用的密钥存储的位置 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.fencing.ssh.private-key-files<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/xuanfu01/.ssh/id_rsa<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- connect-timeout超时时间 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.fencing.ssh.connect-timeout<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>30000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--开启Web HDFS --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.webhdfs.enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>apache-hadoop-2.7.7&#x2F;etc&#x2F;hadoop&#x2F;mapred-site.xml</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 使用Yarn作为资源调度 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>apache-hadoop-2.7.7&#x2F;etc&#x2F;hadoop&#x2F;yarn-site.xml</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 启用HA高可用性 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定resourcemanager的名字 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.cluster-id<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>yrc<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 使用了2个resourcemanager,分别指定Resourcemanager的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.rm-ids<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>rm1,rm2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定rm1的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定rm2的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定当前机器bigdata001作为rm1 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.id<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>rm1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定zookeeper集群机器 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.zk-address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:2181,bigdata002:2181,bigdata003:2181<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- NodeManager上运行的附属服务，默认是mapreduce_shuffle --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Hadoop ClassPath --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.application.classpath<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span></span><br><span class="line">            /home/xuanfu01/software/hadoop/etc/hadoop:</span><br><span class="line">            /home/xuanfu01/software/hadoop/share/hadoop/common/lib/*:</span><br><span class="line">            /home/xuanfu01/software/hadoop/share/hadoop/common/*:</span><br><span class="line">            /home/xaunfu01/software/hadoop/share/hadoop/hdfs:</span><br><span class="line">            /home/xuanfu01/software/hadoop/share/hadoop/hdfs/lib/*:</span><br><span class="line">            /home/aunfu01/software/hadoop/share/hadoop/hdfs/*:</span><br><span class="line">            /home/xaunfu01/software/hadoop/share/hadoop/mapreduce/lib/*:</span><br><span class="line">            /home/xuanfu01/software/hadoop/share/hadoop/mapreduce/*:</span><br><span class="line">            /home/xuanfu01/software/hadoop/share/hadoop/yarn:</span><br><span class="line">            /home/xuanfu01/software/hadoop/share/hadoop/yarn/lib/*:</span><br><span class="line">            /home/xuanfu01/software/hadoop/share/hadoop/yarn/*</span><br><span class="line">        <span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 客户端通过该地址向RM提交对应用程序操作 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:8032<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--ResourceManager 对ApplicationMaster暴露的访问地址。ApplicationMaster通过该地址向RM申请资源释放资源等。 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.scheduler.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:8030<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- RM HTTP访问地址,查看集群信息--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.webapp.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:8088<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- NodeManager通过该地址交换信息 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.resource-tracker.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:8031<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--管理员通过该地址向RM发送管理命令 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.admin.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:8033<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.admin.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:23142<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:8032<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.scheduler.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:8030<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.webapp.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:8088<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.resource-tracker.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:8031<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.admin.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:8033<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.admin.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:23142<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-拷贝"><a href="#2-拷贝" class="headerlink" title="2. 拷贝"></a>2. 拷贝</h2><ul>
+<li>将bigdata001的Hadoop⽂件夹拷⻉⾄其余机器上</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">scp -r apache-hadoop-2.7.7/ xuanfu01@bigdata002:/home/xuanfu01/software/</span><br><span class="line">scp -r apache-hadoop-2.7.7/ xuanfu01@bigdata003:/home/xuanfu01/software/</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在bigdata002（ResourceManager备⽤节点）服务器上的 yarn-site.xml 配置⽂件中做出如下修改</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.id<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>rm2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在bigdata003上删除上述配置项</li>
+</ul>
+<h2 id="3-配置环境变量"><a href="#3-配置环境变量" class="headerlink" title="3. 配置环境变量"></a>3. 配置环境变量</h2><blockquote>
+<p>在此不做过多赘述，以下为本⼈服务器的所有环境变量（&#x2F;home&#x2F;xuanfu01&#x2F;.bashrc）</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># .bashrc</span></span><br><span class="line"><span class="comment"># Source global definitions</span></span><br><span class="line"><span class="keyword">if</span> [ -f /etc/bashrc ]; <span class="keyword">then</span></span><br><span class="line">. /etc/bashrc</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="comment"># User specific environment</span></span><br><span class="line"><span class="built_in">export</span></span><br><span class="line">PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$SCALA_HOME</span>/bin:<span class="variable">$ZOOKEEPER_HOME</span>/bin:<span class="variable">$HADOOP_HOM</span></span><br><span class="line">E/bin:<span class="variable">$HADOOP_HOME</span>/sbin:<span class="variable">$KAFKA_HOME</span>/bin:<span class="variable">$SPARK_HOME</span>/bin:<span class="variable">$FLUME_HOME</span>/bin:$</span><br><span class="line">HBASE_HOME/bin:</span><br><span class="line"><span class="comment"># Uncomment the following line if you don&#x27;t like systemctl&#x27;s auto-paging</span></span><br><span class="line">feature:</span><br><span class="line"><span class="comment"># export SYSTEMD_PAGER=</span></span><br><span class="line"><span class="comment"># User specific aliases and functions</span></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/home/xuanfu01/software/jdk</span><br><span class="line"><span class="built_in">export</span> SCALA_HOME=/home/xuanfu01/software/scala</span><br><span class="line"><span class="built_in">export</span> ZOOKEEPER_HOME=/home/xuanfu01/software/zookeeper</span><br><span class="line"><span class="built_in">export</span> HADOOP_HOME=/home/xuanfu01/software/hadoop</span><br><span class="line"><span class="built_in">export</span> KAFKA_HOME=/home/xuanfu01/software/kafka</span><br><span class="line"><span class="built_in">export</span> SPARK_HOME=/home/xuanfu01/software/spark</span><br><span class="line"><span class="built_in">export</span> FLUME_HOME=/home/xuanfu01/software/flume</span><br><span class="line"><span class="built_in">export</span> HBASE_HOME=/home/xuanfu01/software/hbase</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="4-初始化及启动"><a href="#4-初始化及启动" class="headerlink" title="4. 初始化及启动"></a>4. 初始化及启动</h2><p>⾄此，Hadoop⾼可⽤集群已经安装完毕。以下将进⾏初始化操作，必须按照顺序进⾏！</p>
+<h3 id="（1）启动JournalNode"><a href="#（1）启动JournalNode" class="headerlink" title="（1）启动JournalNode"></a>（1）启动JournalNode</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hadoop-daemon.sh start journalnode</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）格式化NameNode"><a href="#（2）格式化NameNode" class="headerlink" title="（2）格式化NameNode"></a>（2）格式化NameNode</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hdfs namenode -format</span><br></pre></td></tr></table></figure>
+
+<h3 id="（3）同步主从NameNode的数据"><a href="#（3）同步主从NameNode的数据" class="headerlink" title="（3）同步主从NameNode的数据"></a>（3）同步主从NameNode的数据</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hdfs namenode -bootstrapStandby</span><br></pre></td></tr></table></figure>
+
+<h3 id="（4）格式化ZKFC"><a href="#（4）格式化ZKFC" class="headerlink" title="（4）格式化ZKFC"></a>（4）格式化ZKFC</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hdfs zkfc -formatZK</span><br></pre></td></tr></table></figure>
+
+<h3 id="（5）启动HDFS集群"><a href="#（5）启动HDFS集群" class="headerlink" title="（5）启动HDFS集群"></a>（5）启动HDFS集群</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">start-dfs.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="（6）启动ZKFC"><a href="#（6）启动ZKFC" class="headerlink" title="（6）启动ZKFC"></a>（6）启动ZKFC</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#新版：3.X.X</span></span><br><span class="line">hdfs --daemon start zkfc</span><br><span class="line"></span><br><span class="line"><span class="comment">#旧版</span></span><br><span class="line">hadoop-daemon.sh start zkfc</span><br></pre></td></tr></table></figure>
+
+<h1 id="检验"><a href="#检验" class="headerlink" title="检验"></a>检验</h1><ol>
+<li>在浏览器中输⼊分别输⼊ bigdata001:50070 、 bigdata002:50070 检查主从NameNode是否 为正常状态。如下所⽰：</li>
+</ol>
+<p>ActiveNameNode<br><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Hadoop/ActiveNameNode.png?raw=true" alt="bigdata001:50070"></p>
+<p>StandbyNameNode<br><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Hadoop/StandbyNameNode.png?raw=true" alt="bigdata002:50070"></p>
+<ol start="2">
+<li>⾼可⽤测试（将bigdata001上的NameNode杀死，在Web⻚⾯上观察bigdata002的NameNode是<br>否改变状态</li>
+</ol>
+]]></content>
+      <categories>
+        <category>BigData</category>
+        <category>Hadoop</category>
+      </categories>
+      <tags>
+        <tag>Hadoop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux学习文档-文件权限与目录配置</title>
+    <url>/2021/04/22/Linux%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h2 id="1-文件属性"><a href="#1-文件属性" class="headerlink" title="1. 文件属性"></a>1. 文件属性</h2><p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E7%A4%BA%E6%84%8F%E5%9B%BE.png?raw=true" alt="图1"></p>
+<!--more--> 
+
+<ul>
+<li>图1中，第1串字符代表这个文件的类型与权限<ul>
+<li><p>第一个字符代表着个文件是目录、文件或链接文件等·</p>
+<ul>
+<li>[d]代表目录</li>
+<li>[-]代表文件</li>
+<li>[l]代表链接文件<br>  <img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8E%E6%9D%83%E9%99%90%E4%B9%8B%E5%86%85%E5%AE%B9.png?raw=true" alt="图2"></li>
+</ul>
+</li>
+<li><p>如图2所示，后九位字符中每三个字符为一组，且均为【rwx】的组合。</p>
+</li>
+<li><p>第一组为文件拥有者的权限，第二组为文件所属用户组的权限，第三组为其他用户的权限</p>
+</li>
+<li><p>以第一组为例</p>
+<ul>
+<li>[r]代表read，可读权限，权限值为4，权限排名最低</li>
+<li>[w]代表write，可写权限，权限值为2，权限排名居中</li>
+<li>[r]代表excute,可执行权限，权限值为1，权限排名最高</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注：</p>
+<ul>
+<li>rwx所在的位置或者说顺序是不会改变的，有权限就会显示字符，没有则用-表示</li>
+<li>此处要与第一个字符区分开</li>
+</ul>
+</blockquote>
+<ul>
+<li>图1中，第2串字符表示有多少个文件名链接到此节点</li>
+<li>第3串字符表示这个文件的拥有者账号名</li>
+<li>第4串字符表示这个文件的所属用户组</li>
+<li>第5串字符表示这个文件的大小（默认单位为Bytes）</li>
+<li>第6串字符表示这个文件的创建日期或者是最近的修改日期，若文件的修改时间距今太久，那么只会显示年月日</li>
+<li>第7串字符表示文件名<ul>
+<li>文件名前面有[.]则表示改文件为隐藏文件，可用【ls】、【ls -a】及【ls -al】来查看<blockquote>
+<p>注：</p>
+<ul>
+<li>对于文件夹来说，[x]原本代表执行权限，但如果某个用户对于某个目录没有[x]的权限，则该用户无法进入该目录</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-如何修改文件属性与权限"><a href="#2-如何修改文件属性与权限" class="headerlink" title="2. 如何修改文件属性与权限"></a>2. 如何修改文件属性与权限</h2><table>
+<thead>
+<tr>
+<th align="center">命令</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">chgrp</td>
+<td align="center">修改文件所属用户组</td>
+</tr>
+<tr>
+<td align="center">chown</td>
+<td align="center">修改文件拥有者</td>
+</tr>
+<tr>
+<td align="center">chmod</td>
+<td align="center">修改文件的权限，SUID、SGID、SBIT等的特性</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>修改所属用户组，chgrp</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chgrp</span>   [-R]  账号名   <span class="built_in">dirname</span>/filename</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：</p>
+<ul>
+<li>目标用户组必须存在于&#x2F;etc&#x2F;group中才能修改成功，否则会报错</li>
+<li>修改文件拥有者亦是如此，目标用户必须存在于&#x2F;etc&#x2F;passwd中</li>
+</ul>
+</blockquote>
+</li>
+<li><p>修改文件拥有者，chown</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chown</span>   [-R]    账号名称    文件或目录</span><br><span class="line"><span class="built_in">chown</span>   [-R]    账号名称：用户组名称    文件或目录</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改文件权限，chmod</p>
+<ul>
+<li>用数字修改</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">权限</th>
+<th align="center">权限值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">r</td>
+<td align="center">4</td>
+</tr>
+<tr>
+<td align="center">w</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">x</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+<p>举例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">owner = rwx = 4+2+1 = 7</span><br><span class="line">group = rwx = 4+2+1 = 7</span><br><span class="line">others = --- = 0+0+0 = 0</span><br></pre></td></tr></table></figure>
+<p>因此，对应用数字修改权限的语法是：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span>   -R  xyz 文件或目录</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
+
+<p>常用的如果要将某个文件所有的权限都开通则为</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> 777 .bashrc</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>扩展：</p>
+<ul>
+<li>通常以vim编辑一个Shell文件的时候，他的权限通常是：-rw-rw-r–，也就是644，且此文件是不能够执行的,如果要把它变成可执行问文件，则需要执行命令：【chmod 744 test.sh】或者：【chmod a+x test.sh】，后者即为下面要介绍的用符号修改</li>
+<li>另外，如果有些文件你不想被其他人看到，可以执行：【chmod 700 text.sh】</li>
+</ul>
+</blockquote>
+<pre><code>- 用符号修改
+</code></pre>
+<p>在修改之前，首先需要知道权限只有user、group、同任何人三种身份，分别用u、g、o来表示。此外，所有a代表all即全部的身份，因此修改方法如下图所示：</p>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90.png?raw=true" alt="图3"></p>
+<ul>
+<li>例1：当我们要设置一个文件的权限为【-rwxr-xr-x】时，可执行如下命令：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> u=rwx,go=rx .bashrc</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例2：当我们不知道原来的文件属性，但是只想要增加.bashrc这个文件的每个人都可以写入得权限时，可执行如下命令：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> a+w .bashrc</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例3：当我想要将全部人的可执行权限去掉而不修改其他已存在的权限时，可执行如下命令：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> a-x .bashrc</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-Linux目录配置"><a href="#3-Linux目录配置" class="headerlink" title="3. Linux目录配置"></a>3. Linux目录配置</h2><h3 id="3-1-Linux目录配置的依据——FHS"><a href="#3-1-Linux目录配置的依据——FHS" class="headerlink" title="3.1 Linux目录配置的依据——FHS"></a>3.1 Linux目录配置的依据——FHS</h3><ul>
+<li><p>主要目的：让用户可以了解到已安装软件通常放置在哪个目下，也就是说重在在于规范每个特定的目录下应该要放置什么样子的数据</p>
+</li>
+<li><p>具体表现：FHS依据文件系统使用的频繁与否、是否允许用户随意修改而将目录定义为四种交互作用的形态，如下图所示：<img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/FHS.png?raw=true" alt="图4"></p>
+</li>
+<li><p>名词解释：</p>
+<ul>
+<li><strong>可分享</strong>：可以分享给其他系统挂载使用的目录，所以包含执行文件与用户的邮件等数据，是能够分享给网络上其他主机挂载使用的目录</li>
+<li><strong>不可分享</strong>：自己机器上运行的设备文件或是与程序有关的socket文件等，由于仅与自身及其有关，所以不适合分享给其他主机</li>
+<li><strong>不变</strong>：有些数据是不会经常变动的，跟随者发行版而不变动，例如函数库、文件说明、系统管理员所管理的主机服务配置文件等</li>
+<li><strong>可变动</strong>：经常修改的数据，例如日志文件、一般用户可自行接受的新闻组等</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-2-三大目录"><a href="#3-2-三大目录" class="headerlink" title="3.2 三大目录"></a>3.2 三大目录</h3><p>事实上，FHS针对目录树架构仅定义出以下<strong>三层目录</strong>下面应该放置什么样的数据而已</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/（root，根目录）：与启动系统、还原、系统修复有关</span><br><span class="line"></span><br><span class="line">/usr（Unix software resource）：与软件安装、执行有关</span><br><span class="line"></span><br><span class="line">/var（variable）：与系统运行过程有关</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>根目录（&#x2F;）</p>
+<ul>
+<li>根目录(&#x2F;)的子目录建议：</li>
+</ul>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/FHS_%E6%A0%B9%E7%9B%AE%E5%BD%95.png?raw=true" alt="图5"></p>
+<ul>
+<li>除上 FHS 中定义的目录说明外, 底下是几个在Linux当中非常重要的目录：</li>
+</ul>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/FHS_%E6%A0%B9%E7%9B%AE%E5%BD%952.png?raw=true" alt="图6"></p>
+</li>
+<li><p>&#x2F;usr</p>
+<ul>
+<li>&#x2F;usr的子目录建议：</li>
+</ul>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/FHS_%E6%A0%B9%E7%9B%AE%E5%BD%953.png?raw=true" alt="图7"></p>
+</li>
+<li><p>&#x2F;var</p>
+<ul>
+<li>&#x2F;var的意义与内容</li>
+</ul>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/FHS_4.png?raw=true" alt="图8"></p>
+</li>
+</ul>
+<h3 id="3-3-目录树"><a href="#3-3-目录树" class="headerlink" title="3.3 目录树"></a>3.3 目录树</h3><ul>
+<li>特性：<ul>
+<li>目录树的起始点为&#x2F;（根目录）</li>
+<li>每一个目录不止能使用本地分区的文件系统，也可以使用网络上的文件系统。比如，可以利用Network File System（NFS）服务器挂载某特定目录等</li>
+<li>每一个文件在此目录树中的文件名（包含完整路径）都是独一无二的</li>
+</ul>
+</li>
+<li>目录树架构示意图</li>
+</ul>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E7%9B%AE%E5%BD%95%E6%A0%91%E6%9E%B6%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE.png?raw=true" alt="图9"></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>文件、目录与磁盘</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hive学习文档——HiveQL</title>
+    <url>/2021/08/04/Hive%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3%E2%80%94%E2%80%94HiveQL/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h2 id="一、DDL（Data-Definition-Language）"><a href="#一、DDL（Data-Definition-Language）" class="headerlink" title="一、DDL（Data Definition Language）"></a>一、DDL（Data Definition Language）</h2><p><strong>数据定义语言，用于操作对象及对象本身，这种对象包括数据库,表对象，及视图对象</strong></p>
+<h2 id="二、DML（Data-Manipulation-Language-）"><a href="#二、DML（Data-Manipulation-Language-）" class="headerlink" title="二、DML（Data Manipulation Language ）"></a>二、DML（Data Manipulation Language ）</h2><p><strong>数据操控语言， 用于操作数据库对象对象中包含的数据</strong></p>
+<h2 id="三、DQL-Data-Query-Language"><a href="#三、DQL-Data-Query-Language" class="headerlink" title="三、DQL(Data Query Language)"></a>三、DQL(Data Query Language)</h2><p><strong>含义：数据查询语言，用于查询数据</strong></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> [<span class="keyword">ALL</span> <span class="operator">|</span> <span class="keyword">DISTINCT</span>] select_expr, select_expr, ...</span><br><span class="line"><span class="keyword">FROM</span> table_reference</span><br><span class="line">[<span class="keyword">WHERE</span> where_condition]</span><br><span class="line">[<span class="keyword">GROUP</span> <span class="keyword">BY</span> col_list [<span class="keyword">HAVING</span> <span class="keyword">condition</span>]]</span><br><span class="line">[CLUSTER <span class="keyword">BY</span> col_list<span class="operator">|</span> [DISTRIBUTE <span class="keyword">BY</span> col_list] [SORT <span class="keyword">BY</span><span class="operator">|</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> col_list]]</span><br><span class="line">[LIMIT number]</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>示例表建表语句：</strong></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> EMPLOYEES (</span><br><span class="line">	NAME	STRING	COMMENT <span class="string">&#x27;姓名&#x27;</span>,</span><br><span class="line">    SALARY	<span class="type">FLOAT</span>	COMMENT <span class="string">&#x27;薪水&#x27;</span>,</span><br><span class="line">	SUBORDINATES	<span class="keyword">ARRAY</span><span class="operator">&lt;</span>STRING<span class="operator">&gt;</span>	COMMENT <span class="string">&#x27;下属&#x27;</span>,</span><br><span class="line">    DEDUCTIONOS		MAP<span class="operator">&lt;</span>STRING, <span class="type">FLOAT</span><span class="operator">&gt;</span>	COMMENT <span class="string">&#x27;扣除费用&#x27;</span>,</span><br><span class="line">    ADDRESS		STRUCT<span class="operator">&lt;</span>STREET:STRING, CITY:STRING, STATE:STRING, ZIP:<span class="type">INT</span><span class="operator">&gt;</span>	COMMENT <span class="string">&#x27;住址&#x27;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">PARTITION</span> <span class="keyword">BY</span> (COUNTRY STRING, STATE STRING);</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="1-集合数据类型的取数"><a href="#1-集合数据类型的取数" class="headerlink" title="1. 集合数据类型的取数"></a>1. 集合数据类型的取数</h4><ul>
+<li>Array</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> NAME, SUBORDINATES[<span class="number">0</span>] <span class="keyword">FROM</span> EMPLOYEES;</span><br></pre></td></tr></table></figure>
+
+<!--注-->
+
+<p><em>引用一个不存在的元素会返回NULL。同时，提取出的STRING数据类型的值将不再带有引号</em></p>
+<ul>
+<li>MAP</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> NAME, DEDUCTIONOS[&quot;State Taxes&quot;] <span class="keyword">FROM</span> EMPLOYEES;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>Struct</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> NAME, ADDRESS.CITY <span class="keyword">FROM</span> EMPLOYEES;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-算术运算符"><a href="#2-算术运算符" class="headerlink" title="2. 算术运算符"></a>2. 算术运算符</h4><table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A + B</td>
+<td>数值</td>
+<td>A和B相加</td>
+</tr>
+<tr>
+<td>A - B</td>
+<td>数值</td>
+<td>A减去B</td>
+</tr>
+<tr>
+<td>A * B</td>
+<td>数值</td>
+<td>A和B相乘</td>
+</tr>
+<tr>
+<td>A &#x2F; B</td>
+<td>数值</td>
+<td>A除以B。如果能整除，那么返回商数</td>
+</tr>
+<tr>
+<td>A % B</td>
+<td>数值</td>
+<td>A除以B的余数</td>
+</tr>
+<tr>
+<td>A &amp; B</td>
+<td>数值</td>
+<td>A和B按位取与</td>
+</tr>
+<tr>
+<td>A | B</td>
+<td>数值</td>
+<td>A和B按位取或</td>
+</tr>
+<tr>
+<td>A ^ B</td>
+<td>数值</td>
+<td>A和B按位取亦或</td>
+</tr>
+<tr>
+<td>~A</td>
+<td>数值</td>
+<td>A和B按位取反</td>
+</tr>
+</tbody></table>
+<!--注-->
+
+<ul>
+<li><em>算术运算符接受任意的数值类型，如果数据类型不同，那么两种类型中数据范围较小的那个数据类型将会转换为其他范围更广的数据类型</em><ul>
+<li>例如，对于INT和BIGINT运算，INT类型将会转换提升为BIGINT。对于INT和FLOAT运算，INT将提升为FLOAT</li>
+</ul>
+</li>
+<li><em>当进行算术运算时，需要注意数据溢出和数据下溢的问题</em><ul>
+<li>解决方法：<ul>
+<li>考虑在表模式中定义使用范围更广的数据类型，缺点是每个数据值会占用更多额外的内存</li>
+<li>使用函数将数据值按照比例从一个范围缩放到另一个范围<ul>
+<li>按照10次方幂进行除法</li>
+<li>取Log值（指数值）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-函数"><a href="#3-函数" class="headerlink" title="3. 函数"></a>3. 函数</h4><h5 id="1-数学函数"><a href="#1-数学函数" class="headerlink" title="1. 数学函数"></a>1. 数学函数</h5><table>
+<thead>
+<tr>
+<th>使用方法</th>
+<th>返回值类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>round (DOUBLE d)</td>
+<td>BIGINT</td>
+<td>返回 DOUBLE 型 d 的 BIGINT 类型的近似值</td>
+</tr>
+<tr>
+<td>round (DOUBLE d, INT n)</td>
+<td>DOUBLE</td>
+<td>返回 DOUBLE 型 d 的保留 n 位小数的 DOUBLE 类型的近似值</td>
+</tr>
+<tr>
+<td>floor (DOUBLE, d)</td>
+<td>BIGINT</td>
+<td>返回 &lt;&#x3D; d 的最大 BIGINT 型值</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h5 id="2-聚合函数"><a href="#2-聚合函数" class="headerlink" title="2. 聚合函数"></a>2. 聚合函数</h5><h5 id="3-表生成函数"><a href="#3-表生成函数" class="headerlink" title="3. 表生成函数"></a>3. 表生成函数</h5><h5 id="4-其他内置函数"><a href="#4-其他内置函数" class="headerlink" title="4. 其他内置函数"></a>4. 其他内置函数</h5><h4 id="4-LIMIT语句"><a href="#4-LIMIT语句" class="headerlink" title="4. LIMIT语句"></a>4. LIMIT语句</h4><h4 id="5-CASE…WHEN…THEN…"><a href="#5-CASE…WHEN…THEN…" class="headerlink" title="5. CASE…WHEN…THEN…"></a>5. CASE…WHEN…THEN…</h4><h4 id="6-避免MapReduce"><a href="#6-避免MapReduce" class="headerlink" title="6. 避免MapReduce"></a>6. 避免MapReduce</h4><h4 id="7-WHERE"><a href="#7-WHERE" class="headerlink" title="7. WHERE"></a>7. WHERE</h4><h5 id="1-谓词操作符"><a href="#1-谓词操作符" class="headerlink" title="1. 谓词操作符"></a>1. 谓词操作符</h5><h5 id="2-浮点数比较"><a href="#2-浮点数比较" class="headerlink" title="2. 浮点数比较"></a>2. 浮点数比较</h5><h5 id="3-LIKE、RELIKE"><a href="#3-LIKE、RELIKE" class="headerlink" title="3. LIKE、RELIKE"></a>3. LIKE、RELIKE</h5><h4 id="8-GROUP-BY"><a href="#8-GROUP-BY" class="headerlink" title="8. GROUP BY"></a>8. GROUP BY</h4><h5 id="1-HAVING"><a href="#1-HAVING" class="headerlink" title="1. HAVING"></a>1. HAVING</h5><h4 id="9-JOIN"><a href="#9-JOIN" class="headerlink" title="9. JOIN"></a>9. JOIN</h4><h5 id="1-INNER-JOIN"><a href="#1-INNER-JOIN" class="headerlink" title="1. INNER JOIN"></a>1. INNER JOIN</h5><h5 id="2-JOIN优化"><a href="#2-JOIN优化" class="headerlink" title="2. JOIN优化"></a>2. JOIN优化</h5><h5 id="3-LEFT-OUTER-JOIN"><a href="#3-LEFT-OUTER-JOIN" class="headerlink" title="3. LEFT OUTER JOIN"></a>3. LEFT OUTER JOIN</h5><h5 id="4-OUTER-JOIN"><a href="#4-OUTER-JOIN" class="headerlink" title="4. OUTER JOIN"></a>4. OUTER JOIN</h5><h5 id="5-RIGHT-OUTER-JOIN"><a href="#5-RIGHT-OUTER-JOIN" class="headerlink" title="5. RIGHT OUTER JOIN"></a>5. RIGHT OUTER JOIN</h5><h5 id="6-FULL-OUTER-JOIN"><a href="#6-FULL-OUTER-JOIN" class="headerlink" title="6. FULL OUTER JOIN"></a>6. FULL OUTER JOIN</h5><h5 id="7-LEFT-SEMI-JOIN"><a href="#7-LEFT-SEMI-JOIN" class="headerlink" title="7. LEFT SEMI-JOIN"></a>7. LEFT SEMI-JOIN</h5><h5 id="8-笛卡尔积JOIN"><a href="#8-笛卡尔积JOIN" class="headerlink" title="8. 笛卡尔积JOIN"></a>8. 笛卡尔积JOIN</h5><h5 id="9-map-side-JOIN"><a href="#9-map-side-JOIN" class="headerlink" title="9. map-side JOIN"></a>9. map-side JOIN</h5><h4 id="10-ORDER-BY和SORT-BY"><a href="#10-ORDER-BY和SORT-BY" class="headerlink" title="10. ORDER BY和SORT BY"></a>10. ORDER BY和SORT BY</h4><h4 id="11-SORT-BY和DISTRIBUTE-BY"><a href="#11-SORT-BY和DISTRIBUTE-BY" class="headerlink" title="11. SORT BY和DISTRIBUTE BY"></a>11. SORT BY和DISTRIBUTE BY</h4><h4 id="12-CLUSTER-BY"><a href="#12-CLUSTER-BY" class="headerlink" title="12. CLUSTER BY"></a>12. CLUSTER BY</h4><h4 id="13-类型转换"><a href="#13-类型转换" class="headerlink" title="13. 类型转换"></a>13. 类型转换</h4><h4 id="14-抽样调查、数据块抽样"><a href="#14-抽样调查、数据块抽样" class="headerlink" title="14. 抽样调查、数据块抽样"></a>14. 抽样调查、数据块抽样</h4><h4 id="15-分桶表的输入、裁剪"><a href="#15-分桶表的输入、裁剪" class="headerlink" title="15. 分桶表的输入、裁剪"></a>15. 分桶表的输入、裁剪</h4><h4 id="16-UNION-ALL"><a href="#16-UNION-ALL" class="headerlink" title="16. UNION ALL"></a>16. UNION ALL</h4><h4 id=""><a href="#" class="headerlink" title=""></a></h4><h2 id="四、DCL（Data-Control-Language）"><a href="#四、DCL（Data-Control-Language）" class="headerlink" title="四、DCL（Data Control Language）"></a>四、DCL（Data Control Language）</h2><p><strong>数据控制语句，用于操作数据库对象的权限</strong></p>
+<h2 id="五、视图"><a href="#五、视图" class="headerlink" title="五、视图"></a>五、视图</h2><h2 id="六、索引"><a href="#六、索引" class="headerlink" title="六、索引"></a>六、索引</h2>]]></content>
+      <categories>
+        <category>BigData</category>
+        <category>Hive</category>
+      </categories>
+      <tags>
+        <tag>Hive</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux服务器初始化—CentOS7</title>
+    <url>/2021/10/26/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E2%80%94CentOS7/</url>
+    <content><![CDATA[<span id="more"></span>
+<h3 id="查看服务器的CentOS版本"><a href="#查看服务器的CentOS版本" class="headerlink" title="查看服务器的CentOS版本"></a>查看服务器的CentOS版本</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#二者皆可</span></span><br><span class="line"><span class="built_in">tail</span> /etc/redhat-release</span><br><span class="line"><span class="built_in">cat</span> /etc/redhat-release</span><br></pre></td></tr></table></figure>
+
+<h3 id="更改服务器名称"><a href="#更改服务器名称" class="headerlink" title="更改服务器名称"></a>更改服务器名称</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#输入以下命令，而后直接输入服务器名称</span></span><br><span class="line">vim /etc/hostname</span><br></pre></td></tr></table></figure>
+
+<h3 id="更改网络设置"><a href="#更改网络设置" class="headerlink" title="更改网络设置"></a>更改网络设置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/sysconfig/network-scripts/ifcfg-ens33</span><br></pre></td></tr></table></figure>
+
+<p>更改以下几点</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#1.设置静态IP</span></span><br><span class="line">BOOTPROTO=static</span><br><span class="line"><span class="comment">#2.</span></span><br><span class="line">ONBOOT=<span class="built_in">yes</span></span><br><span class="line"><span class="comment">#3.给定固定IP</span></span><br><span class="line">IPADDR=192.168.0.101</span><br><span class="line"><span class="comment">#4.子网掩码</span></span><br><span class="line">GATEWAY=192.168.0.1</span><br><span class="line"><span class="comment">#5.网关</span></span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line"><span class="comment">#6.</span></span><br><span class="line">DNS1=8.8.8.8</span><br><span class="line">DNS2=8.8.4.4</span><br></pre></td></tr></table></figure>
+
+<h3 id="更换默认镜像（设置Yum源）"><a href="#更换默认镜像（设置Yum源）" class="headerlink" title="更换默认镜像（设置Yum源）"></a>更换默认镜像（设置Yum源）</h3><p>注：详情请参考<a href="https://charlietao.github.io/2020/06/13/CentOS%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F/">CnetOS 更换镜像</a></p>
+<h3 id="按需更改防火墙状态"><a href="#按需更改防火墙状态" class="headerlink" title="按需更改防火墙状态"></a>按需更改防火墙状态</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#1.查看防火墙状态</span></span><br><span class="line">systemctl status firewalld</span><br><span class="line"><span class="comment">#2.关闭(开启)防火墙</span></span><br><span class="line">systemctl stop firewalld/systemctl start firewalld</span><br><span class="line"><span class="comment">#4.禁用防火墙服务</span></span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld</span><br><span class="line"><span class="comment">#注：如果需要永久关闭，需要先关闭再禁用防火墙服务</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="扩展（使用Telnet连接虚拟机）"><a href="#扩展（使用Telnet连接虚拟机）" class="headerlink" title="扩展（使用Telnet连接虚拟机）"></a>扩展（使用Telnet连接虚拟机）</h3><h3 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#优先创建用户组</span></span><br><span class="line">groupadd Worker</span><br><span class="line"><span class="comment">#创建用户并制定用户组</span></span><br><span class="line">useradd CharlieTao -g Worker</span><br><span class="line"><span class="comment">#创建用户之后应立即更新密码（输入以下命令后输入两次密码则密码设置成功）</span></span><br><span class="line">passwd CharlieTao</span><br></pre></td></tr></table></figure>
+
+<h3 id="服务器之间配置别名"><a href="#服务器之间配置别名" class="headerlink" title="服务器之间配置别名"></a>服务器之间配置别名</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/hosts</span><br><span class="line"></span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line"></span><br><span class="line">192.168.0.101 bigdata1</span><br><span class="line">192.168.0.102 bigdata2</span><br><span class="line">192.168.0.103 bigdata3</span><br></pre></td></tr></table></figure>
+
+<h3 id="服务器之间配置免密"><a href="#服务器之间配置免密" class="headerlink" title="服务器之间配置免密"></a>服务器之间配置免密</h3><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/SSH%E9%85%8D%E7%BD%AE.png?raw=true" style="zoom:75%;">
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#生成密钥对</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment">#将公钥上传到需要配置免密的服务器，并以相同用户登录（默认是以相同用户登录），根据提示输入免密即可</span></span><br><span class="line">ssh-copy-id CharlieTao@192.168.0.102</span><br></pre></td></tr></table></figure>
+
+<h3 id="服务器之间传输文件（配置完免密之后）"><a href="#服务器之间传输文件（配置完免密之后）" class="headerlink" title="服务器之间传输文件（配置完免密之后）"></a>服务器之间传输文件（配置完免密之后）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">scp -r package/ CharlieTao@bigdata2:/home/CharlieTao/</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置JDK"><a href="#配置JDK" class="headerlink" title="配置JDK"></a>配置JDK</h3><ul>
+<li>解压</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar -zxvf jdk-8u45-linux-x64.tar.gz -C /home/CharlieTao/software/</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置环境变量</li>
+</ul>
+<img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/Java%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE.png?raw=true" style="zoom:75%;">]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>CentOS</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Scala学习文档-容器</title>
+    <url>/2020/06/05/Scala%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%AE%B9%E5%99%A8/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="Collection-（容器）"><a href="#Collection-（容器）" class="headerlink" title="Collection （容器）"></a>Collection （容器）</h1><ul>
+<li><p>根据中元素的<code>组织方式</code>和<code>操作方式</code>，Scala中的容器Collection可以分为有序和无序容器、可变和不可变等不同的容器类别。</p>
+</li>
+<li><p>Scala用了三个包来组成容器类：</p>
+<ul>
+<li><p><strong>scala.collection</strong></p>
+</li>
+<li><p><strong>scala.collection.mutable</strong></p>
+<p>包含了所有<code>可变</code>的容器（例：可变集合、可变映射）</p>
+</li>
+<li><p><strong>scala.collection.immutable</strong></p>
+<p>包含了所有<code>不可变</code>的容器（可变集合、可变映射）</p>
+</li>
+</ul>
+</li>
+</ul>
+<!-- more -->
+
+<ul>
+<li><p>组织关系图</p>
+<ul>
+<li><p>下图显示了scala.collection包中所有的容器类。</p>
+<blockquote>
+<p>这些都是<code>高级抽象类</code>或<code>特质</code>。例如，所有容器的基本特质（trait）是Traverable特质。它为所有的容器定义了公用的foreach方法，用于对容器元素进行遍历操作</p>
+</blockquote>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Scala/Scala%E5%AE%B9%E5%99%A8/scala.collection.png?raw=true"></p>
+</li>
+</ul>
+</li>
+<li><p>下图显示了scala.collection.immutable（<code>不可变</code>）包中所有的容器类</p>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Scala/Scala%E5%AE%B9%E5%99%A8/scala.collection.immutable.png?raw=true"></p>
+</li>
+<li><p>下图显示了scala.collection.mutable（<code>可变</code>）中的所有容器类</p>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Scala/Scala%E5%AE%B9%E5%99%A8/scala.collection.mutable.png?raw=true"></p>
+</li>
+</ul>
+<h2 id="1-列表（List）"><a href="#1-列表（List）" class="headerlink" title="1. 列表（List）"></a>1. 列表（List）</h2><hr>
+<p>列表是一种共享相同类型的<code>不可变</code>的对象序列，Scala的List定义在scala.collection.immutable包中</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> strList = <span class="type">List</span>(<span class="string">&quot;Bigdata&quot;</span>, <span class="string">&quot;Hadoop&quot;</span>, <span class="string">&quot;Spark&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：</p>
+<ol>
+<li>不同于Java的java.util.List，scala的List一旦被定义其值就不能改变了，因此声明List时必须初始化！</li>
+<li>这里用var声明不是说声明的List类型的strList是可变的，而是指向是可变的</li>
+</ol>
+</blockquote>
+<p>基本知识：</p>
+<ul>
+<li><p>列表有头部和尾部的概念，可以分别使用head和tail方法来获取</p>
+</li>
+<li><p>head返回的是列表第一个元素的值</p>
+</li>
+<li><p>tail返回的是除第一个元素外的其他值构成的新列表（这里体现出列表具有<code>递归</code>的<code>链表结构</code>）</p>
+</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> strList = <span class="type">List</span>(<span class="string">&quot;Bigdata&quot;</span>, <span class="string">&quot;Hadoop&quot;</span>, <span class="string">&quot;Spark&quot;</span>)</span><br><span class="line"></span><br><span class="line">#下面表达式返回“<span class="type">Bigdata</span>”</span><br><span class="line"><span class="keyword">var</span> str = strList.head</span><br><span class="line"></span><br><span class="line">#下面表达式返回<span class="type">List</span>(“<span class="type">Hadoop</span>”, <span class="string">&quot;Spark&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> list = strList.tail</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-集合（Set）"><a href="#2-集合（Set）" class="headerlink" title="2. 集合（Set）"></a>2. 集合（Set）</h2><hr>
+<h2 id="3-映射（Map）"><a href="#3-映射（Map）" class="headerlink" title="3. 映射（Map）"></a>3. 映射（Map）</h2><hr>
+<h2 id="4-迭代器（Iterator）"><a href="#4-迭代器（Iterator）" class="headerlink" title="4. 迭代器（Iterator）"></a>4. 迭代器（Iterator）</h2><hr>
+<h2 id="5-数组（Array）"><a href="#5-数组（Array）" class="headerlink" title="5. 数组（Array）"></a>5. 数组（Array）</h2><hr>
+<h2 id="6-元组（Tuple）"><a href="#6-元组（Tuple）" class="headerlink" title="6. 元组（Tuple）"></a>6. 元组（Tuple）</h2><hr>
+]]></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Scala</category>
+      </categories>
+      <tags>
+        <tag>Scala</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spark学习文档-RDD编程</title>
+    <url>/2020/12/28/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-RDD%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="RDD简介"><a href="#RDD简介" class="headerlink" title="RDD简介"></a>RDD简介</h1><hr>
+<h2 id="1-含义"><a href="#1-含义" class="headerlink" title="1.含义"></a>1.含义</h2><ul>
+<li>RDD（Resilient Distributed Dataset）叫做弹性分布式数据集，是Spark中最基本的数据抽象。</li>
+<li>它代表一个不可变、可分区、里面的元素可并行计算的集合。</li>
+<li>RDD具有数据流模型的特点：自动容错、位置感知性调度和可伸缩性。</li>
+<li>RDD允许用户在执行多个查询时显式地将工作集缓存在内存中，后续的查询能够重用工作集，这极大地提升了查询速度<!-- more --></li>
+</ul>
+<h2 id="2-RDD的属性"><a href="#2-RDD的属性" class="headerlink" title="2.RDD的属性"></a>2.RDD的属性</h2><h3 id="（1）"><a href="#（1）" class="headerlink" title="（1）"></a>（1）</h3><h1 id="RDD的创建方式"><a href="#RDD的创建方式" class="headerlink" title="RDD的创建方式"></a>RDD的创建方式</h1><hr>
+<h1 id="RDD编程API"><a href="#RDD编程API" class="headerlink" title="RDD编程API"></a>RDD编程API</h1><hr>
+<h1 id="RDD的宽依赖与窄依赖"><a href="#RDD的宽依赖与窄依赖" class="headerlink" title="RDD的宽依赖与窄依赖"></a>RDD的宽依赖与窄依赖</h1>]]></content>
+      <categories>
+        <category>BigData</category>
+        <category>Spark</category>
+      </categories>
+      <tags>
+        <tag>Spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spark学习文档-Spark安装文档</title>
+    <url>/2020/12/25/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-Spark%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><hr>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><hr>
+<h1 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h1><hr>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><hr>
+]]></content>
+      <categories>
+        <category>BigData</category>
+        <category>Spark</category>
+      </categories>
+      <tags>
+        <tag>Spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spark学习文档-初识Spark</title>
+    <url>/2020/12/24/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%88%9D%E8%AF%86Spark/</url>
+    <content><![CDATA[<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><hr>
+<p>什么是Spark？<br><code>Apache Spark用于大规模数据处理的统一分析引擎。</code></p>
+<span id="more"></span>
+
+<h1 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h1><hr>
+<ul>
+<li>处理速度快<ul>
+<li>Apache Spark通过使用最先进的<code>DAG调度器</code>、<code>查询优化器</code>和<code>物理执行引擎</code>，实现了批处理和流数据的高性能</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>这里有Spark与MR速度对比图</p>
+</blockquote>
+<ul>
+<li><p>易用性好</p>
+<ul>
+<li><p>Spark提供了80多个高级操作符，可以轻松构建并行应用程序</p>
+</li>
+<li><p>Spark不仅支持Scala编写应用程序，而且还支持Java和Python 等语言进行编写</p>
+</li>
+</ul>
+</li>
+<li><p>通用性高</p>
+<ul>
+<li><p>Spark生态圈即BDAS（伯克利数据分析栈）所包含的组件：Spark Core 提供内存计算框架、SparkStreaming的实时处理应用、Spark SQL 的即席查询、MLlib的机器学习和GraphX的图处理</p>
+</li>
+<li><p>它们都是由AMP实验室提供，能够无缝地集成，并提供一站式解决平台</p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>这里有Spark技术堆栈组成图</p>
+</blockquote>
+<ul>
+<li>随处运行<ul>
+<li><p>Spark可以运行在Hadoop、Apache Mesos、Kubernetes、独立平台上，也可以运行在云上。它可以访问不同的数据源</p>
+</li>
+<li><p>你可以在EC2、Hadoop YARN、Mesos或Kubernetes上使用它的独立集群模式运行Spark。访问HDFS、Alluxio、Apache Cassandra、Apache HBase、Apache Hive和数百个其他数据源中的数据</p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>这里有Spark支持的技术框架截图</p>
+</blockquote>
+<h1 id="Spark与MapReduce比较"><a href="#Spark与MapReduce比较" class="headerlink" title="Spark与MapReduce比较"></a>Spark与MapReduce比较</h1><hr>
+<ul>
+<li><p>Spark是通过借鉴Hadoop MapReduce发展而来的，继承了其分布式并行计算的优点，并改进了MapReduce明显的缺陷，具体体现在以下几点：</p>
+<ul>
+<li><p><code>Spark把中间数据放在内存中，迭代式运算效率高</code>。MapReduce中的计算结果是保存在磁盘上，这样势必会影响整体的运行速度，而Spark支持DAG图的分布式并行计算的编程框架，减少了迭代过程中数据的落地，提高了处理效率</p>
+</li>
+<li><p>Spark的容错性高。Spark引进了<code>弹性分布式数据集</code>（Resilient Distributed Dataset，RDD）的概念，它是分布式在一组节点中的制度对象集合，这些集合是弹性的，如果数据一部分丢失，则可以根据 “血统” （即允许基于数据衍生过程）对它们进行重建。另外，在RDD计算时可以通过<code>CheckPoint</code>来实现容错，而CheckPoint有两种方式，即CheckPoint Data和Logging The Updates，用户可以控制采用哪种方式来实现容错。</p>
+</li>
+<li><p>Spark更加通用。不像Hadoop只提供了Map和Reduce两种操作，Spark提供农的数据集操作类型有很多种，大致分为<code>转换操作</code>和<code>行动操作</code>两大类。转换操作包括 Map、Filter、FlatMap、Sample、GroupByKey、ReduceByKey、Union、Join、Cogroup、MapValues、Sort、和PartionBy等多种操作类型，行动操作包括Collect、Reduce、Lookup和Save等操作类型。另外，各个处理节点之间的通信模型不再像Hadoop只有Shuffle一种模式，用户可以命名、物化、控制中间结果的存储、分区等</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Spark生态系统"><a href="#Spark生态系统" class="headerlink" title="Spark生态系统"></a>Spark生态系统</h1><hr>
+<blockquote>
+<p>注：以下说的组件均为重要内容，只做简单介绍，后面会一一整理专门的文档！</p>
+</blockquote>
+<h2 id="Spark-Core"><a href="#Spark-Core" class="headerlink" title="Spark Core"></a>Spark Core</h2><ul>
+<li><p>Spark Core提供了多种运行模式，不仅可以使用自身运行模式处理任务，如本地模式、Standalone，而且可以使用第三方资源调度框架来处理任务，如Yarn、Mesos等。相比较而言，第三方资源调度框架能够更细粒度管理资源</p>
+</li>
+<li><p>Spark Core提供了<code>有向无环图（DAG）</code>的分布式并行计算框架，并提供内存机制来支持多次迭代计算或者数据共享，大大减少迭代计算之间读取数据的开销，这对于需要进行多次迭代的数据挖掘和分析性能有着极大的提升。另外，在任务处理过程中移动计算而非移动数据，RDD Partition可以就近读取分布式文件系统中的数据到各个节点内存中进行计算</p>
+</li>
+<li><p>在Spark中引入了<code>RDD</code>的抽象，它是分布在一组几点钟的只读对象结婚，这些集合时弹性的，如果数据集一部分丢失，则可以根据“血统”对它们进行重建，保证了数据的高容错性</p>
+</li>
+</ul>
+<h2 id="Spark-Streaming"><a href="#Spark-Streaming" class="headerlink" title="Spark Streaming"></a>Spark Streaming</h2><ul>
+<li><p>Spark Streaming是一个对实时数据进行高吞吐、高容错的流式处理系统，可以对多种数据源（如Kafka、Flume、Twitter和ZeroMQ等）进行类似Map、Reduce和Join等复杂操作，并将结果保存到外部文件系统、数据库或应用到实时仪器盘。</p>
+</li>
+<li><p>相比其他的处理引擎要么只专注与流处理，要么只负责批处理（仅提供需要外部实现的流处理API接口），而Spark Streaming最大的优势是提供处理引擎和RDD编程模型可以同时进行批处理与流处理。</p>
+</li>
+</ul>
+<h2 id="Spark-SQL"><a href="#Spark-SQL" class="headerlink" title="Spark SQL"></a>Spark SQL</h2><ul>
+<li><p>Spark SQL是Spark用来操作结构化数据的程序包。通过Spark SQL，我们可以使用SQL或者Apache Hive版本的SQL方言（HQL）来查询数据。</p>
+</li>
+<li><p>Spark SQL支持多种数据源，比如Hive表、Parquet以及JSON等。</p>
+</li>
+<li><p>除了为Spark提供了一个SQL接口，Spark SQL还支持开发者将SQL和传统的RDD编程的数据操作方式相结合，不论是使用Python、Java还是Scala，开发者都可以在在单个的应用中同时使用SQL和复杂的数据分析。</p>
+</li>
+</ul>
+<h2 id="MLlib"><a href="#MLlib" class="headerlink" title="MLlib"></a>MLlib</h2><ul>
+<li><p>MLlib是Spark中提供常见的机器学习功能的组件</p>
+</li>
+<li><p>MLlib提供了包括分类、回归、聚类、协同过滤等，还提供了模型评估、数据导入等额外的支持功能。</p>
+</li>
+<li><p>MLlib还提供了一些更底层的机器学习原语，包括一个通用的的梯度下降优化算法</p>
+</li>
+</ul>
+<h2 id="GraphX"><a href="#GraphX" class="headerlink" title="GraphX"></a>GraphX</h2><ul>
+<li><p>GraphX是Spark中用来操作图（比如社交网络的朋友关系图）的组件，可以进行并行的图计算。</p>
+</li>
+<li><p>与Spark SQL与Spark Streaming类似，GraphX也拓展了Spark的RDD API，能用来创建一个顶点和边都包含任意属性的有向图</p>
+</li>
+<li><p>GraphX还支持针对图的各种操作（比如进行图分割的subgraph和操作所有顶点的mapVertices），以及一些常用图算法（比如PageRank和三角计数）</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>BigData</category>
+        <category>Spark</category>
+      </categories>
+      <tags>
+        <tag>Spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spark学习文档-核心原理</title>
+    <url>/2020/12/26/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="消息通信原理"><a href="#消息通信原理" class="headerlink" title="消息通信原理"></a>消息通信原理</h1><hr>
+<h1 id="作业执行原理"><a href="#作业执行原理" class="headerlink" title="作业执行原理"></a>作业执行原理</h1><hr>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="1-Application"><a href="#1-Application" class="headerlink" title="1. Application"></a>1. Application</h3><p>表示本次运次的应用程序</p>
+<h3 id="2-Driver"><a href="#2-Driver" class="headerlink" title="2. Driver"></a>2. Driver</h3><p>表示main()函数，创建SparkContext。由SparkContext负责与CLusterManager通信，进行资源的申请、任务的分配和监控等。程序执行完毕后关闭SparkContext</p>
+<!-- more -->
+
+<h3 id="3-Executor"><a href="#3-Executor" class="headerlink" title="3. Executor"></a>3. Executor</h3><p>某个Application运行在Worker节点上的一个进程，该进程负责运行某些Task，负责将数据存在内存或者磁盘上。在Spark On Yarn模式下，其进程名称为CoarseGrainedExecutorBackend，一个CoarseGrainedExecutorBackend能运行Task的数据就取决于分配给它的CPU的个数</p>
+<h3 id="4-Worker"><a href="#4-Worker" class="headerlink" title="4. Worker"></a>4. Worker</h3><p>集群中可以运行Application的节点。在Standalone模式中指的是通过slave文件配置的worker节点，在Spark On Yarn模式中指的就是NodeManager节点</p>
+<h3 id="5-Task"><a href="#5-Task" class="headerlink" title="5. Task"></a>5. Task</h3><p>在Executor进程中执行任务的工作单元，多个Task组成一个Stage</p>
+<h3 id="6-Job"><a href="#6-Job" class="headerlink" title="6. Job"></a>6. Job</h3><p>包含多个Task组成的并行计算，是有行动算子触发的</p>
+<h3 id="7-Stage"><a href="#7-Stage" class="headerlink" title="7. Stage"></a>7. Stage</h3><p>每个Job会被拆分成很多组Task，作为一个TaskSet，其名称为Stage</p>
+<h3 id="8-DAGScheduler"><a href="#8-DAGScheduler" class="headerlink" title="8. DAGScheduler"></a>8. DAGScheduler</h3><p>根据Job构建基于Stage的DAG，并提交Stage给TaskScheduler，其划分Stage的依据是RDD之间的依赖关系</p>
+<h3 id="9-TaskScheduler"><a href="#9-TaskScheduler" class="headerlink" title="9. TaskScheduler"></a>9. TaskScheduler</h3><p>将TaskSet提交给Worker（集群）运行，每个Executor运行什么Task就是在此处分配的</p>
+<blockquote>
+<p>注：有关Application、Driver、Job、Stage、Task之间的关系如下图所示：</p>
+</blockquote>
+<h2 id="运行流程"><a href="#运行流程" class="headerlink" title="运行流程"></a>运行流程</h2><h3 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h3><h3 id="文字说明"><a href="#文字说明" class="headerlink" title="文字说明"></a>文字说明</h3><ol>
+<li><p>构建SparkApplication的运行环境（启动SparkContext），SparkContext向资源管理器（Standalone、Mesos或者Yarn）注册并申请运行Executor资源</p>
+</li>
+<li><p>资源管理器分配Executor资源并启动StandaloneExecutorBackend，Executor运行情况将随着心跳发送到资源管理器上</p>
+</li>
+<li><p>SparkContext构成DAG图，将DAG图分解成Stage，并把TaskSet发送给Task Scheduler；Executor向SparkContext申请Task</p>
+</li>
+<li><p>Task Scheduler将Task发放给Executor运行同时SparkContext将应用程序代码发放给Executor</p>
+</li>
+<li><p>Task在Executor上运行，运行完毕释放所有资源</p>
+</li>
+</ol>
+<h1 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h1><hr>
+<h1 id="容错及HA"><a href="#容错及HA" class="headerlink" title="容错及HA"></a>容错及HA</h1><hr>
+<h1 id="监控管理"><a href="#监控管理" class="headerlink" title="监控管理"></a>监控管理</h1><hr>
+]]></content>
+      <categories>
+        <category>BigData</category>
+        <category>Spark</category>
+      </categories>
+      <tags>
+        <tag>Spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spark学习文档-运行流程</title>
+    <url>/2020/12/27/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="1-Application"><a href="#1-Application" class="headerlink" title="1. Application"></a>1. Application</h2><p>表示本次运次的应用程序</p>
+<h2 id="2-Driver"><a href="#2-Driver" class="headerlink" title="2. Driver"></a>2. Driver</h2><p>表示main()函数，创建SparkContext。由SparkContext负责与CLusterManager通信，进行资源的申请、任务的分配和监控等。程序执行完毕后关闭SparkContext</p>
+<!-- more -->
+
+<h2 id="3-Executor"><a href="#3-Executor" class="headerlink" title="3. Executor"></a>3. Executor</h2><p>某个Application运行在Worker节点上的一个进程，该进程负责运行某些Task，负责将数据存在内存或者磁盘上。在Spark On Yarn模式下，其进程名称为CoarseGrainedExecutorBackend，一个CoarseGrainedExecutorBackend能运行Task的数据就取决于分配给它的CPU的个数</p>
+<h2 id="4-Worker"><a href="#4-Worker" class="headerlink" title="4. Worker"></a>4. Worker</h2><p>集群中可以运行Application的节点。在Standalone模式中指的是通过slave文件配置的worker节点，在Spark On Yarn模式中指的就是NodeManager节点</p>
+<h2 id="5-Task"><a href="#5-Task" class="headerlink" title="5. Task"></a>5. Task</h2><p>在Executor进程中执行任务的工作单元，多个Task组成一个Stage</p>
+<h2 id="6-Job"><a href="#6-Job" class="headerlink" title="6. Job"></a>6. Job</h2><p>包含多个Task组成的并行计算，是有行动算子触发的</p>
+<h2 id="7-Stage"><a href="#7-Stage" class="headerlink" title="7. Stage"></a>7. Stage</h2><p>每个Job会被拆分成很多组Task，作为一个TaskSet，其名称为Stage</p>
+<h2 id="8-DAGScheduler"><a href="#8-DAGScheduler" class="headerlink" title="8. DAGScheduler"></a>8. DAGScheduler</h2><p>根据Job构建基于Stage的DAG，并提交Stage给TaskScheduler，其划分Stage的依据是RDD之间的依赖关系</p>
+<h2 id="9-TaskScheduler"><a href="#9-TaskScheduler" class="headerlink" title="9. TaskScheduler"></a>9. TaskScheduler</h2><p>将TaskSet提交给Worker（集群）运行，每个Executor运行什么Task就是在此处分配的</p>
+<blockquote>
+<p>注： 有关Application、Driver、Job、Stage、Task之间的关系如下图所示：</p>
+</blockquote>
+<h1 id="运行流程"><a href="#运行流程" class="headerlink" title="运行流程"></a>运行流程</h1><h2 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h2><h2 id="文字说明"><a href="#文字说明" class="headerlink" title="文字说明"></a>文字说明</h2><ol>
+<li><p>构建SparkApplication的运行环境（启动SparkContext），SparkContext向资源管理器（Standalone、Mesos或者Yarn）注册并申请运行Executor资源</p>
+</li>
+<li><p>资源管理器分配Executor资源并启动StandaloneExecutorBackend，Executor运行情况将随着心跳发送到资源管理器上</p>
+</li>
+<li><p>SparkContext构成DAG图，将DAG图分解成Stage，并把TaskSet发送给Task Scheduler；Executor向SparkContext申请Task</p>
+</li>
+<li><p>Task Scheduler将Task发放给Executor运行同时SparkContext将应用程序代码发放给Executor</p>
+</li>
+<li><p>Task在Executor上运行，运行完毕释放所有资源</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>BigData</category>
+        <category>Spark</category>
+      </categories>
+      <tags>
+        <tag>Spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>初识Hive</title>
+    <url>/2020/06/13/%E5%88%9D%E8%AF%86Hive/</url>
+    <content><![CDATA[<h1 id="什么是Hive？"><a href="#什么是Hive？" class="headerlink" title="什么是Hive？"></a>什么是Hive？</h1><ol>
+<li>由Facebook实现并开源、基于Hadoop的<strong>数据仓库的工具</strong></li>
+<li>提供HQL（Hive SQL）查询功能</li>
+<li>Hive本质上是将SQL<strong>翻译</strong>转换成MapReduce任务执行</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="为什么使用Hive（MapReduce、Spark）？"><a href="#为什么使用Hive（MapReduce、Spark）？" class="headerlink" title="为什么使用Hive（MapReduce、Spark）？"></a>为什么使用Hive（MapReduce、Spark）？</h1><ol>
+<li>MR在实现复杂逻辑查询的时候，成本高、难度大。</li>
+<li>Spark对集群资源更高（基于内存）</li>
+</ol>
+<h1 id="Hive内部架构"><a href="#Hive内部架构" class="headerlink" title="Hive内部架构"></a>Hive内部架构</h1><p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Hive/Hive%E5%86%85%E9%83%A8%E6%9E%B6%E6%9E%84.png?raw=true"></p>
+<ul>
+<li><p>Thrift Server：提供了一种让用户可以使用多种不同的语言来操作Hive</p>
+<!-- Thrift 是 Facebook 开发的一个软件框架，可以用来进行可扩展且跨语言的服务的开发， Hive 集成了该服务，能让不同的编程语言调用 Hive 的接口 -->
+</li>
+<li><p>Compiler（编译解释器）：将HiveSQL转换为抽象语法树（AST），并将语法树编译为逻辑执行计划</p>
+</li>
+<li><p>Optimizer（优化器） ： 对逻辑执行计划进行优化 </p>
+</li>
+<li><p>Executor（执行器）：调用<strong>底层的运行框架</strong>执行逻辑执行计划</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>BigData</category>
+        <category>Hive</category>
+      </categories>
+      <tags>
+        <tag>Hive</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>初识Linux</title>
+    <url>/2020/06/12/%E5%88%9D%E8%AF%86Linux/</url>
+    <content><![CDATA[<h2 id="操作系统发展史"><a href="#操作系统发展史" class="headerlink" title="操作系统发展史"></a>操作系统发展史</h2><hr>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B1%95%E5%8F%B2.png?raw=true"></p>
+<span id="more"></span>
+
+<h2 id="计算机"><a href="#计算机" class="headerlink" title="计算机"></a>计算机</h2><hr>
+<h3 id="按照粗粒度划分可以分为三大部分："><a href="#按照粗粒度划分可以分为三大部分：" class="headerlink" title="按照粗粒度划分可以分为三大部分："></a>按照粗粒度划分可以分为三大部分：</h3><h4 id="1-输入部分"><a href="#1-输入部分" class="headerlink" title="1. 输入部分"></a>1. 输入部分</h4><ul>
+<li>键盘</li>
+<li>鼠标</li>
+<li>手写板</li>
+<li>触控屏</li>
+</ul>
+<h4 id="2-输出部分"><a href="#2-输出部分" class="headerlink" title="2. 输出部分"></a>2. 输出部分</h4><ul>
+<li>显示器</li>
+<li>打印机</li>
+</ul>
+<h4 id="3-主机部分"><a href="#3-主机部分" class="headerlink" title="3. 主机部分"></a>3. 主机部分</h4><ul>
+<li>主板</li>
+<li>主存储器</li>
+<li>CPU（逻辑计算单元、控制单元）</li>
+</ul>
+<h3 id="按照细粒度划分可以分为五大单元："><a href="#按照细粒度划分可以分为五大单元：" class="headerlink" title="按照细粒度划分可以分为五大单元："></a>按照细粒度划分可以分为五大单元：</h3><h4 id="1-输入设备"><a href="#1-输入设备" class="headerlink" title="1. 输入设备"></a>1. 输入设备</h4><h4 id="2-输出设备"><a href="#2-输出设备" class="headerlink" title="2. 输出设备"></a>2. 输出设备</h4><h4 id="3-运算器"><a href="#3-运算器" class="headerlink" title="3. 运算器"></a>3. 运算器</h4><ul>
+<li>逻辑计算单元<h4 id="4-控制器"><a href="#4-控制器" class="headerlink" title="4. 控制器"></a>4. 控制器</h4></li>
+<li>控制单元<h4 id="5-存储器"><a href="#5-存储器" class="headerlink" title="5. 存储器"></a>5. 存储器</h4></li>
+</ul>
+<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><hr>
+<h3 id="1-含义："><a href="#1-含义：" class="headerlink" title="1. 含义："></a>1. 含义：</h3><ul>
+<li>操作系统（Operating System，简称OS）是管理和控制计算机硬件与软件资源的计算机程序，是直接运行  在“裸机”上的最基本的系统软件，任何其他软件都必须在操作系统的支持下才能运行。</li>
+</ul>
+<h3 id="2-存在的意义："><a href="#2-存在的意义：" class="headerlink" title="2. 存在的意义："></a>2. 存在的意义：</h3><ul>
+<li>计算机主机是由一堆硬件所组成的，为了有效率的控制这些硬件资源，操作系统就诞生了。</li>
+</ul>
+<h3 id="3-作用："><a href="#3-作用：" class="headerlink" title="3. 作用："></a>3. 作用：</h3><ul>
+<li>有效率的控制硬件资源的分配</li>
+<li>提供计算机运作所需要的功能（网络）</li>
+<li>提供程序设计师更容易开发软件的环境</li>
+</ul>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.png?raw=true"></p>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><hr>
+<h3 id="1-含义：-1"><a href="#1-含义：-1" class="headerlink" title="1. 含义："></a>1. 含义：</h3><ul>
+<li>Linux 内核最初只是由芬兰人林纳斯·托瓦兹（Linus Torvalds）在赫尔辛基大学上学时出于个人爱好而编写的。</li>
+<li>Linux 是一套免费使用和自由传播的类 Unix 操作系统，是一个基于 POSIX 和 UNIX 的多用户、多任务、支持多线程和多 CPU 的操作系统。</li>
+<li>Linux 能运行主要的 UNIX 工具软件、应用程序和网络协议。它支持 32 位和 64 位硬件。Linux 继承了 Unix 以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。</li>
+</ul>
+<h3 id="2-Linux发行版"><a href="#2-Linux发行版" class="headerlink" title="2. Linux发行版"></a>2. Linux发行版</h3><p>Linux 的发行版说简单点就是将<strong>Linux内核</strong>与<strong>应用软件</strong>做一个打包。​</p>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/Linux%E5%90%84%E7%89%88%E6%9C%AC.png?raw=true"></p>
+<h3 id="3-Linux特点"><a href="#3-Linux特点" class="headerlink" title="3. Linux特点"></a>3. Linux特点</h3><h4 id="1-核心思想"><a href="#1-核心思想" class="headerlink" title="(1) 核心思想"></a>(1) 核心思想</h4><ul>
+<li><p><strong>一切皆为文件，若非文件，即为进程</strong></p>
+</li>
+<li><p>Linux的基本思想有两点：</p>
+<ul>
+<li>一切都是文件</li>
+<li>每个软件都有确定的用途。其中第一条详细来讲就是系统中的所有都归结为一个文件，包括命令、硬件和软件设备、操作系统、进程等等对于操作系统内核而言，都被视为拥有各自特性或类型的文件。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注：至于说Linux是基于Unix的，很大程度上也是因为这两者的基本思想十分相近。</p>
+</blockquote>
+<h4 id="2-完全免费"><a href="#2-完全免费" class="headerlink" title="(2) 完全免费"></a>(2) 完全免费</h4><p>Linux是一款免费的操作系统，用户可以通过网络或其他途径免费获得，并可以任意修改其源代码。这是其他的操作系统所做不到的。正是由于这一点，来自全世界的无数程序员参与了Linux的修改、编写工作，程序员可以根据自己的兴趣和灵感对其进行改变，这让Linux吸收了无数程序员的精华，不断壮大。</p>
+<h4 id="3-多用户、多任务"><a href="#3-多用户、多任务" class="headerlink" title="(3) 多用户、多任务"></a>(3) 多用户、多任务</h4><ul>
+<li>Linux支持多用户，各个用户对于自己的文件设备有自己特殊的权利，保证了各用户之间互不影响。</li>
+<li>多任务则是现在电脑最主要的一个特点，Linux可以使多个程序同时并独立地运行。</li>
+</ul>
+<blockquote>
+<p>注：Linux支持多用户同时在线,而Windows不可以。</p>
+</blockquote>
+<h4 id="4-较为良好的界面"><a href="#4-较为良好的界面" class="headerlink" title="(4) 较为良好的界面"></a>(4) 较为良好的界面</h4><ul>
+<li>Linux同时具有字符界面和图形界面。在字符界面用户可以通过键盘输入相应的指令来进行操作。它同时也提供了类似Windows图形界面的X-Window系统，用户可以使用鼠标对其进行操作。</li>
+<li>在X-Window环境中就和在Windows中相似，可以说是一个Linux版的Windows。</li>
+</ul>
+<h4 id="5-支持多种平台"><a href="#5-支持多种平台" class="headerlink" title="(5) 支持多种平台"></a>(5) 支持多种平台</h4><ul>
+<li>Linux可以运行在多种硬件平台上，如具有x86、680x0、SPARC、Alpha等处理器的平台。</li>
+<li>此外Linux还是一种嵌入式操作系统，可以运行在手机、平板、路由器、电视以及游戏机上。2001年1月份发布的Linux 2.4版内核已经能够完全支持Intel 64位芯片架构。同时Linux也支持多处理器技术。多个处理器同时工作，使系统性能大大提高。</li>
+</ul>
+<h4 id="6-不足"><a href="#6-不足" class="headerlink" title="(6) 不足"></a>(6) 不足</h4><ul>
+<li>生态环境不如Windows，许多硬件设备面对Linux的驱动程序不足，不少硬件厂商是在推出Windows版本的驱动程序后才编写Linux版的。<blockquote>
+<p>注：一些大硬件厂商在这方面做得还不错，他们的Linux版驱动程序一般都推出得比较及时。</p>
+</blockquote>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>CentOS</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2022/04/01/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<span id="more"></span>
+
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+</search>
