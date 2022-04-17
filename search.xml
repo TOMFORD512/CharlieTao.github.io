@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CnetOS更换镜像</title>
+    <url>/2020/06/13/CentOS%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><hr>
+<blockquote>
+<p>由于新建虚拟机时，使用系统自带的CentOS镜像在使用yum命令下载各种软件的速度不太理想，因此本文用于记录更换原始镜像为国内镜像的步骤。以下是服务器信息：</p>
+<ol>
+<li>环境：自建虚拟机</li>
+<li>系统：CentOS 7</li>
+<li>镜像：阿里云</li>
+</ol>
+</blockquote>
+<span id="more"></span>
+
+<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><hr>
+<h2 id="安装wget-x2F-curl"><a href="#安装wget-x2F-curl" class="headerlink" title="安装wget&#x2F;curl"></a>安装wget&#x2F;curl</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum -y install wget</span><br><span class="line"></span><br><span class="line">yum -y install curl</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><hr>
+<h2 id="1-备份原本的镜像"><a href="#1-备份原本的镜像" class="headerlink" title="1. 备份原本的镜像"></a>1. 备份原本的镜像</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-下载镜像并写入指定文件中"><a href="#2-下载镜像并写入指定文件中" class="headerlink" title="2. 下载镜像并写入指定文件中"></a>2. 下载镜像并写入指定文件中</h2><ul>
+<li>以下两种方式均可下载目标镜像</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#使用Wget命令</span></span><br><span class="line">wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用curl命令</span></span><br><span class="line">curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>尖叫提示</code>：-o后面路径+指定文件名，作用是将目标镜像中的内容写到指定目录的指定文件中</p>
+</blockquote>
+<h2 id="3-更新镜像源"><a href="#3-更新镜像源" class="headerlink" title="3. 更新镜像源"></a>3. 更新镜像源</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#清除缓存</span></span><br><span class="line">yum clean all</span><br><span class="line"></span><br><span class="line"><span class="comment">#生成缓存</span></span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>尖叫提示</code>：网上有一篇博客说要将跟换后的CentOS-Base.repo中的所有http开头的更改为https，作用暂时未知（可能网络安全），后续了解后，会进一步补充。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>CentOS</category>
+      </categories>
+      <tags>
+        <tag>CentOS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CnetOS时间同步</title>
     <url>/2020/06/13/CentOS%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><hr>
@@ -36,48 +78,6 @@
 <li>更换时区命令：ln -sf &#x2F;usr&#x2F;share&#x2F;zoneinfo&#x2F;Asia&#x2F;Shanghai &#x2F;etc&#x2F;localtime</li>
 <li>查看当前时区命令： ll &#x2F;etc&#x2F;localtime</li>
 </ol>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Linux</category>
-        <category>CentOS</category>
-      </categories>
-      <tags>
-        <tag>CentOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CnetOS更换镜像</title>
-    <url>/2020/06/13/CentOS%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><hr>
-<blockquote>
-<p>由于新建虚拟机时，使用系统自带的CentOS镜像在使用yum命令下载各种软件的速度不太理想，因此本文用于记录更换原始镜像为国内镜像的步骤。以下是服务器信息：</p>
-<ol>
-<li>环境：自建虚拟机</li>
-<li>系统：CentOS 7</li>
-<li>镜像：阿里云</li>
-</ol>
-</blockquote>
-<span id="more"></span>
-
-<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><hr>
-<h2 id="安装wget-x2F-curl"><a href="#安装wget-x2F-curl" class="headerlink" title="安装wget&#x2F;curl"></a>安装wget&#x2F;curl</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum -y install wget</span><br><span class="line"></span><br><span class="line">yum -y install curl</span><br></pre></td></tr></table></figure>
-
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><hr>
-<h2 id="1-备份原本的镜像"><a href="#1-备份原本的镜像" class="headerlink" title="1. 备份原本的镜像"></a>1. 备份原本的镜像</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-下载镜像并写入指定文件中"><a href="#2-下载镜像并写入指定文件中" class="headerlink" title="2. 下载镜像并写入指定文件中"></a>2. 下载镜像并写入指定文件中</h2><ul>
-<li>以下两种方式均可下载目标镜像</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#使用Wget命令</span></span><br><span class="line">wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用curl命令</span></span><br><span class="line">curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><code>尖叫提示</code>：-o后面路径+指定文件名，作用是将目标镜像中的内容写到指定目录的指定文件中</p>
-</blockquote>
-<h2 id="3-更新镜像源"><a href="#3-更新镜像源" class="headerlink" title="3. 更新镜像源"></a>3. 更新镜像源</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#清除缓存</span></span><br><span class="line">yum clean all</span><br><span class="line"></span><br><span class="line"><span class="comment">#生成缓存</span></span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><code>尖叫提示</code>：网上有一篇博客说要将跟换后的CentOS-Base.repo中的所有http开头的更改为https，作用暂时未知（可能网络安全），后续了解后，会进一步补充。</p>
 </blockquote>
 ]]></content>
       <categories>
@@ -427,217 +427,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux学习文档-文件权限与目录配置</title>
-    <url>/2021/04/22/Linux%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h2 id="1-文件属性"><a href="#1-文件属性" class="headerlink" title="1. 文件属性"></a>1. 文件属性</h2><p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E7%A4%BA%E6%84%8F%E5%9B%BE.png?raw=true" alt="图1"></p>
-<!--more--> 
-
-<ul>
-<li>图1中，第1串字符代表这个文件的类型与权限<ul>
-<li><p>第一个字符代表着个文件是目录、文件或链接文件等·</p>
-<ul>
-<li>[d]代表目录</li>
-<li>[-]代表文件</li>
-<li>[l]代表链接文件<br>  <img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8E%E6%9D%83%E9%99%90%E4%B9%8B%E5%86%85%E5%AE%B9.png?raw=true" alt="图2"></li>
-</ul>
-</li>
-<li><p>如图2所示，后九位字符中每三个字符为一组，且均为【rwx】的组合。</p>
-</li>
-<li><p>第一组为文件拥有者的权限，第二组为文件所属用户组的权限，第三组为其他用户的权限</p>
-</li>
-<li><p>以第一组为例</p>
-<ul>
-<li>[r]代表read，可读权限，权限值为4，权限排名最低</li>
-<li>[w]代表write，可写权限，权限值为2，权限排名居中</li>
-<li>[r]代表excute,可执行权限，权限值为1，权限排名最高</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>注：</p>
-<ul>
-<li>rwx所在的位置或者说顺序是不会改变的，有权限就会显示字符，没有则用-表示</li>
-<li>此处要与第一个字符区分开</li>
-</ul>
-</blockquote>
-<ul>
-<li>图1中，第2串字符表示有多少个文件名链接到此节点</li>
-<li>第3串字符表示这个文件的拥有者账号名</li>
-<li>第4串字符表示这个文件的所属用户组</li>
-<li>第5串字符表示这个文件的大小（默认单位为Bytes）</li>
-<li>第6串字符表示这个文件的创建日期或者是最近的修改日期，若文件的修改时间距今太久，那么只会显示年月日</li>
-<li>第7串字符表示文件名<ul>
-<li>文件名前面有[.]则表示改文件为隐藏文件，可用【ls】、【ls -a】及【ls -al】来查看<blockquote>
-<p>注：</p>
-<ul>
-<li>对于文件夹来说，[x]原本代表执行权限，但如果某个用户对于某个目录没有[x]的权限，则该用户无法进入该目录</li>
-</ul>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="2-如何修改文件属性与权限"><a href="#2-如何修改文件属性与权限" class="headerlink" title="2. 如何修改文件属性与权限"></a>2. 如何修改文件属性与权限</h2><table>
-<thead>
-<tr>
-<th align="center">命令</th>
-<th align="center">作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">chgrp</td>
-<td align="center">修改文件所属用户组</td>
-</tr>
-<tr>
-<td align="center">chown</td>
-<td align="center">修改文件拥有者</td>
-</tr>
-<tr>
-<td align="center">chmod</td>
-<td align="center">修改文件的权限，SUID、SGID、SBIT等的特性</td>
-</tr>
-</tbody></table>
-<ul>
-<li><p>修改所属用户组，chgrp</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chgrp</span>   [-R]  账号名   <span class="built_in">dirname</span>/filename</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注：</p>
-<ul>
-<li>目标用户组必须存在于&#x2F;etc&#x2F;group中才能修改成功，否则会报错</li>
-<li>修改文件拥有者亦是如此，目标用户必须存在于&#x2F;etc&#x2F;passwd中</li>
-</ul>
-</blockquote>
-</li>
-<li><p>修改文件拥有者，chown</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chown</span>   [-R]    账号名称    文件或目录</span><br><span class="line"><span class="built_in">chown</span>   [-R]    账号名称：用户组名称    文件或目录</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改文件权限，chmod</p>
-<ul>
-<li>用数字修改</li>
-</ul>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center">权限</th>
-<th align="center">权限值</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">r</td>
-<td align="center">4</td>
-</tr>
-<tr>
-<td align="center">w</td>
-<td align="center">2</td>
-</tr>
-<tr>
-<td align="center">x</td>
-<td align="center">1</td>
-</tr>
-</tbody></table>
-<p>举例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">owner = rwx = 4+2+1 = 7</span><br><span class="line">group = rwx = 4+2+1 = 7</span><br><span class="line">others = --- = 0+0+0 = 0</span><br></pre></td></tr></table></figure>
-<p>因此，对应用数字修改权限的语法是：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span>   -R  xyz 文件或目录</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
-
-<p>常用的如果要将某个文件所有的权限都开通则为</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> 777 .bashrc</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>扩展：</p>
-<ul>
-<li>通常以vim编辑一个Shell文件的时候，他的权限通常是：-rw-rw-r–，也就是644，且此文件是不能够执行的,如果要把它变成可执行问文件，则需要执行命令：【chmod 744 test.sh】或者：【chmod a+x test.sh】，后者即为下面要介绍的用符号修改</li>
-<li>另外，如果有些文件你不想被其他人看到，可以执行：【chmod 700 text.sh】</li>
-</ul>
-</blockquote>
-<pre><code>- 用符号修改
-</code></pre>
-<p>在修改之前，首先需要知道权限只有user、group、同任何人三种身份，分别用u、g、o来表示。此外，所有a代表all即全部的身份，因此修改方法如下图所示：</p>
-<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90.png?raw=true" alt="图3"></p>
-<ul>
-<li>例1：当我们要设置一个文件的权限为【-rwxr-xr-x】时，可执行如下命令：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> u=rwx,go=rx .bashrc</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>例2：当我们不知道原来的文件属性，但是只想要增加.bashrc这个文件的每个人都可以写入得权限时，可执行如下命令：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> a+w .bashrc</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>例3：当我想要将全部人的可执行权限去掉而不修改其他已存在的权限时，可执行如下命令：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> a-x .bashrc</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="3-Linux目录配置"><a href="#3-Linux目录配置" class="headerlink" title="3. Linux目录配置"></a>3. Linux目录配置</h2><h3 id="3-1-Linux目录配置的依据——FHS"><a href="#3-1-Linux目录配置的依据——FHS" class="headerlink" title="3.1 Linux目录配置的依据——FHS"></a>3.1 Linux目录配置的依据——FHS</h3><ul>
-<li><p>主要目的：让用户可以了解到已安装软件通常放置在哪个目下，也就是说重在在于规范每个特定的目录下应该要放置什么样子的数据</p>
-</li>
-<li><p>具体表现：FHS依据文件系统使用的频繁与否、是否允许用户随意修改而将目录定义为四种交互作用的形态，如下图所示：<img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/FHS.png?raw=true" alt="图4"></p>
-</li>
-<li><p>名词解释：</p>
-<ul>
-<li><strong>可分享</strong>：可以分享给其他系统挂载使用的目录，所以包含执行文件与用户的邮件等数据，是能够分享给网络上其他主机挂载使用的目录</li>
-<li><strong>不可分享</strong>：自己机器上运行的设备文件或是与程序有关的socket文件等，由于仅与自身及其有关，所以不适合分享给其他主机</li>
-<li><strong>不变</strong>：有些数据是不会经常变动的，跟随者发行版而不变动，例如函数库、文件说明、系统管理员所管理的主机服务配置文件等</li>
-<li><strong>可变动</strong>：经常修改的数据，例如日志文件、一般用户可自行接受的新闻组等</li>
-</ul>
-</li>
-</ul>
-<h3 id="3-2-三大目录"><a href="#3-2-三大目录" class="headerlink" title="3.2 三大目录"></a>3.2 三大目录</h3><p>事实上，FHS针对目录树架构仅定义出以下<strong>三层目录</strong>下面应该放置什么样的数据而已</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/（root，根目录）：与启动系统、还原、系统修复有关</span><br><span class="line"></span><br><span class="line">/usr（Unix software resource）：与软件安装、执行有关</span><br><span class="line"></span><br><span class="line">/var（variable）：与系统运行过程有关</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>根目录（&#x2F;）</p>
-<ul>
-<li>根目录(&#x2F;)的子目录建议：</li>
-</ul>
-<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/FHS_%E6%A0%B9%E7%9B%AE%E5%BD%95.png?raw=true" alt="图5"></p>
-<ul>
-<li>除上 FHS 中定义的目录说明外, 底下是几个在Linux当中非常重要的目录：</li>
-</ul>
-<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/FHS_%E6%A0%B9%E7%9B%AE%E5%BD%952.png?raw=true" alt="图6"></p>
-</li>
-<li><p>&#x2F;usr</p>
-<ul>
-<li>&#x2F;usr的子目录建议：</li>
-</ul>
-<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/FHS_%E6%A0%B9%E7%9B%AE%E5%BD%953.png?raw=true" alt="图7"></p>
-</li>
-<li><p>&#x2F;var</p>
-<ul>
-<li>&#x2F;var的意义与内容</li>
-</ul>
-<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/FHS_4.png?raw=true" alt="图8"></p>
-</li>
-</ul>
-<h3 id="3-3-目录树"><a href="#3-3-目录树" class="headerlink" title="3.3 目录树"></a>3.3 目录树</h3><ul>
-<li>特性：<ul>
-<li>目录树的起始点为&#x2F;（根目录）</li>
-<li>每一个目录不止能使用本地分区的文件系统，也可以使用网络上的文件系统。比如，可以利用Network File System（NFS）服务器挂载某特定目录等</li>
-<li>每一个文件在此目录树中的文件名（包含完整路径）都是独一无二的</li>
-</ul>
-</li>
-<li>目录树架构示意图</li>
-</ul>
-<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E7%9B%AE%E5%BD%95%E6%A0%91%E6%9E%B6%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE.png?raw=true" alt="图9"></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-        <category>文件、目录与磁盘</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hive学习文档——HiveQL</title>
     <url>/2021/08/04/Hive%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3%E2%80%94%E2%80%94HiveQL/</url>
     <content><![CDATA[<span id="more"></span>
@@ -887,6 +676,217 @@
       <categories>
         <category>Linux</category>
         <category>CentOS</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux学习文档-文件权限与目录配置</title>
+    <url>/2021/04/22/Linux%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h2 id="1-文件属性"><a href="#1-文件属性" class="headerlink" title="1. 文件属性"></a>1. 文件属性</h2><p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E7%A4%BA%E6%84%8F%E5%9B%BE.png?raw=true" alt="图1"></p>
+<!--more--> 
+
+<ul>
+<li>图1中，第1串字符代表这个文件的类型与权限<ul>
+<li><p>第一个字符代表着个文件是目录、文件或链接文件等·</p>
+<ul>
+<li>[d]代表目录</li>
+<li>[-]代表文件</li>
+<li>[l]代表链接文件<br>  <img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8E%E6%9D%83%E9%99%90%E4%B9%8B%E5%86%85%E5%AE%B9.png?raw=true" alt="图2"></li>
+</ul>
+</li>
+<li><p>如图2所示，后九位字符中每三个字符为一组，且均为【rwx】的组合。</p>
+</li>
+<li><p>第一组为文件拥有者的权限，第二组为文件所属用户组的权限，第三组为其他用户的权限</p>
+</li>
+<li><p>以第一组为例</p>
+<ul>
+<li>[r]代表read，可读权限，权限值为4，权限排名最低</li>
+<li>[w]代表write，可写权限，权限值为2，权限排名居中</li>
+<li>[r]代表excute,可执行权限，权限值为1，权限排名最高</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注：</p>
+<ul>
+<li>rwx所在的位置或者说顺序是不会改变的，有权限就会显示字符，没有则用-表示</li>
+<li>此处要与第一个字符区分开</li>
+</ul>
+</blockquote>
+<ul>
+<li>图1中，第2串字符表示有多少个文件名链接到此节点</li>
+<li>第3串字符表示这个文件的拥有者账号名</li>
+<li>第4串字符表示这个文件的所属用户组</li>
+<li>第5串字符表示这个文件的大小（默认单位为Bytes）</li>
+<li>第6串字符表示这个文件的创建日期或者是最近的修改日期，若文件的修改时间距今太久，那么只会显示年月日</li>
+<li>第7串字符表示文件名<ul>
+<li>文件名前面有[.]则表示改文件为隐藏文件，可用【ls】、【ls -a】及【ls -al】来查看<blockquote>
+<p>注：</p>
+<ul>
+<li>对于文件夹来说，[x]原本代表执行权限，但如果某个用户对于某个目录没有[x]的权限，则该用户无法进入该目录</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-如何修改文件属性与权限"><a href="#2-如何修改文件属性与权限" class="headerlink" title="2. 如何修改文件属性与权限"></a>2. 如何修改文件属性与权限</h2><table>
+<thead>
+<tr>
+<th align="center">命令</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">chgrp</td>
+<td align="center">修改文件所属用户组</td>
+</tr>
+<tr>
+<td align="center">chown</td>
+<td align="center">修改文件拥有者</td>
+</tr>
+<tr>
+<td align="center">chmod</td>
+<td align="center">修改文件的权限，SUID、SGID、SBIT等的特性</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>修改所属用户组，chgrp</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chgrp</span>   [-R]  账号名   <span class="built_in">dirname</span>/filename</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：</p>
+<ul>
+<li>目标用户组必须存在于&#x2F;etc&#x2F;group中才能修改成功，否则会报错</li>
+<li>修改文件拥有者亦是如此，目标用户必须存在于&#x2F;etc&#x2F;passwd中</li>
+</ul>
+</blockquote>
+</li>
+<li><p>修改文件拥有者，chown</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chown</span>   [-R]    账号名称    文件或目录</span><br><span class="line"><span class="built_in">chown</span>   [-R]    账号名称：用户组名称    文件或目录</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改文件权限，chmod</p>
+<ul>
+<li>用数字修改</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">权限</th>
+<th align="center">权限值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">r</td>
+<td align="center">4</td>
+</tr>
+<tr>
+<td align="center">w</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">x</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+<p>举例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">owner = rwx = 4+2+1 = 7</span><br><span class="line">group = rwx = 4+2+1 = 7</span><br><span class="line">others = --- = 0+0+0 = 0</span><br></pre></td></tr></table></figure>
+<p>因此，对应用数字修改权限的语法是：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span>   -R  xyz 文件或目录</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
+
+<p>常用的如果要将某个文件所有的权限都开通则为</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> 777 .bashrc</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>扩展：</p>
+<ul>
+<li>通常以vim编辑一个Shell文件的时候，他的权限通常是：-rw-rw-r–，也就是644，且此文件是不能够执行的,如果要把它变成可执行问文件，则需要执行命令：【chmod 744 test.sh】或者：【chmod a+x test.sh】，后者即为下面要介绍的用符号修改</li>
+<li>另外，如果有些文件你不想被其他人看到，可以执行：【chmod 700 text.sh】</li>
+</ul>
+</blockquote>
+<pre><code>- 用符号修改
+</code></pre>
+<p>在修改之前，首先需要知道权限只有user、group、同任何人三种身份，分别用u、g、o来表示。此外，所有a代表all即全部的身份，因此修改方法如下图所示：</p>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90.png?raw=true" alt="图3"></p>
+<ul>
+<li>例1：当我们要设置一个文件的权限为【-rwxr-xr-x】时，可执行如下命令：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> u=rwx,go=rx .bashrc</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例2：当我们不知道原来的文件属性，但是只想要增加.bashrc这个文件的每个人都可以写入得权限时，可执行如下命令：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> a+w .bashrc</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例3：当我想要将全部人的可执行权限去掉而不修改其他已存在的权限时，可执行如下命令：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> a-x .bashrc</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-Linux目录配置"><a href="#3-Linux目录配置" class="headerlink" title="3. Linux目录配置"></a>3. Linux目录配置</h2><h3 id="3-1-Linux目录配置的依据——FHS"><a href="#3-1-Linux目录配置的依据——FHS" class="headerlink" title="3.1 Linux目录配置的依据——FHS"></a>3.1 Linux目录配置的依据——FHS</h3><ul>
+<li><p>主要目的：让用户可以了解到已安装软件通常放置在哪个目下，也就是说重在在于规范每个特定的目录下应该要放置什么样子的数据</p>
+</li>
+<li><p>具体表现：FHS依据文件系统使用的频繁与否、是否允许用户随意修改而将目录定义为四种交互作用的形态，如下图所示：<img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/FHS.png?raw=true" alt="图4"></p>
+</li>
+<li><p>名词解释：</p>
+<ul>
+<li><strong>可分享</strong>：可以分享给其他系统挂载使用的目录，所以包含执行文件与用户的邮件等数据，是能够分享给网络上其他主机挂载使用的目录</li>
+<li><strong>不可分享</strong>：自己机器上运行的设备文件或是与程序有关的socket文件等，由于仅与自身及其有关，所以不适合分享给其他主机</li>
+<li><strong>不变</strong>：有些数据是不会经常变动的，跟随者发行版而不变动，例如函数库、文件说明、系统管理员所管理的主机服务配置文件等</li>
+<li><strong>可变动</strong>：经常修改的数据，例如日志文件、一般用户可自行接受的新闻组等</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-2-三大目录"><a href="#3-2-三大目录" class="headerlink" title="3.2 三大目录"></a>3.2 三大目录</h3><p>事实上，FHS针对目录树架构仅定义出以下<strong>三层目录</strong>下面应该放置什么样的数据而已</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/（root，根目录）：与启动系统、还原、系统修复有关</span><br><span class="line"></span><br><span class="line">/usr（Unix software resource）：与软件安装、执行有关</span><br><span class="line"></span><br><span class="line">/var（variable）：与系统运行过程有关</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>根目录（&#x2F;）</p>
+<ul>
+<li>根目录(&#x2F;)的子目录建议：</li>
+</ul>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/FHS_%E6%A0%B9%E7%9B%AE%E5%BD%95.png?raw=true" alt="图5"></p>
+<ul>
+<li>除上 FHS 中定义的目录说明外, 底下是几个在Linux当中非常重要的目录：</li>
+</ul>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/FHS_%E6%A0%B9%E7%9B%AE%E5%BD%952.png?raw=true" alt="图6"></p>
+</li>
+<li><p>&#x2F;usr</p>
+<ul>
+<li>&#x2F;usr的子目录建议：</li>
+</ul>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/FHS_%E6%A0%B9%E7%9B%AE%E5%BD%953.png?raw=true" alt="图7"></p>
+</li>
+<li><p>&#x2F;var</p>
+<ul>
+<li>&#x2F;var的意义与内容</li>
+</ul>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/FHS_4.png?raw=true" alt="图8"></p>
+</li>
+</ul>
+<h3 id="3-3-目录树"><a href="#3-3-目录树" class="headerlink" title="3.3 目录树"></a>3.3 目录树</h3><ul>
+<li>特性：<ul>
+<li>目录树的起始点为&#x2F;（根目录）</li>
+<li>每一个目录不止能使用本地分区的文件系统，也可以使用网络上的文件系统。比如，可以利用Network File System（NFS）服务器挂载某特定目录等</li>
+<li>每一个文件在此目录树中的文件名（包含完整路径）都是独一无二的</li>
+</ul>
+</li>
+<li>目录树架构示意图</li>
+</ul>
+<p><img src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E7%9B%AE%E5%BD%95%E6%A0%91%E6%9E%B6%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE.png?raw=true" alt="图9"></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>文件、目录与磁盘</category>
       </categories>
       <tags>
         <tag>Linux</tag>
@@ -1170,6 +1170,26 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2022/04/01/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<span id="more"></span>
+
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>Spark学习文档-运行流程</title>
     <url>/2020/12/27/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B/</url>
     <content><![CDATA[<span id="more"></span>
@@ -1335,25 +1355,5 @@
       <tags>
         <tag>Linux</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2022/04/01/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<span id="more"></span>
-
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
   </entry>
 </search>

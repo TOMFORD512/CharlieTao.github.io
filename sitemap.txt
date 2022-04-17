@@ -25,8 +25,8 @@ http://example.com/tags/CentOS/
 http://example.com/tags/Flume/
 http://example.com/tags/HBase/
 http://example.com/tags/Hadoop/
-http://example.com/tags/Linux/
 http://example.com/tags/Hive/
+http://example.com/tags/Linux/
 http://example.com/tags/Scala/
 http://example.com/tags/Spark/
 http://example.com/categories/Linux/
