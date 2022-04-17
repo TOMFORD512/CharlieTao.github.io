@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://example.com/404.html</loc>
+    
+    <lastmod>2022-04-17</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://example.com/2020/12/25/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-Spark%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</loc>
     
     <lastmod>2022-04-17</lastmod>
@@ -241,14 +250,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/Flume/</loc>
+    <loc>http://example.com/tags/Hadoop/</loc>
     <lastmod>2022-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/Hadoop/</loc>
+    <loc>http://example.com/tags/Flume/</loc>
     <lastmod>2022-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -341,14 +350,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/categories/Bigdata/Flume/</loc>
+    <loc>http://example.com/categories/Bigdata/Hadoop/</loc>
     <lastmod>2022-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://example.com/categories/Bigdata/Hadoop/</loc>
+    <loc>http://example.com/categories/Bigdata/Flume/</loc>
     <lastmod>2022-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

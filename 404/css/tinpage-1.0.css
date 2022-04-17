@@ -1,0 +1,11 @@
+.ConBox-Con{width:682px;margin:0 auto;padding-top:290px}
+.ConBox404{background:url(../img/bg.jpg) no-repeat center/cover;height:1080px;width:100%}
+.ConBox-Con h1{text-align:center;font-size:32px;color:#999;font-weight:400}
+.ConBox-Con p{font-size:24px;color:#999;text-align:center;padding-top:370px}
+.ConBox-Con ul{padding-top:30px}
+.ConBox-Con ul li{width:155px;height:55px;text-align:center;line-height:55px;background:#fff;border-radius:5px;display:inline-block;margin-left:16px;-webkit-box-shadow:0 12px 50px rgba(0,0,0,.1);box-shadow:0 12px 50px rgba(0,0,0,.1)}
+.ConBox-Con ul li:first-child{margin-left:0}
+.ConBox-Con ul li a{display:block;font-size:15px;color:#666;text-decoration:none}
+.ConBox-Con ul li.li04{background:#008ba4}
+.ConBox-Con ul li.li04 a{color:#fff}
+

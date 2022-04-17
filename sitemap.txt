@@ -1,3 +1,4 @@
+http://example.com/404.html
 http://example.com/2020/12/25/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-Spark%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/
 http://example.com/2020/12/28/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-RDD%E7%BC%96%E7%A8%8B/
 http://example.com/2020/12/27/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B/
@@ -25,8 +26,8 @@ http://example.com/categories/index.html
 http://example.com/
 http://example.com/tags/CentOS/
 http://example.com/tags/HBase/
-http://example.com/tags/Flume/
 http://example.com/tags/Hadoop/
+http://example.com/tags/Flume/
 http://example.com/tags/Linux/
 http://example.com/tags/Scala/
 http://example.com/tags/Spark/
@@ -39,8 +40,8 @@ http://example.com/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/
 http://example.com/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/
 http://example.com/categories/Bigdata/HBase/
 http://example.com/categories/Bigdata/Spark/
-http://example.com/categories/Bigdata/Flume/
 http://example.com/categories/Bigdata/Hadoop/
+http://example.com/categories/Bigdata/Flume/
 http://example.com/categories/Bigdata/Hive/
 http://example.com/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Linux/
 http://example.com/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/

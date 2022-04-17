@@ -1,0 +1,160 @@
+@charset "utf-8";
+/* CSS reset for c_b*/
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+    table th, table td {
+        padding: 5px;
+    }
+
+fieldset, img {
+    border: 0;
+}
+
+address, caption, cite, code, dfn, em, i, th, var {
+    font-style: normal;
+    font-weight: normal;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+ception, th {
+    text-align: left;
+}
+
+q:before, q:after {
+    content: '';
+}
+
+abbr, acronym {
+    border: 0;
+}
+
+a {
+    color: #666;
+    text-decoration: none;
+}
+    /*for ie f6n.net*/
+    a:focus {
+        outline: none;
+    }
+    /*for ff f6n.net*/
+    a:hover {
+        text-decoration: none;
+    }
+/*定位*/
+.tl {
+    text-align: left;
+}
+
+.tc {
+    text-align: center;
+}
+
+.tr {
+    text-align: right;
+}
+
+.bc {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fl {
+    float: left;
+    display: inline;
+}
+
+.fr {
+    float: right;
+    display: inline;
+}
+
+.zoom {
+    zoom: 1
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.vam {
+    vertical-align: middle;
+}
+
+.clear {
+    clear: both;
+    height: 0;
+    line-height: 0;
+    font-size: 0;
+}
+
+p {
+    word-spacing: -1.5px;
+}
+
+li {
+    list-style: none;
+}
+
+-moz-box-sizing:content-box;
+-webkit-box-sizing:content-box;
+box-sizing:content-box;
+/*其他*/
+.cur {
+    cursor: pointer
+}
+/*原reset*/
+sup {
+    vertical-align: baseline;
+}
+
+sub {
+    vertical-align: baseline;
+}
+
+input, button, textarea, select, optgroup, option {
+    font-family: inherit;
+    font-size: inherit;
+    outline: none;
+    font-style: inherit;
+    font-weight: inherit;
+}
+
+input, button, textarea, select {
+    *font-size: 100%;
+}
+
+input, select {
+    vertical-align: middle;
+}
+
+body {
+    font: 12px/1.231 "微软雅黑","Arial Narrow",HELVETICA;
+}
+
+select, input, button, textarea, button {
+    font: 99% "微软雅黑","Arial Narrow",HELVETICA;
+}
+
+table {
+    font-size: 14px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+pre, code, kbd, samp, tt {
+    font-family: monospace;
+    *font-size: 108%;
+    line-height: 100%;
+}
+
