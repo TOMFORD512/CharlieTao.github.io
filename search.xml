@@ -686,7 +686,7 @@
 <ul>
 <li>[d]代表目录</li>
 <li>[-]代表文件</li>
-<li>[l]代表链接文件<br>  <img data-src="/./Pictures/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8E%E6%9D%83%E9%99%90%E4%B9%8B%E5%86%85%E5%AE%B9.png" alt="文件类型与权限之内容"></li>
+<li>[l]代表链接文件<br>  <img data-src="/.https:/github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8E%E6%9D%83%E9%99%90%E4%B9%8B%E5%86%85%E5%AE%B9.png?raw=true" alt="文件类型与权限之内容"></li>
 </ul>
 </li>
 <li><p>如上图所示，后九位字符中每三个字符为一组，且均为【rwx】的组合。</p>
