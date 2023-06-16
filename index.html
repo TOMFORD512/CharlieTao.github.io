@@ -230,7 +230,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-17 01:32:06" itemprop="dateModified" datetime="2023-06-17T01:32:06+08:00">2023-06-17</time>
+                <time title="修改时间：2023-06-17 01:33:15" itemprop="dateModified" datetime="2023-06-17T01:33:15+08:00">2023-06-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -271,123 +271,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <span id="more"></span>
-
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h2 id="1-文件属性"><a href="#1-文件属性" class="headerlink" title="1. 文件属性"></a>1. 文件属性</h2><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E7%A4%BA%E6%84%8F%E5%9B%BE.png?raw=true" alt="图一（文件属性示意图）"></p>
-<ul>
-<li><p>图一中，第1串字符代表这个文件的类型与权限</p>
-<ul>
-<li><p>第一个字符代表着个文件是目录、文件或链接文件等</p>
-<ul>
-<li>[d]代表目录</li>
-<li>[-]代表文件</li>
-<li>[l]代表链接文件</li>
-</ul>
-<p>  <img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8E%E6%9D%83%E9%99%90%E4%B9%8B%E5%86%85%E5%AE%B9.png?raw=true" alt="图二（文件类型与权限之内容）">
-  </p>
-</li>
-<li><p>如图二所示，后九位字符中每三个字符为一组，且均为【rwx】的组合。</p>
-</li>
-<li><p>第一组为文件拥有者的权限，第二组为文件所属用户组的权限，第三组为其他用户的权限</p>
-</li>
-<li><p>以第一组为例：</p>
-<p>  [r]代表read，可读权限，权限值为4，权限排名最低</p>
-<p>  [w]代表write，可写权限，权限值为2，权限排名居中</p>
-<p>  [r]代表excute,可执行权限，权限值为1，权限排名最高</p>
-</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>注：</p>
-<ul>
-<li>rwx所在的位置或者说顺序是不会改变的，有权限就会显示字符，没有则用-表示</li>
-<li>此处要与第一个字符区分开</li>
-</ul>
-</blockquote>
-<ul>
-<li><p>图一中，第2串字符表示有多少个文件名链接到此节点</p>
-</li>
-<li><p>图一中，第3串字符表示这个文件的拥有者账号名</p>
-</li>
-<li><p>图一中，第4串字符表示这个文件的所属用户组</p>
-</li>
-<li><p>图一中，第5串字符表示这个文件的大小（默认单位为Bytes）</p>
-</li>
-<li><p>图一中，第6串字符表示这个文件的创建日期或者是最近的修改日期，若文件的修改时间距今太久，那么只会显示年月日</p>
-</li>
-<li><p>图一中，第7串字符表示文件名</p>
-<p>  文件名前面有[.]则表示改文件为隐藏文件，可用【ls】、【ls -a】及【ls -al】来查看</p>
-</li>
-</ul>
-<blockquote>
-<p>注：</p>
-<ul>
-<li>对于文件夹来说，[x]原本代表执行权限，但如果某个用户对于某个目录没有[x]的权限，则该用户无法进入该目录</li>
-</ul>
-</blockquote>
-<h2 id="2-如何修改文件属性与权限"><a href="#2-如何修改文件属性与权限" class="headerlink" title="2. 如何修改文件属性与权限"></a>2. 如何修改文件属性与权限</h2><table>
-<thead>
-<tr>
-<th align="center">命令</th>
-<th align="center">作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">chgrp</td>
-<td align="center">修改文件所属用户组</td>
-</tr>
-<tr>
-<td align="center">chown</td>
-<td align="center">修改文件拥有者</td>
-</tr>
-<tr>
-<td align="center">chmod</td>
-<td align="center">修改文件的权限，SUID、SGID、SBIT等的特性</td>
-</tr>
-</tbody></table>
-<h3 id="1-修改所属用户组"><a href="#1-修改所属用户组" class="headerlink" title="(1) 修改所属用户组"></a>(1) 修改所属用户组</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chgrp</span>   [-R]  账号名   <span class="built_in">dirname</span>/filename</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注：</p>
-<ul>
-<li>目标用户组必须存在于&#x2F;etc&#x2F;group中才能修改成功，否则会报错</li>
-<li>修改文件拥有者亦是如此，目标用户必须存在于&#x2F;etc&#x2F;passwd中</li>
-</ul>
-</blockquote>
-<h3 id="2-修改文件拥有者，chown"><a href="#2-修改文件拥有者，chown" class="headerlink" title="(2) 修改文件拥有者，chown"></a>(2) 修改文件拥有者，chown</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chown</span>   [-R]    账号名称    文件或目录</span><br><span class="line"><span class="built_in">chown</span>   [-R]    账号名称：用户组名称    文件或目录</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-修改文件权限，chmod"><a href="#3-修改文件权限，chmod" class="headerlink" title="(3) 修改文件权限，chmod"></a>(3) 修改文件权限，chmod</h3><h4 id="①-用数字修改"><a href="#①-用数字修改" class="headerlink" title="① 用数字修改"></a>① 用数字修改</h4><table>
-<thead>
-<tr>
-<th align="center">权限</th>
-<th align="center">权限值</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">r</td>
-<td align="center">4</td>
-</tr>
-<tr>
-<td align="center">w</td>
-<td align="center">2</td>
-</tr>
-<tr>
-<td align="center">x</td>
-<td align="center">1</td>
-</tr>
-</tbody></table>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#例：</span></span><br><span class="line">owner = rwx = 4+2+1 = 7</span><br><span class="line">group = rwx = 4+2+1 = 7</span><br><span class="line">others = --- = 0+0+0 = 0</span><br><span class="line"></span><br><span class="line"><span class="comment">#因此，对应用数字修改权限的语法是：</span></span><br><span class="line"><span class="built_in">chmod</span>   -R  xyz 文件或目录</span><br><span class="line"><span class="comment">#-R: 递归修改</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#常用的如果要将某个文件所有的权限都开通则为</span></span><br><span class="line"><span class="built_in">chmod</span> 777 .bashrc</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注：</p>
-<ul>
-<li>通常以vim编辑一个Shell文件的时候，他的权限通常是：-rw-rw-r–，也就是644，且此文件是不能够执行的,如果要把它变成可执行问文件，则需要执行命令：【chmod 744 test.sh】或者：【chmod a+x test.sh】，后者即为下面要介绍的用符号修改</li>
-<li>另外，如果有些文件你不想被其他人看到，可以执行：【chmod 700 text.sh】</li>
-</ul>
-</blockquote>
-<h4 id="②-用符号修改"><a href="#②-用符号修改" class="headerlink" title="② 用符号修改"></a>② 用符号修改</h4><p>在修改之前，首先需要知道权限只有user、group、同任何人三种身份，分别用u、g、o来表示。此外，所有a代表all即全部的身份，因此修改方法如下图所示：</p>
-<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90.png?raw=true" alt="符号类型修改文件权限"></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 例1：当我们要设置一个文件的权限为【-rwxr-xr-x】时，可执行如下命令：</span></span><br><span class="line"><span class="built_in">chmod</span> u=rwx,go=rx .bashrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 例2：当我们不知道原来的文件属性，但是只想要增加.bashrc这个文件的每个人都可以写入得权限时，可执行如下命令：</span></span><br><span class="line"><span class="built_in">chmod</span> a+w .bashrc</span><br><span class="line"></span><br><span class="line"><span class="comment">#例3：当我想要将全部人的可执行权限去掉而不修改其他已存在的权限时，可执行如下命令：</span></span><br><span class="line"><span class="built_in">chmod</span> a-x .bashrc</span><br></pre></td></tr></table></figure>
-
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/04/20/Linux%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
