@@ -20,12 +20,14 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Peace&amp;Love">
+  <meta name="description" content="Money Funny Honey">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TomFor&#39;s Blog">
 <meta property="og:url" content="http://example.com/page/2/index.html">
-<meta property="og:site_name" content="Peace&amp;Love">
+<meta property="og:site_name" content="TomFor&#39;s Blog">
+<meta property="og:description" content="Money Funny Honey">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:author" content="Charlie">
+<meta property="article:author" content="TomFor">
 <meta property="article:tag" content="大数据">
 <meta name="twitter:card" content="summary">
 
@@ -42,7 +44,7 @@
   };
 </script>
 
-  <title>Peace&Love</title>
+  <title>TomFor's Blog</title>
   
 
 
@@ -73,7 +75,7 @@
   </style>
 </noscript>
 
-<link rel="alternate" href="/atom.xml" title="Peace&Love" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="TomFor's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -94,7 +96,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Peace&Love</h1>
+      <h1 class="site-title">TomFor's Blog</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -201,12 +203,12 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Charlie">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="TomFor">
+      <meta itemprop="description" content="Money Funny Honey">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Peace&Love">
+      <meta itemprop="name" content="TomFor's Blog">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -228,7 +230,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-17 17:49:08" itemprop="dateModified" datetime="2022-04-17T17:49:08+08:00">2022-04-17</time>
+                <time title="修改时间：2023-06-17 01:10:39" itemprop="dateModified" datetime="2023-06-17T01:10:39+08:00">2023-06-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -269,15 +271,39 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/06/12/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E2%80%94%E2%80%94CentOS7/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <span id="more"></span>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><h3 id="1-查看服务器的CentOS版本"><a href="#1-查看服务器的CentOS版本" class="headerlink" title="1. 查看服务器的CentOS版本"></a>1. 查看服务器的CentOS版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#二者皆可</span></span><br><span class="line"><span class="built_in">tail</span> /etc/redhat-release</span><br><span class="line"><span class="built_in">cat</span> /etc/redhat-release</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-更改服务器名称"><a href="#2-更改服务器名称" class="headerlink" title="2. 更改服务器名称"></a>2. 更改服务器名称</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#输入以下命令，而后直接输入服务器名称</span></span><br><span class="line">vim /etc/hostname</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-更改网络设置"><a href="#3-更改网络设置" class="headerlink" title="3. 更改网络设置"></a>3. 更改网络设置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/sysconfig/network-scripts/ifcfg-ens33</span><br></pre></td></tr></table></figure>
+
+<p>更改以下几点</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.设置静态IP</span></span><br><span class="line">BOOTPROTO=static</span><br><span class="line"><span class="comment">#2.</span></span><br><span class="line">ONBOOT=<span class="built_in">yes</span></span><br><span class="line"><span class="comment">#3.给定固定IP</span></span><br><span class="line">IPADDR=192.168.0.101</span><br><span class="line"><span class="comment">#4.子网掩码</span></span><br><span class="line">GATEWAY=192.168.0.1</span><br><span class="line"><span class="comment">#5.网关</span></span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line"><span class="comment">#6.</span></span><br><span class="line">DNS1=8.8.8.8</span><br><span class="line">DNS2=8.8.4.4</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-更换默认镜像（设置Yum源）"><a href="#4-更换默认镜像（设置Yum源）" class="headerlink" title="4. 更换默认镜像（设置Yum源）"></a>4. 更换默认镜像（设置Yum源）</h3><p>注：详情请参考<a target="_blank" rel="noopener" href="https://charlietao.github.io/2020/06/13/CentOS%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F/">CnetOS 更换镜像</a></p>
+<h3 id="5-按需更改防火墙状态"><a href="#5-按需更改防火墙状态" class="headerlink" title="5. 按需更改防火墙状态"></a>5. 按需更改防火墙状态</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.查看防火墙状态</span></span><br><span class="line">systemctl status firewalld</span><br><span class="line"><span class="comment">#2.关闭(开启)防火墙</span></span><br><span class="line">systemctl stop firewalld/systemctl start firewalld</span><br><span class="line"><span class="comment">#4.禁用防火墙服务</span></span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld</span><br><span class="line"><span class="comment">#注：如果需要永久关闭，需要先关闭再禁用防火墙服务</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-扩展（使用Telnet连接虚拟机）"><a href="#6-扩展（使用Telnet连接虚拟机）" class="headerlink" title="6. 扩展（使用Telnet连接虚拟机）"></a>6. 扩展（使用Telnet连接虚拟机）</h3><h3 id="7-创建用户"><a href="#7-创建用户" class="headerlink" title="7. 创建用户"></a>7. 创建用户</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#优先创建用户组</span></span><br><span class="line">groupadd Worker</span><br><span class="line"><span class="comment">#创建用户并制定用户组</span></span><br><span class="line">useradd CharlieTao -g Worker</span><br><span class="line"><span class="comment">#创建用户之后应立即更新密码（输入以下命令后输入两次密码则密码设置成功）</span></span><br><span class="line">passwd CharlieTao</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-服务器之间配置别名"><a href="#8-服务器之间配置别名" class="headerlink" title="8. 服务器之间配置别名"></a>8. 服务器之间配置别名</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hosts</span><br><span class="line"></span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line"></span><br><span class="line">192.168.0.101 bigdata1</span><br><span class="line">192.168.0.102 bigdata2</span><br><span class="line">192.168.0.103 bigdata3</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-服务器之间配置免密"><a href="#9-服务器之间配置免密" class="headerlink" title="9.服务器之间配置免密"></a>9.服务器之间配置免密</h3><img data-src="./Pictures/SSH配置.png" style="zoom:75%;">
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#生成密钥对</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment">#将公钥上传到需要配置免密的服务器，并以相同用户登录（默认是以相同用户登录），根据提示输入免密即可</span></span><br><span class="line">ssh-copy-id CharlieTao@192.168.0.102</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-服务器之间传输文件（配置完免密之后）"><a href="#10-服务器之间传输文件（配置完免密之后）" class="headerlink" title="10. 服务器之间传输文件（配置完免密之后）"></a>10. 服务器之间传输文件（配置完免密之后）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp -r package/ CharlieTao@bigdata2:/home/CharlieTao/</span><br></pre></td></tr></table></figure>
+
+<h3 id="11-配置JDK"><a href="#11-配置JDK" class="headerlink" title="11. 配置JDK"></a>11. 配置JDK</h3><ul>
+<li>解压</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf jdk-8u45-linux-x64.tar.gz -C /home/CharlieTao/software/</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置环境变量</li>
+</ul>
+<img data-src="./Pictures/Java环境变量设置.png" style="zoom:75%;">
+
       
     </div>
 
@@ -300,12 +326,12 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Charlie">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="TomFor">
+      <meta itemprop="description" content="Money Funny Honey">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Peace&Love">
+      <meta itemprop="name" content="TomFor's Blog">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -327,7 +353,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-17 17:48:57" itemprop="dateModified" datetime="2022-04-17T17:48:57+08:00">2022-04-17</time>
+                <time title="修改时间：2023-06-17 01:12:04" itemprop="dateModified" datetime="2023-06-17T01:12:04+08:00">2023-06-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -368,15 +394,83 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/06/12/%E5%88%9D%E8%AF%86Linux/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <span id="more"></span>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h2 id="操作系统发展史"><a href="#操作系统发展史" class="headerlink" title="操作系统发展史"></a>操作系统发展史</h2><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B1%95%E5%8F%B2.png?raw=true"></p>
+<h2 id="计算机"><a href="#计算机" class="headerlink" title="计算机"></a>计算机</h2><h3 id="按照粗粒度划分可以分为三大部分："><a href="#按照粗粒度划分可以分为三大部分：" class="headerlink" title="按照粗粒度划分可以分为三大部分："></a>按照粗粒度划分可以分为三大部分：</h3><h4 id="1-输入部分"><a href="#1-输入部分" class="headerlink" title="1. 输入部分"></a>1. 输入部分</h4><ul>
+<li>键盘</li>
+<li>鼠标</li>
+<li>手写板</li>
+<li>触控屏</li>
+</ul>
+<h4 id="2-输出部分"><a href="#2-输出部分" class="headerlink" title="2. 输出部分"></a>2. 输出部分</h4><ul>
+<li>显示器</li>
+<li>打印机</li>
+</ul>
+<h4 id="3-主机部分"><a href="#3-主机部分" class="headerlink" title="3. 主机部分"></a>3. 主机部分</h4><ul>
+<li>主板</li>
+<li>主存储器</li>
+<li>CPU（逻辑计算单元、控制单元）</li>
+</ul>
+<h3 id="按照细粒度划分可以分为五大单元："><a href="#按照细粒度划分可以分为五大单元：" class="headerlink" title="按照细粒度划分可以分为五大单元："></a>按照细粒度划分可以分为五大单元：</h3><h4 id="1-输入设备"><a href="#1-输入设备" class="headerlink" title="1. 输入设备"></a>1. 输入设备</h4><h4 id="2-输出设备"><a href="#2-输出设备" class="headerlink" title="2. 输出设备"></a>2. 输出设备</h4><h4 id="3-运算器"><a href="#3-运算器" class="headerlink" title="3. 运算器"></a>3. 运算器</h4><ul>
+<li>逻辑计算单元<h4 id="4-控制器"><a href="#4-控制器" class="headerlink" title="4. 控制器"></a>4. 控制器</h4></li>
+<li>控制单元<h4 id="5-存储器"><a href="#5-存储器" class="headerlink" title="5. 存储器"></a>5. 存储器</h4></li>
+</ul>
+<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h3 id="1-含义："><a href="#1-含义：" class="headerlink" title="1. 含义："></a>1. 含义：</h3><ul>
+<li>操作系统（Operating System，简称OS）是管理和控制计算机硬件与软件资源的计算机程序，是直接运行  在“裸机”上的最基本的系统软件，任何其他软件都必须在操作系统的支持下才能运行。</li>
+</ul>
+<h3 id="2-存在的意义："><a href="#2-存在的意义：" class="headerlink" title="2. 存在的意义："></a>2. 存在的意义：</h3><ul>
+<li>计算机主机是由一堆硬件所组成的，为了有效率的控制这些硬件资源，操作系统就诞生了。</li>
+</ul>
+<h3 id="3-作用："><a href="#3-作用：" class="headerlink" title="3. 作用："></a>3. 作用：</h3><ul>
+<li>有效率的控制硬件资源的分配</li>
+<li>提供计算机运作所需要的功能（网络）</li>
+<li>提供程序设计师更容易开发软件的环境</li>
+</ul>
+<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.png?raw=true"></p>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><h3 id="1-含义：-1"><a href="#1-含义：-1" class="headerlink" title="1. 含义："></a>1. 含义：</h3><ul>
+<li>Linux 内核最初只是由芬兰人林纳斯·托瓦兹（Linus Torvalds）在赫尔辛基大学上学时出于个人爱好而编写的。</li>
+<li>Linux 是一套免费使用和自由传播的类 Unix 操作系统，是一个基于 POSIX 和 UNIX 的多用户、多任务、支持多线程和多 CPU 的操作系统。</li>
+<li>Linux 能运行主要的 UNIX 工具软件、应用程序和网络协议。它支持 32 位和 64 位硬件。Linux 继承了 Unix 以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。</li>
+</ul>
+<h3 id="2-Linux发行版"><a href="#2-Linux发行版" class="headerlink" title="2. Linux发行版"></a>2. Linux发行版</h3><p>Linux 的发行版说简单点就是将<strong>Linux内核</strong>与<strong>应用软件</strong>做一个打包。​</p>
+<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/Linux%E5%90%84%E7%89%88%E6%9C%AC.png?raw=true"></p>
+<h3 id="3-Linux特点"><a href="#3-Linux特点" class="headerlink" title="3. Linux特点"></a>3. Linux特点</h3><h4 id="1-核心思想"><a href="#1-核心思想" class="headerlink" title="(1) 核心思想"></a>(1) 核心思想</h4><ul>
+<li><p><strong>一切皆为文件，若非文件，即为进程</strong></p>
+</li>
+<li><p>Linux的基本思想有两点：</p>
+<ul>
+<li>一切都是文件</li>
+<li>每个软件都有确定的用途。其中第一条详细来讲就是系统中的所有都归结为一个文件，包括命令、硬件和软件设备、操作系统、进程等等对于操作系统内核而言，都被视为拥有各自特性或类型的文件。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注：至于说Linux是基于Unix的，很大程度上也是因为这两者的基本思想十分相近。</p>
+</blockquote>
+<h4 id="2-完全免费"><a href="#2-完全免费" class="headerlink" title="(2) 完全免费"></a>(2) 完全免费</h4><p>Linux是一款免费的操作系统，用户可以通过网络或其他途径免费获得，并可以任意修改其源代码。这是其他的操作系统所做不到的。正是由于这一点，来自全世界的无数程序员参与了Linux的修改、编写工作，程序员可以根据自己的兴趣和灵感对其进行改变，这让Linux吸收了无数程序员的精华，不断壮大。</p>
+<h4 id="3-多用户、多任务"><a href="#3-多用户、多任务" class="headerlink" title="(3) 多用户、多任务"></a>(3) 多用户、多任务</h4><ul>
+<li>Linux支持多用户，各个用户对于自己的文件设备有自己特殊的权利，保证了各用户之间互不影响。</li>
+<li>多任务则是现在电脑最主要的一个特点，Linux可以使多个程序同时并独立地运行。</li>
+</ul>
+<blockquote>
+<p>注：Linux支持多用户同时在线,而Windows不可以。</p>
+</blockquote>
+<h4 id="4-较为良好的界面"><a href="#4-较为良好的界面" class="headerlink" title="(4) 较为良好的界面"></a>(4) 较为良好的界面</h4><ul>
+<li>Linux同时具有字符界面和图形界面。在字符界面用户可以通过键盘输入相应的指令来进行操作。它同时也提供了类似Windows图形界面的X-Window系统，用户可以使用鼠标对其进行操作。</li>
+<li>在X-Window环境中就和在Windows中相似，可以说是一个Linux版的Windows。</li>
+</ul>
+<h4 id="5-支持多种平台"><a href="#5-支持多种平台" class="headerlink" title="(5) 支持多种平台"></a>(5) 支持多种平台</h4><ul>
+<li>Linux可以运行在多种硬件平台上，如具有x86、680x0、SPARC、Alpha等处理器的平台。</li>
+<li>此外Linux还是一种嵌入式操作系统，可以运行在手机、平板、路由器、电视以及游戏机上。2001年1月份发布的Linux 2.4版内核已经能够完全支持Intel 64位芯片架构。同时Linux也支持多处理器技术。多个处理器同时工作，使系统性能大大提高。</li>
+</ul>
+<h4 id="6-不足"><a href="#6-不足" class="headerlink" title="(6) 不足"></a>(6) 不足</h4><ul>
+<li>生态环境不如Windows，许多硬件设备面对Linux的驱动程序不足，不少硬件厂商是在推出Windows版本的驱动程序后才编写Linux版的。<blockquote>
+<p>注：一些大硬件厂商在这方面做得还不错，他们的Linux版驱动程序一般都推出得比较及时。</p>
+</blockquote>
+</li>
+</ul>
+
       
     </div>
 
@@ -399,12 +493,12 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Charlie">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="TomFor">
+      <meta itemprop="description" content="Money Funny Honey">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Peace&Love">
+      <meta itemprop="name" content="TomFor's Blog">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -426,7 +520,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-17 17:47:14" itemprop="dateModified" datetime="2022-04-17T17:47:14+08:00">2022-04-17</time>
+                <time title="修改时间：2023-06-17 01:10:03" itemprop="dateModified" datetime="2023-06-17T01:10:03+08:00">2023-06-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -467,15 +561,48 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/06/11/CentOS7%E5%88%9D%E5%A7%8B%E5%8C%96/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <span id="more"></span>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><h3 id="1-查看服务器的CentOS版本"><a href="#1-查看服务器的CentOS版本" class="headerlink" title="1. 查看服务器的CentOS版本"></a>1. 查看服务器的CentOS版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#二者皆可</span></span><br><span class="line"><span class="built_in">tail</span> /etc/redhat-release</span><br><span class="line"><span class="built_in">cat</span> /etc/redhat-release</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-更改服务器名称"><a href="#2-更改服务器名称" class="headerlink" title="2. 更改服务器名称"></a>2. 更改服务器名称</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#输入以下命令，而后直接输入服务器名称</span></span><br><span class="line">vim /etc/hostname</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-更改网络设置"><a href="#3-更改网络设置" class="headerlink" title="3. 更改网络设置"></a>3. 更改网络设置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/sysconfig/network-scripts/ifcfg-ens33</span><br></pre></td></tr></table></figure>
+
+<p>更改以下几点</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.设置静态IP</span></span><br><span class="line">BOOTPROTO=static</span><br><span class="line"><span class="comment">#2.</span></span><br><span class="line">ONBOOT=<span class="built_in">yes</span></span><br><span class="line"><span class="comment">#3.给定固定IP</span></span><br><span class="line">IPADDR=192.168.0.101</span><br><span class="line"><span class="comment">#4.子网掩码</span></span><br><span class="line">GATEWAY=192.168.0.1</span><br><span class="line"><span class="comment">#5.网关</span></span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line"><span class="comment">#6.</span></span><br><span class="line">DNS1=8.8.8.8</span><br><span class="line">DNS2=8.8.4.4</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-更换默认镜像（设置Yum源）"><a href="#4-更换默认镜像（设置Yum源）" class="headerlink" title="4. 更换默认镜像（设置Yum源）"></a>4. 更换默认镜像（设置Yum源）</h3><p>注：详情请参考<a target="_blank" rel="noopener" href="https://charlietao.github.io/2020/06/13/CentOS%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F/">CnetOS 更换镜像</a></p>
+<h3 id="5-按需更改防火墙状态"><a href="#5-按需更改防火墙状态" class="headerlink" title="5. 按需更改防火墙状态"></a>5. 按需更改防火墙状态</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.查看防火墙状态</span></span><br><span class="line">systemctl status firewalld</span><br><span class="line"><span class="comment">#2.关闭(开启)防火墙</span></span><br><span class="line">systemctl stop firewalld/systemctl start firewalld</span><br><span class="line"><span class="comment">#4.禁用防火墙服务</span></span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld</span><br><span class="line"><span class="comment">#注：如果需要永久关闭，需要先关闭再禁用防火墙服务</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-扩展（使用Telnet连接虚拟机）"><a href="#6-扩展（使用Telnet连接虚拟机）" class="headerlink" title="6. 扩展（使用Telnet连接虚拟机）"></a>6. 扩展（使用Telnet连接虚拟机）</h3><h3 id="7-创建用户"><a href="#7-创建用户" class="headerlink" title="7. 创建用户"></a>7. 创建用户</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#优先创建用户组</span></span><br><span class="line">groupadd Worker</span><br><span class="line"><span class="comment">#创建用户并制定用户组</span></span><br><span class="line">useradd CharlieTao -g Worker</span><br><span class="line"><span class="comment">#创建用户之后应立即更新密码（输入以下命令后输入两次密码则密码设置成功）</span></span><br><span class="line">passwd CharlieTao</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-为用户赋予Root权限"><a href="#8-为用户赋予Root权限" class="headerlink" title="8. 为用户赋予Root权限"></a>8. 为用户赋予Root权限</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#在执行某些命令时需要sudo并输入密码</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#先切换到root用户</span></span><br><span class="line">vim /etc/sudoers</span><br><span class="line"><span class="comment">#修改如下：</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Allow root to run any commands anywhere </span></span><br><span class="line">root    ALL=(ALL)       ALL</span><br><span class="line"><span class="comment">## Allows members of the &#x27;sys&#x27; group to run networking, software, </span></span><br><span class="line"><span class="comment">## service management apps and more.</span></span><br><span class="line"><span class="comment"># %sys ALL = NETWORKING, SOFTWARE, SERVICES, STORAGE, DELEGATING, PROCESSES, LOCATE, DRIVERS</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Allows people in group wheel to run all commands</span></span><br><span class="line">%wheel  ALL=(ALL)       ALL</span><br><span class="line"></span><br><span class="line"><span class="comment">## Same thing without a password</span></span><br><span class="line"><span class="comment"># %wheel        ALL=(ALL)       NOPASSWD: ALL</span></span><br><span class="line"><span class="comment">#可以写用户或者用户所属组</span></span><br><span class="line">%Worker ALL=(ALL) NOPASSWD:ALL</span><br><span class="line"><span class="comment">## Allows members of the users g</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="9-服务器之间配置别名"><a href="#9-服务器之间配置别名" class="headerlink" title="9. 服务器之间配置别名"></a>9. 服务器之间配置别名</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hosts</span><br><span class="line"></span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line"></span><br><span class="line">192.168.0.101 bigdata1</span><br><span class="line">192.168.0.102 bigdata2</span><br><span class="line">192.168.0.103 bigdata3</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-服务器之间配置免密"><a href="#10-服务器之间配置免密" class="headerlink" title="10.服务器之间配置免密"></a>10.服务器之间配置免密</h3><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/SSH%E9%85%8D%E7%BD%AE.png?raw=true" />
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#生成密钥对</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment">#将公钥上传到需要配置免密的服务器，并以相同用户登录（默认是以相同用户登录），根据提示输入免密即可</span></span><br><span class="line">ssh-copy-id CharlieTao@192.168.0.102</span><br></pre></td></tr></table></figure>
+
+<h3 id="11-服务器之间传输文件（配置完免密之后）"><a href="#11-服务器之间传输文件（配置完免密之后）" class="headerlink" title="11. 服务器之间传输文件（配置完免密之后）"></a>11. 服务器之间传输文件（配置完免密之后）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp -r package/ CharlieTao@bigdata2:/home/CharlieTao/</span><br></pre></td></tr></table></figure>
+
+<h3 id="12-配置JDK"><a href="#12-配置JDK" class="headerlink" title="12. 配置JDK"></a>12. 配置JDK</h3><ul>
+<li>前置工作：检查系统是否已自带JDK（一般最小版本安装是没有自带JDK的，其余版本建议先检测，有则卸载）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#检测</span></span><br><span class="line">rpm -qa | grep -i java</span><br><span class="line"></span><br><span class="line"><span class="comment">#检测+删除（检测出来的结果可能有多个，直接每行遍历删除）</span></span><br><span class="line">rpm -qa | grep -i java | xargs -n1 rpm -e --nodeps </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>解压</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf jdk-8u45-linux-x64.tar.gz -C /home/CharlieTao/software/</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置环境变量</li>
+</ul>
+<img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/Java%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE.png?raw=true" />
+
       
     </div>
 
@@ -498,12 +625,12 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Charlie">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="TomFor">
+      <meta itemprop="description" content="Money Funny Honey">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Peace&Love">
+      <meta itemprop="name" content="TomFor's Blog">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -525,7 +652,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-17 17:49:59" itemprop="dateModified" datetime="2022-04-17T17:49:59+08:00">2022-04-17</time>
+                <time title="修改时间：2023-06-17 01:10:49" itemprop="dateModified" datetime="2023-06-17T01:10:49+08:00">2023-06-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -566,15 +693,137 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/06/08/Scala%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <span id="more"></span>
+
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">JAVA数据类型</span><br><span class="line">	（1）基本类型</span><br><span class="line">		byte、short、int、long、float、double、boolean</span><br><span class="line">	（2）基本类型的包装类型</span><br><span class="line">		Byte、Short、Integer、Long、Float、Double、Boolean、Character</span><br><span class="line">	（3）引用类型</span><br><span class="line">		对象类型</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-Scala数据类型"><a href="#1-Scala数据类型" class="headerlink" title="1. Scala数据类型"></a>1. Scala数据类型</h3><h3 id="（1）整体总结"><a href="#（1）整体总结" class="headerlink" title="（1）整体总结"></a>（1）整体总结</h3><ul>
+<li>Scala中一切数据类型都是对象，都是<strong>Any</strong>的子类</li>
+<li>Scala中数据类型分为两大类：<ul>
+<li>数值类型（AnyVal）</li>
+<li>引用类型（AnyRef）</li>
+</ul>
+</li>
+</ul>
+<!--注：不管是数值类型还是引用类型，都是对象-->
+
+<ul>
+<li><p>Scala数据类型任然遵守，低精度的数值类型向高精度的数值类型的自动转换（隐式转换）</p>
+</li>
+<li><p>Scala中StringOps是对Java中String类型的增强</p>
+</li>
+<li><p>Unit对应了Java中的void关键字，表示没有返回值；Unit是一个数据类型，只有一个对象：（）</p>
+</li>
+<li><p>在Scala中，Null也是一个类型，且只有一个对象：null；它是所有引用类型AnyRef的子类</p>
+</li>
+<li><p>Nothing是所有数据类型的子类，主要使用在一个函数没有明确返回值的时候；因此可以将返回值返回给任何的变量或者函数</p>
+</li>
+</ul>
+<img data-src="E:\CharlieTao.github.sources\BigData\Pictures\Scala\Scala数据类型\Scala数据类型.jpg" alt="Scala数据类型"  />
+
+
+
+<h3 id="（2）整数类型"><a href="#（2）整数类型" class="headerlink" title="（2）整数类型"></a>（2）整数类型</h3><ul>
+<li>整型分类</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>数据类型 [字节]</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Byte [1]</td>
+<td>8位有符号补码整数，数值区间为-128 ~ 127（-2^7 ~ 2^7-1）</td>
+</tr>
+<tr>
+<td>Short [2]</td>
+<td>16位有符号补码整数，数值区间为-32768 ~ 32767（-2^15 ~ 2^15-1）</td>
+</tr>
+<tr>
+<td>Int [4]</td>
+<td>32位有符号补码整数，数值区间为（-2^31 ~ 2^31-1）</td>
+</tr>
+<tr>
+<td>Long [8]</td>
+<td>64位有符号补码整数，数值区间位（-2^63 ~ 2^63-1）</td>
+</tr>
+</tbody></table>
+<!--注：2^10 = 1K	2^20 = 1M	2^30 = 1G-->
+
+<h3 id="（3）浮点类型"><a href="#（3）浮点类型" class="headerlink" title="（3）浮点类型"></a>（3）浮点类型</h3><ul>
+<li>浮点型分类</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>数据类型配 [字节]</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Float [4]</td>
+<td>32位，IEEE754标准的单精度浮点数</td>
+</tr>
+<tr>
+<td>Double [8]</td>
+<td>64 位 IEEE 754标准的双精度浮点数</td>
+</tr>
+</tbody></table>
+<!--注：在Scala中默认整数是Int类型，小数是Double类型-->
+
+<h3 id="（4）字符类型"><a href="#（4）字符类型" class="headerlink" title="（4）字符类型"></a>（4）字符类型</h3><ul>
+<li>字符类型表示单个字符</li>
+<li>字符变量底层保存的是ASCII码</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> i1: <span class="type">Int</span> = &#x27;a&#x27;</span><br><span class="line">println(i1)	<span class="comment">//结果为97</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> i2: <span class="type">Char</span> = (i1 + <span class="number">1</span>).toChar</span><br><span class="line">println(i2)	<span class="comment">//结果为b</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="（5）布尔类型"><a href="#（5）布尔类型" class="headerlink" title="（5）布尔类型"></a>（5）布尔类型</h3><ul>
+<li>Boolean类型的数值只有true和false</li>
+<li>Boolean类型只占1个字节</li>
+</ul>
+<h3 id="（6）Unit类型、Null类型、Nothing类型"><a href="#（6）Unit类型、Null类型、Nothing类型" class="headerlink" title="（6）Unit类型、Null类型、Nothing类型"></a>（6）Unit类型、Null类型、Nothing类型</h3><table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Unit</td>
+<td>空值，表示数值类型中的空值，用于表示不返回任何结果的方法的返回类型<br />Unit只有一个实例值：（）</td>
+</tr>
+<tr>
+<td>Null</td>
+<td>空引用，表示引用类型中的空值。Null类型只有一个实例值null</td>
+</tr>
+<tr>
+<td>Nothing</td>
+<td>Nothing类型处于Scala类型的最底层<br />它是任何类型的子类型<br />当我们确定一个函数没有正常的返回值类型时，可以使用Nothing来指定返回值的类型，这样我们就可以把返回的值（异常）赋值给其他函数或者变量（兼容性）</td>
+</tr>
+</tbody></table>
+<h3 id="2-类型转换"><a href="#2-类型转换" class="headerlink" title="2. 类型转换"></a>2. 类型转换</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Java中的数据类型的自动转换：</span><br><span class="line">	1. byte -&gt; short -&gt; int -&gt; long</span><br><span class="line">	2. char -&gt; int</span><br><span class="line">Java中的数据类型的强制转换：</span><br><span class="line">	char c = &#x27;1&#x27;;</span><br><span class="line">	short c2 = (short)c;</span><br></pre></td></tr></table></figure>
+
+<h4 id="（1）数值类型自动转换"><a href="#（1）数值类型自动转换" class="headerlink" title="（1）数值类型自动转换"></a>（1）数值类型自动转换</h4><p>当Scala程序在进行赋值或者运算时，精度小的类型会自动转换成精度大的数值类型，这种就叫做自动类型转换。</p>
+<ul>
+<li>自动提升规则：当多种类型的数据在进行混合运算时，系统会首先将所有数据自动转换成精度大的数据类型，然后再进行计算</li>
+<li>当把精度大的数值类型赋值给精度小的数据类型时会报错；反之就会进行自动类型转换</li>
+<li>Byte、Short和Char之间不会自动转换</li>
+<li>Byte、Short、Char三者之间是可以进行计算的，但在计算时会转换成Int类型</li>
+</ul>
+<!--注：当Byte类型和Short类型相加时，返回值是Int-->
+
+<h4 id="（2）强制类型转换"><a href="#（2）强制类型转换" class="headerlink" title="（2）强制类型转换"></a>（2）强制类型转换</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">注：</span><br><span class="line">	1. 强制转换一般用于将数据从高精度转换为低精度</span><br><span class="line">	2. 强转只针对于最近的操作数，可使用小括号提升优先级</span><br><span class="line">	3. 强转时可能会造成精度丢失或者溢出，需要注意</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>.toByte</li>
+<li>.toShort</li>
+<li>.toInt</li>
+<li>.toLong </li>
+<li>.toChar</li>
+</ul>
+<h4 id="（3）数值类型和String类型间的转换"><a href="#（3）数值类型和String类型间的转换" class="headerlink" title="（3）数值类型和String类型间的转换"></a>（3）数值类型和String类型间的转换</h4><h3 id="3-运算符"><a href="#3-运算符" class="headerlink" title="3. 运算符"></a>3. 运算符</h3><h3 id="4-流程控制"><a href="#4-流程控制" class="headerlink" title="4. 流程控制"></a>4. 流程控制</h3>
       
     </div>
 
@@ -597,12 +846,12 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Charlie">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="TomFor">
+      <meta itemprop="description" content="Money Funny Honey">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Peace&Love">
+      <meta itemprop="name" content="TomFor's Blog">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -696,12 +945,12 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Charlie">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="TomFor">
+      <meta itemprop="description" content="Money Funny Honey">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Peace&Love">
+      <meta itemprop="name" content="TomFor's Blog">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -795,12 +1044,12 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Charlie">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="TomFor">
+      <meta itemprop="description" content="Money Funny Honey">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Peace&Love">
+      <meta itemprop="name" content="TomFor's Blog">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -894,12 +1143,12 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Charlie">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="TomFor">
+      <meta itemprop="description" content="Money Funny Honey">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Peace&Love">
+      <meta itemprop="name" content="TomFor's Blog">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -921,7 +1170,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-17 17:50:21" itemprop="dateModified" datetime="2022-04-17T17:50:21+08:00">2022-04-17</time>
+                <time title="修改时间：2023-06-17 01:11:01" itemprop="dateModified" datetime="2023-06-17T01:11:01+08:00">2023-06-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -962,15 +1211,73 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/06/05/Scala%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%AE%B9%E5%99%A8/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <span id="more"></span>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="Collection-（容器）"><a href="#Collection-（容器）" class="headerlink" title="Collection （容器）"></a>Collection （容器）</h1><hr>
+<ul>
+<li><p>根据中元素的<code>组织方式</code>和<code>操作方式</code>，Scala中的容器Collection可以分为有序和无序容器、可变和不可变等不同的容器类别。</p>
+</li>
+<li><p>Scala用了三个包来组成容器类：</p>
+<ul>
+<li><p><strong>scala.collection</strong></p>
+</li>
+<li><p><strong>scala.collection.mutable</strong></p>
+<p><em>包含了所有<code>可变</code>的容器（例：可变集合、可变映射）</em></p>
+</li>
+<li><p><strong>scala.collection.immutable</strong></p>
+<p><em>包含了所有<code>不可变</code>的容器（可变集合、可变映射）</em></p>
+</li>
+</ul>
+</li>
+</ul>
+<!-- more -->
+
+<ul>
+<li><p>组织关系图</p>
+<ul>
+<li><p>下图显示了scala.collection包中所有的容器类。</p>
+<blockquote>
+<p>这些都是<code>高级抽象类</code>或<code>特质</code>。例如，所有容器的基本特质（trait）是Traverable特质。它为所有的容器定义了公用的foreach方法，用于对容器元素进行遍历操作</p>
+</blockquote>
+<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Scala/Scala%E5%AE%B9%E5%99%A8/scala.collection.png?raw=true"></p>
+</li>
+</ul>
+</li>
+<li><p>下图显示了scala.collection.immutable（<code>不可变</code>）包中所有的容器类</p>
+<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Scala/Scala%E5%AE%B9%E5%99%A8/scala.collection.immutable.png?raw=true"></p>
+</li>
+<li><p>下图显示了scala.collection.mutable（<code>可变</code>）中的所有容器类</p>
+<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Scala/Scala%E5%AE%B9%E5%99%A8/scala.collection.mutable.png?raw=true"></p>
+</li>
+</ul>
+<h2 id="1-列表（List）"><a href="#1-列表（List）" class="headerlink" title="1. 列表（List）"></a>1. 列表（List）</h2><hr>
+<p>列表是一种共享相同类型的<code>不可变</code>的对象序列，Scala的List定义在scala.collection.immutable包中</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> strList = <span class="type">List</span>(<span class="string">&quot;Bigdata&quot;</span>, <span class="string">&quot;Hadoop&quot;</span>, <span class="string">&quot;Spark&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：</p>
+<ol>
+<li>不同于Java的java.util.List，scala的List一旦被定义其值就不能改变了，因此声明List时必须初始化！</li>
+<li>这里用var声明不是说声明的List类型的strList是可变的，而是指向是可变的</li>
+</ol>
+</blockquote>
+<p>基本知识：</p>
+<ul>
+<li><p>列表有头部和尾部的概念，可以分别使用head和tail方法来获取</p>
+</li>
+<li><p>head返回的是列表第一个元素的值</p>
+</li>
+<li><p>tail返回的是除第一个元素外的其他值构成的新列表（这里体现出列表具有<code>递归</code>的<code>链表结构</code>）</p>
+</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> strList = <span class="type">List</span>(<span class="string">&quot;Bigdata&quot;</span>, <span class="string">&quot;Hadoop&quot;</span>, <span class="string">&quot;Spark&quot;</span>)</span><br><span class="line"></span><br><span class="line">#下面表达式返回“<span class="type">Bigdata</span>”</span><br><span class="line"><span class="keyword">var</span> str = strList.head</span><br><span class="line"></span><br><span class="line">#下面表达式返回<span class="type">List</span>(“<span class="type">Hadoop</span>”, <span class="string">&quot;Spark&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> list = strList.tail</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-集合（Set）"><a href="#2-集合（Set）" class="headerlink" title="2. 集合（Set）"></a>2. 集合（Set）</h2><hr>
+<h2 id="3-映射（Map）"><a href="#3-映射（Map）" class="headerlink" title="3. 映射（Map）"></a>3. 映射（Map）</h2><hr>
+<h2 id="4-迭代器（Iterator）"><a href="#4-迭代器（Iterator）" class="headerlink" title="4. 迭代器（Iterator）"></a>4. 迭代器（Iterator）</h2><hr>
+<h2 id="5-数组（Array）"><a href="#5-数组（Array）" class="headerlink" title="5. 数组（Array）"></a>5. 数组（Array）</h2><hr>
+<h2 id="6-元组（Tuple）"><a href="#6-元组（Tuple）" class="headerlink" title="6. 元组（Tuple）"></a>6. 元组（Tuple）</h2><hr>
+
       
     </div>
 
@@ -993,12 +1300,12 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Charlie">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="TomFor">
+      <meta itemprop="description" content="Money Funny Honey">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Peace&Love">
+      <meta itemprop="name" content="TomFor's Blog">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -1020,7 +1327,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-17 17:49:44" itemprop="dateModified" datetime="2022-04-17T17:49:44+08:00">2022-04-17</time>
+                <time title="修改时间：2023-06-17 01:11:11" itemprop="dateModified" datetime="2023-06-17T01:11:11+08:00">2023-06-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1061,15 +1368,47 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/06/04/Scala%E6%A6%82%E8%BF%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <span id="more"></span>
+
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><!--Scala版本：2.12.11-->
+
+<p><strong>Scala是一门以Java虚拟机为运行环境并将面向对象和函数式编程的最佳特性结合在一起的静态类型编程语言。</strong></p>
+<!--注：-->
+
+<p>​		<!--1. 静态语言在声明变量的时候是需要明确变量类型的--></p>
+<p>​		<!--2. 静态语言如：Java、C、C++等，动态语言如：JavaScript--></p>
+<h3 id="1-Scala语言特点"><a href="#1-Scala语言特点" class="headerlink" title="1. Scala语言特点"></a>1. Scala语言特点</h3><ul>
+<li>Scala是有一门多范式的编程语言，Scala支持<strong>面向对象</strong>和<strong>函数式编程</strong>（多范式就是多种编程方法的意思。有<strong>面向对象</strong>、<strong>面向过程</strong>、<strong>泛型</strong>、<strong>函数式编程</strong>四种程序设计方法）</li>
+<li>Scala源代码（.scala）会被Scala编译器编译成Java字节码（.class）文件，然后运行与JVM之上，并可以调用现有的Java类库，实现两种语言的无缝对接</li>
+<li>Scala作为一门语言来说，非常的简介高效</li>
+</ul>
+<h3 id="2-Scala的优势"><a href="#2-Scala的优势" class="headerlink" title="2. Scala的优势"></a>2. Scala的优势</h3><h4 id="（1）Scala是Java的加强版"><a href="#（1）Scala是Java的加强版" class="headerlink" title="（1）Scala是Java的加强版"></a>（1）Scala是Java的加强版</h4><ul>
+<li>Scala基于JVM，和Java完全兼容，同样具有跨平台、可移植性好、方便的垃圾回收机制等特性</li>
+<li>Scala比Java更面向对象</li>
+<li>Scala是一门函数式编程语言</li>
+</ul>
+<h4 id="（2）Scala更适合大数据的处理"><a href="#（2）Scala更适合大数据的处理" class="headerlink" title="（2）Scala更适合大数据的处理"></a>（2）Scala更适合大数据的处理</h4><ul>
+<li>Scala对集合类型数据处理有非常好的支持</li>
+<li>Spark的底层使用Scala编写的</li>
+</ul>
+<h3 id="3-主要内容"><a href="#3-主要内容" class="headerlink" title="3. 主要内容"></a>3. 主要内容</h3><h4 id="（1）基本语法"><a href="#（1）基本语法" class="headerlink" title="（1）基本语法"></a>（1）基本语法</h4><ul>
+<li>变量和数据类型</li>
+<li>类型转换</li>
+<li>运算符</li>
+<li>流程控制</li>
+</ul>
+<h4 id="（2）核心特性"><a href="#（2）核心特性" class="headerlink" title="（2）核心特性"></a>（2）核心特性</h4><ul>
+<li>函数式编程</li>
+<li>面向对象</li>
+<li>集合</li>
+</ul>
+<h4 id="（3）其他特色"><a href="#（3）其他特色" class="headerlink" title="（3）其他特色"></a>（3）其他特色</h4><ul>
+<li>模式匹配</li>
+<li>异常处理</li>
+<li>隐式转换</li>
+<li>泛型</li>
+</ul>
+
       
     </div>
 
@@ -1145,10 +1484,10 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Charlie"
+    <img class="site-author-image" itemprop="image" alt="TomFor"
       src="/images/avatar.jpg">
-  <p class="site-author-name" itemprop="name">Charlie</p>
-  <div class="site-description" itemprop="description"></div>
+  <p class="site-author-name" itemprop="name">TomFor</p>
+  <div class="site-description" itemprop="description">Money Funny Honey</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -1214,7 +1553,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Charlie</span>
+  <span class="author" itemprop="copyrightHolder">TomFor</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
