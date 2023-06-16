@@ -1,52 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CnetOS时间同步</title>
-    <url>/2020/06/13/CentOS%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
-<p>本文所述的CnetOS时间同步方法用于CDH安装时准备工作。以下是服务器的一些基本信息:</p>
-<ol>
-<li>环境：自建虚拟机</li>
-<li>系统：CentOS 7</li>
-<li>NTP服务器：阿里云（ntp.aliyun.com）</li>
-<li>同步频率：开机自动同步</li>
-</ol>
-</blockquote>
-<h1 id="NTP安装与配置"><a href="#NTP安装与配置" class="headerlink" title="NTP安装与配置"></a>NTP安装与配置</h1><h2 id="1-下载"><a href="#1-下载" class="headerlink" title="1. 下载"></a>1. 下载</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum -y install ntp</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-修改配置文件-x2F-etc-x2F-ntp-conf）"><a href="#2-修改配置文件-x2F-etc-x2F-ntp-conf）" class="headerlink" title="2. 修改配置文件(&#x2F;etc&#x2F;ntp.conf）"></a>2. 修改配置文件(&#x2F;etc&#x2F;ntp.conf）</h2><figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#注释掉一下内容：</span></span><br><span class="line"><span class="attr">server</span> <span class="string">0.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="attr">server</span> <span class="string">1.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="attr">server</span> <span class="string">2.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="attr">server</span> <span class="string">3.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#添加以下内容：</span></span><br><span class="line"><span class="attr">server</span> <span class="string">ntp.aliyun.com</span></span><br><span class="line"><span class="attr">server</span> <span class="string">ntp.aliyun.com</span></span><br><span class="line"><span class="attr">server</span> <span class="string">ntp.aliyun.com</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-开启服务"><a href="#3-开启服务" class="headerlink" title="3. 开启服务"></a>3. 开启服务</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl start ntpd</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-设置NTP服务开机自启"><a href="#4-设置NTP服务开机自启" class="headerlink" title="4. 设置NTP服务开机自启"></a>4. 设置NTP服务开机自启</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> ntpd</span><br></pre></td></tr></table></figure>
-
-<h2 id="5-将系统时钟同步到NTP服务器"><a href="#5-将系统时钟同步到NTP服务器" class="headerlink" title="5. 将系统时钟同步到NTP服务器"></a>5. 将系统时钟同步到NTP服务器</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ntpdate -u ntp.aliyun.com</span><br></pre></td></tr></table></figure>
-
-<h2 id="6-将硬件时钟与系统时钟同步"><a href="#6-将硬件时钟与系统时钟同步" class="headerlink" title="6. 将硬件时钟与系统时钟同步"></a>6. 将硬件时钟与系统时钟同步</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hwclock --systohc</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注：</p>
-<ol>
-<li>本次同步的频率为开机自启，也可以设置Linux自带的crontab定时器定时执行。具体根据自身需求而定。</li>
-<li>由于本次时间同步环境为自建虚拟机，时区在新建时就已经设置了；如果是线上服务器，可能会自动设置。具体后面会进一步补充。</li>
-<li>更换时区命令：ln -sf &#x2F;usr&#x2F;share&#x2F;zoneinfo&#x2F;Asia&#x2F;Shanghai &#x2F;etc&#x2F;localtime</li>
-<li>查看当前时区命令： ll &#x2F;etc&#x2F;localtime</li>
-</ol>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Linux</category>
-        <category>CentOS</category>
-      </categories>
-      <tags>
-        <tag>CentOS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CnetOS7初始化</title>
-    <url>/2020/06/11/CentOS7%E5%88%9D%E5%A7%8B%E5%8C%96/</url>
+    <url>/project/2020/06/11/CentOS7%E5%88%9D%E5%A7%8B%E5%8C%96/</url>
     <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><span id="more"></span>
 
 <h3 id="1-查看服务器的CentOS版本"><a href="#1-查看服务器的CentOS版本" class="headerlink" title="1. 查看服务器的CentOS版本"></a>1. 查看服务器的CentOS版本</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#二者皆可</span></span><br><span class="line"><span class="built_in">tail</span> /etc/redhat-release</span><br><span class="line"><span class="built_in">cat</span> /etc/redhat-release</span><br></pre></td></tr></table></figure>
@@ -100,7 +56,7 @@
   </entry>
   <entry>
     <title>CnetOS更换镜像</title>
-    <url>/2020/06/13/CentOS%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F/</url>
+    <url>/project/2020/06/13/CentOS%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F/</url>
     <content><![CDATA[<span id="more"></span>
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
 <p>由于新建虚拟机时，使用系统自带的CentOS镜像在使用yum命令下载各种软件的速度不太理想，因此本文用于记录更换原始镜像为国内镜像的步骤。以下是服务器信息：</p>
@@ -139,8 +95,52 @@
       </tags>
   </entry>
   <entry>
+    <title>CnetOS时间同步</title>
+    <url>/project/2020/06/13/CentOS%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>本文所述的CnetOS时间同步方法用于CDH安装时准备工作。以下是服务器的一些基本信息:</p>
+<ol>
+<li>环境：自建虚拟机</li>
+<li>系统：CentOS 7</li>
+<li>NTP服务器：阿里云（ntp.aliyun.com）</li>
+<li>同步频率：开机自动同步</li>
+</ol>
+</blockquote>
+<h1 id="NTP安装与配置"><a href="#NTP安装与配置" class="headerlink" title="NTP安装与配置"></a>NTP安装与配置</h1><h2 id="1-下载"><a href="#1-下载" class="headerlink" title="1. 下载"></a>1. 下载</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum -y install ntp</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-修改配置文件-x2F-etc-x2F-ntp-conf）"><a href="#2-修改配置文件-x2F-etc-x2F-ntp-conf）" class="headerlink" title="2. 修改配置文件(&#x2F;etc&#x2F;ntp.conf）"></a>2. 修改配置文件(&#x2F;etc&#x2F;ntp.conf）</h2><figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#注释掉一下内容：</span></span><br><span class="line"><span class="attr">server</span> <span class="string">0.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="attr">server</span> <span class="string">1.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="attr">server</span> <span class="string">2.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="attr">server</span> <span class="string">3.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#添加以下内容：</span></span><br><span class="line"><span class="attr">server</span> <span class="string">ntp.aliyun.com</span></span><br><span class="line"><span class="attr">server</span> <span class="string">ntp.aliyun.com</span></span><br><span class="line"><span class="attr">server</span> <span class="string">ntp.aliyun.com</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-开启服务"><a href="#3-开启服务" class="headerlink" title="3. 开启服务"></a>3. 开启服务</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl start ntpd</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-设置NTP服务开机自启"><a href="#4-设置NTP服务开机自启" class="headerlink" title="4. 设置NTP服务开机自启"></a>4. 设置NTP服务开机自启</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> ntpd</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-将系统时钟同步到NTP服务器"><a href="#5-将系统时钟同步到NTP服务器" class="headerlink" title="5. 将系统时钟同步到NTP服务器"></a>5. 将系统时钟同步到NTP服务器</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ntpdate -u ntp.aliyun.com</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-将硬件时钟与系统时钟同步"><a href="#6-将硬件时钟与系统时钟同步" class="headerlink" title="6. 将硬件时钟与系统时钟同步"></a>6. 将硬件时钟与系统时钟同步</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hwclock --systohc</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：</p>
+<ol>
+<li>本次同步的频率为开机自启，也可以设置Linux自带的crontab定时器定时执行。具体根据自身需求而定。</li>
+<li>由于本次时间同步环境为自建虚拟机，时区在新建时就已经设置了；如果是线上服务器，可能会自动设置。具体后面会进一步补充。</li>
+<li>更换时区命令：ln -sf &#x2F;usr&#x2F;share&#x2F;zoneinfo&#x2F;Asia&#x2F;Shanghai &#x2F;etc&#x2F;localtime</li>
+<li>查看当前时区命令： ll &#x2F;etc&#x2F;localtime</li>
+</ol>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>CentOS</category>
+      </categories>
+      <tags>
+        <tag>CentOS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Flume-1.9.0安装文档</title>
-    <url>/2020/06/05/Flume-1.9.0%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
+    <url>/project/2020/06/05/Flume-1.9.0%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><span id="more"></span>
 
 <h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><h2 id="JDK的安装"><a href="#JDK的安装" class="headerlink" title="JDK的安装"></a>JDK的安装</h2><blockquote>
@@ -228,108 +228,8 @@
       </tags>
   </entry>
   <entry>
-    <title>HBase-1.3.6安装文档</title>
-    <url>/2020/06/07/HBase-1.3.6%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><span id="more"></span>
-
-<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><ol>
-<li>Zookeeper的安装</li>
-<li>Hadoop的安装</li>
-<li>JDK的安装</li>
-</ol>
-<blockquote>
-<p>注：</p>
-<ol>
-<li>虽然HBase内部存在Zookeeper，但是业内不推荐这种做法。建议使用外部自行安装的Zookeeper进行管理，以便好的集成大数据其他组件。</li>
-<li>HBase与Hive相似，数据存储在HDFS上，因此需要提前搭建好Hadoop</li>
-</ol>
-</blockquote>
-<h1 id="角色分类"><a href="#角色分类" class="headerlink" title="角色分类"></a>角色分类</h1><table>
-<thead>
-<tr>
-<th align="center">机器名</th>
-<th align="center">bigdata001</th>
-<th align="center">bigdata002</th>
-<th align="center">bigdata003</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">QuorumPeerMain</td>
-<td align="center">√</td>
-<td align="center">√</td>
-<td align="center">√</td>
-</tr>
-<tr>
-<td align="center">HMaster</td>
-<td align="center"></td>
-<td align="center">√(Backup   )</td>
-<td align="center">√(Active)</td>
-</tr>
-<tr>
-<td align="center">HRegionServer</td>
-<td align="center">√</td>
-<td align="center">√</td>
-<td align="center">√</td>
-</tr>
-</tbody></table>
-<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><h2 id="1-自行下载源码，编译（Git）"><a href="#1-自行下载源码，编译（Git）" class="headerlink" title="1. 自行下载源码，编译（Git）"></a>1. 自行下载源码，编译（Git）</h2><h2 id="2-浏览器下载"><a href="#2-浏览器下载" class="headerlink" title="2. 浏览器下载"></a>2. 浏览器下载</h2><ul>
-<li><p><a href="https://apache.website-solution.net/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz">HBase官网下载</a></p>
-</li>
-<li><p><a href="https://mirrors.tuna.tsinghua.edu.cn/apache/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz">国内镜像下载</a></p>
-</li>
-</ul>
-<h2 id="3-服务器下载"><a href="#3-服务器下载" class="headerlink" title="3. 服务器下载"></a>3. 服务器下载</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#官网镜像</span></span><br><span class="line">wget https://apache.website-solution.net/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment">#国内镜像</span></span><br><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz</span><br></pre></td></tr></table></figure>
-
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
-<li>在conf&#x2F;hbase-site.xml⽂件中添加以下内容</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 开启集群模式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.cluster.distributed<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 元数据在HDFS上的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.rootdir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://bigdata1:9000/hbase<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Zookeeper连接地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.zookeeper.quorum<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata1,bigdata2,bigdata3<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Zookeeper元数据地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.zookeeper.property.dataDir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/worker/software/zookeeper/zkData<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 文件存放地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/worker/software/hbase/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>更改conf&#x2F; hbase-env.sh ⽂件</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Java环境变量：</span></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/home/worker/software/jdk</span><br><span class="line"></span><br><span class="line"><span class="comment">#禁用HBASE内置Zookeeper：</span></span><br><span class="line"><span class="built_in">export</span> HBASE_MANAGES_ZK=<span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#HBASE PID地址（若果不添加以下内容，启动和停止HBASE时会自动去tmp目录下寻找改文件，报错）</span></span><br><span class="line"><span class="built_in">export</span> HBASE_PID_DIR=/home/worker/software/hbase/conf/hadoop/pids</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>更改conf&#x2F;regionservers⽂件</li>
-</ul>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在该文件中添加你的集群中即将充当HRegionserver角色的机器名</span></span><br><span class="line"><span class="attr">bigdata1</span></span><br><span class="line"><span class="attr">bigdata2</span></span><br><span class="line"><span class="attr">bigdata3</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>创建backup-masters⽂件</li>
-</ul>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在改文件中添加你的集群中即将充当backup HMaster角色的机器名</span></span><br><span class="line"><span class="attr">bigdata2</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>分发HBASE整个⽬录到各个机器上（scp）</li>
-<li>配置HBASE环境变量<blockquote>
-<p>环境变量的配置较为简单，这里不做过多赘述。集群的整个环境变量配置在Hadoop集群搭建中已给出。</p>
-</blockquote>
-</li>
-</ul>
-<h1 id="启动与关闭"><a href="#启动与关闭" class="headerlink" title="启动与关闭"></a>启动与关闭</h1><ul>
-<li>在被认定为HMaster的机器上执⾏以下命令</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#启动</span></span><br><span class="line">start-hbase.sh</span><br><span class="line"></span><br><span class="line"><span class="comment">#关闭</span></span><br><span class="line">stop-hbase.sh</span><br></pre></td></tr></table></figure>
-
-<h1 id="检验"><a href="#检验" class="headerlink" title="检验"></a>检验</h1><p>浏览器中输⼊<a href="http://bigdata3:16010、http://bigdata2:16010查看Master以及Backup">http://bigdata3:16010、http://bigdata2:16010查看Master以及Backup</a> Master</p>
-<blockquote>
-<p>注：HBASE默认Web UI端⼝号为16010，可在配置⽂件中更改。若显⽰正常，则安装完成。</p>
-</blockquote>
-<p>HMaster页面如下：<br><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/HBase/HBASEMaster.png?raw=true"></p>
-<p>Backup HMaster⻚⾯如下：<br><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/HBase/BackupMaster.png?raw=true"></p>
-]]></content>
-      <categories>
-        <category>Bigdata</category>
-        <category>HBase</category>
-      </categories>
-      <tags>
-        <tag>HBase</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hadoop-2.7.7安装文档</title>
-    <url>/2020/06/07/Hadoop-2.7.7%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
+    <url>/project/2020/06/07/Hadoop-2.7.7%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><span id="more"></span>
 
 <h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><ol>
@@ -477,8 +377,108 @@
       </tags>
   </entry>
   <entry>
+    <title>HBase-1.3.6安装文档</title>
+    <url>/project/2020/06/07/HBase-1.3.6%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><span id="more"></span>
+
+<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><ol>
+<li>Zookeeper的安装</li>
+<li>Hadoop的安装</li>
+<li>JDK的安装</li>
+</ol>
+<blockquote>
+<p>注：</p>
+<ol>
+<li>虽然HBase内部存在Zookeeper，但是业内不推荐这种做法。建议使用外部自行安装的Zookeeper进行管理，以便好的集成大数据其他组件。</li>
+<li>HBase与Hive相似，数据存储在HDFS上，因此需要提前搭建好Hadoop</li>
+</ol>
+</blockquote>
+<h1 id="角色分类"><a href="#角色分类" class="headerlink" title="角色分类"></a>角色分类</h1><table>
+<thead>
+<tr>
+<th align="center">机器名</th>
+<th align="center">bigdata001</th>
+<th align="center">bigdata002</th>
+<th align="center">bigdata003</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">QuorumPeerMain</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">HMaster</td>
+<td align="center"></td>
+<td align="center">√(Backup   )</td>
+<td align="center">√(Active)</td>
+</tr>
+<tr>
+<td align="center">HRegionServer</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+</tbody></table>
+<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><h2 id="1-自行下载源码，编译（Git）"><a href="#1-自行下载源码，编译（Git）" class="headerlink" title="1. 自行下载源码，编译（Git）"></a>1. 自行下载源码，编译（Git）</h2><h2 id="2-浏览器下载"><a href="#2-浏览器下载" class="headerlink" title="2. 浏览器下载"></a>2. 浏览器下载</h2><ul>
+<li><p><a href="https://apache.website-solution.net/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz">HBase官网下载</a></p>
+</li>
+<li><p><a href="https://mirrors.tuna.tsinghua.edu.cn/apache/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz">国内镜像下载</a></p>
+</li>
+</ul>
+<h2 id="3-服务器下载"><a href="#3-服务器下载" class="headerlink" title="3. 服务器下载"></a>3. 服务器下载</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#官网镜像</span></span><br><span class="line">wget https://apache.website-solution.net/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment">#国内镜像</span></span><br><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
+<li>在conf&#x2F;hbase-site.xml⽂件中添加以下内容</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 开启集群模式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.cluster.distributed<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 元数据在HDFS上的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.rootdir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://bigdata1:9000/hbase<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Zookeeper连接地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.zookeeper.quorum<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata1,bigdata2,bigdata3<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Zookeeper元数据地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.zookeeper.property.dataDir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/worker/software/zookeeper/zkData<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 文件存放地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/worker/software/hbase/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>更改conf&#x2F; hbase-env.sh ⽂件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Java环境变量：</span></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/home/worker/software/jdk</span><br><span class="line"></span><br><span class="line"><span class="comment">#禁用HBASE内置Zookeeper：</span></span><br><span class="line"><span class="built_in">export</span> HBASE_MANAGES_ZK=<span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#HBASE PID地址（若果不添加以下内容，启动和停止HBASE时会自动去tmp目录下寻找改文件，报错）</span></span><br><span class="line"><span class="built_in">export</span> HBASE_PID_DIR=/home/worker/software/hbase/conf/hadoop/pids</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>更改conf&#x2F;regionservers⽂件</li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在该文件中添加你的集群中即将充当HRegionserver角色的机器名</span></span><br><span class="line"><span class="attr">bigdata1</span></span><br><span class="line"><span class="attr">bigdata2</span></span><br><span class="line"><span class="attr">bigdata3</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建backup-masters⽂件</li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在改文件中添加你的集群中即将充当backup HMaster角色的机器名</span></span><br><span class="line"><span class="attr">bigdata2</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>分发HBASE整个⽬录到各个机器上（scp）</li>
+<li>配置HBASE环境变量<blockquote>
+<p>环境变量的配置较为简单，这里不做过多赘述。集群的整个环境变量配置在Hadoop集群搭建中已给出。</p>
+</blockquote>
+</li>
+</ul>
+<h1 id="启动与关闭"><a href="#启动与关闭" class="headerlink" title="启动与关闭"></a>启动与关闭</h1><ul>
+<li>在被认定为HMaster的机器上执⾏以下命令</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#启动</span></span><br><span class="line">start-hbase.sh</span><br><span class="line"></span><br><span class="line"><span class="comment">#关闭</span></span><br><span class="line">stop-hbase.sh</span><br></pre></td></tr></table></figure>
+
+<h1 id="检验"><a href="#检验" class="headerlink" title="检验"></a>检验</h1><p>浏览器中输⼊<a href="http://bigdata3:16010、http://bigdata2:16010查看Master以及Backup">http://bigdata3:16010、http://bigdata2:16010查看Master以及Backup</a> Master</p>
+<blockquote>
+<p>注：HBASE默认Web UI端⼝号为16010，可在配置⽂件中更改。若显⽰正常，则安装完成。</p>
+</blockquote>
+<p>HMaster页面如下：<br><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/HBase/HBASEMaster.png?raw=true"></p>
+<p>Backup HMaster⻚⾯如下：<br><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/HBase/BackupMaster.png?raw=true"></p>
+]]></content>
+      <categories>
+        <category>Bigdata</category>
+        <category>HBase</category>
+      </categories>
+      <tags>
+        <tag>HBase</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hadoop-3.1.3安装文档</title>
-    <url>/2020/06/17/Hadoop-3.1.3%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
+    <url>/project/2020/06/17/Hadoop-3.1.3%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><span id="more"></span>
 
 <h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><ol>
@@ -677,7 +677,7 @@
   </entry>
   <entry>
     <title>Linux学习文档-文件权限与目录配置</title>
-    <url>/2021/04/20/Linux%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/</url>
+    <url>/project/2021/04/20/Linux%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h2 id="1-文件属性"><a href="#1-文件属性" class="headerlink" title="1. 文件属性"></a>1. 文件属性</h2><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E7%A4%BA%E6%84%8F%E5%9B%BE.png?raw=true" alt="图一（文件属性示意图）"></p>
 <ul>
 <li><p>图一中，第1串字符代表这个文件的类型与权限</p>
@@ -803,7 +803,7 @@
   </entry>
   <entry>
     <title>Linux服务器初始化——CentOS7</title>
-    <url>/2020/06/12/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E2%80%94%E2%80%94CentOS7/</url>
+    <url>/project/2020/06/12/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E2%80%94%E2%80%94CentOS7/</url>
     <content><![CDATA[<span id="more"></span>
 <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><h3 id="1-查看服务器的CentOS版本"><a href="#1-查看服务器的CentOS版本" class="headerlink" title="1. 查看服务器的CentOS版本"></a>1. 查看服务器的CentOS版本</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#二者皆可</span></span><br><span class="line"><span class="built_in">tail</span> /etc/redhat-release</span><br><span class="line"><span class="built_in">cat</span> /etc/redhat-release</span><br></pre></td></tr></table></figure>
 
@@ -847,7 +847,7 @@
   </entry>
   <entry>
     <title>Scala学习文档——基础语法</title>
-    <url>/2020/06/08/Scala%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</url>
+    <url>/project/2020/06/08/Scala%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<span id="more"></span>
 
 <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA数据类型</span><br><span class="line">	（1）基本类型</span><br><span class="line">		byte、short、int、long、float、double、boolean</span><br><span class="line">	（2）基本类型的包装类型</span><br><span class="line">		Byte、Short、Integer、Long、Float、Double、Boolean、Character</span><br><span class="line">	（3）引用类型</span><br><span class="line">		对象类型</span><br></pre></td></tr></table></figure>
@@ -989,7 +989,7 @@
   </entry>
   <entry>
     <title>Scala学习文档——容器</title>
-    <url>/2020/06/05/Scala%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%AE%B9%E5%99%A8/</url>
+    <url>/project/2020/06/05/Scala%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%AE%B9%E5%99%A8/</url>
     <content><![CDATA[<span id="more"></span>
 
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="Collection-（容器）"><a href="#Collection-（容器）" class="headerlink" title="Collection （容器）"></a>Collection （容器）</h1><hr>
@@ -1067,7 +1067,7 @@
   </entry>
   <entry>
     <title>Scala概述</title>
-    <url>/2020/06/04/Scala%E6%A6%82%E8%BF%B0/</url>
+    <url>/project/2020/06/04/Scala%E6%A6%82%E8%BF%B0/</url>
     <content><![CDATA[<span id="more"></span>
 
 <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><!--Scala版本：2.12.11-->
@@ -1119,7 +1119,7 @@
   </entry>
   <entry>
     <title>Spark学习文档--RDD编程</title>
-    <url>/2020/12/28/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-RDD%E7%BC%96%E7%A8%8B/</url>
+    <url>/project/2020/12/28/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-RDD%E7%BC%96%E7%A8%8B/</url>
     <content><![CDATA[<span id="more"></span>
 
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="RDD简介"><a href="#RDD简介" class="headerlink" title="RDD简介"></a>RDD简介</h1><h2 id="1-含义"><a href="#1-含义" class="headerlink" title="1.含义"></a>1.含义</h2><pre><code>1. RDD（Resilient Distributed Dataset）叫做弹性分布式数据集，是Spark中最基本的数据抽象。
@@ -1138,7 +1138,7 @@
   </entry>
   <entry>
     <title>Spark学习文档--Spark安装文档</title>
-    <url>/2020/12/25/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-Spark%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
+    <url>/project/2020/12/25/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-Spark%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
     <content><![CDATA[<span id="more"></span>
 
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h1 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h1><h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1>]]></content>
@@ -1151,8 +1151,55 @@
       </tags>
   </entry>
   <entry>
+    <title>Spark学习文档--核心原理</title>
+    <url>/project/2020/12/26/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="消息通信原理"><a href="#消息通信原理" class="headerlink" title="消息通信原理"></a>消息通信原理</h1><h1 id="作业执行原理"><a href="#作业执行原理" class="headerlink" title="作业执行原理"></a>作业执行原理</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="1-Application"><a href="#1-Application" class="headerlink" title="1. Application"></a>1. Application</h3><pre><code>表示本次运次的应用程序
+</code></pre>
+<h3 id="2-Driver"><a href="#2-Driver" class="headerlink" title="2. Driver"></a>2. Driver</h3><pre><code>表示main()函数，创建SparkContext。由SparkContext负责与CLusterManager通信，进行资源的申请、任务的分配和监控等。程序执行完毕后关闭SparkContext
+</code></pre>
+<h3 id="3-Executor"><a href="#3-Executor" class="headerlink" title="3. Executor"></a>3. Executor</h3><pre><code>某个Application运行在Worker节点上的一个进程，该进程负责运行某些Task，负责将数据存在内存或者磁盘上。在Spark On Yarn模式下，其进程名称为CoarseGrainedExecutorBackend，一个CoarseGrainedExecutorBackend能运行Task的数据就取决于分配给它的CPU的个数
+</code></pre>
+<h3 id="4-Worker"><a href="#4-Worker" class="headerlink" title="4. Worker"></a>4. Worker</h3><pre><code>集群中可以运行Application的节点。在Standalone模式中指的是通过slave文件配置的worker节点，在Spark On Yarn模式中指的就是NodeManager节点
+</code></pre>
+<h3 id="5-Task"><a href="#5-Task" class="headerlink" title="5. Task"></a>5. Task</h3><pre><code>在Executor进程中执行任务的工作单元，多个Task组成一个Stage
+</code></pre>
+<h3 id="6-Job"><a href="#6-Job" class="headerlink" title="6. Job"></a>6. Job</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">包含多个Task组成的并行计算，是有行动算子触发的</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-Stage"><a href="#7-Stage" class="headerlink" title="7. Stage"></a>7. Stage</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">每个Job会被拆分成很多组Task，作为一个TaskSet，其名称为Stage</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-DAGScheduler"><a href="#8-DAGScheduler" class="headerlink" title="8. DAGScheduler"></a>8. DAGScheduler</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">根据Job构建基于Stage的DAG，并提交Stage给TaskScheduler，其划分Stage的依据是RDD之间的依赖关系</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-TaskScheduler"><a href="#9-TaskScheduler" class="headerlink" title="9. TaskScheduler"></a>9. TaskScheduler</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">将TaskSet提交给Worker（集群）运行，每个Executor运行什么Task就是在此处分配的</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：<br>  有关Application、Driver、Job、Stage、Task之间的关系如下图所示：</p>
+</blockquote>
+<h2 id="运行流程"><a href="#运行流程" class="headerlink" title="运行流程"></a>运行流程</h2><h3 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h3><h3 id="文字说明"><a href="#文字说明" class="headerlink" title="文字说明"></a>文字说明</h3><ol>
+<li><p>构建SparkApplication的运行环境（启动SparkContext），SparkContext向资源管理器（Standalone、Mesos或者Yarn）注册并申请运行Executor资源</p>
+</li>
+<li><p>资源管理器分配Executor资源并启动StandaloneExecutorBackend，Executor运行情况将随着心跳发送到资源管理器上</p>
+</li>
+<li><p>SparkContext构成DAG图，将DAG图分解成Stage，并把TaskSet发送给Task Scheduler；Executor向SparkContext申请Task</p>
+</li>
+<li><p>Task Scheduler将Task发放给Executor运行同时SparkContext将应用程序代码发放给Executor</p>
+</li>
+<li><p>Task在Executor上运行，运行完毕释放所有资源</p>
+</li>
+</ol>
+<h1 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h1><h1 id="容错及HA"><a href="#容错及HA" class="headerlink" title="容错及HA"></a>容错及HA</h1><h1 id="监控管理"><a href="#监控管理" class="headerlink" title="监控管理"></a>监控管理</h1>]]></content>
+      <categories>
+        <category>Bigdata</category>
+        <category>Spark</category>
+      </categories>
+      <tags>
+        <tag>Spark</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Spark学习文档--初识Spark</title>
-    <url>/2020/12/24/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%88%9D%E8%AF%86Spark/</url>
+    <url>/project/2020/12/24/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%88%9D%E8%AF%86Spark/</url>
     <content><![CDATA[<span id="more"></span>
 
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h2 id="1-什么是Spark？"><a href="#1-什么是Spark？" class="headerlink" title="1. 什么是Spark？"></a>1. 什么是Spark？</h2><p>Apache Spark用于大规模数据处理的统一分析引擎。</p>
@@ -1256,55 +1303,8 @@
       </tags>
   </entry>
   <entry>
-    <title>Spark学习文档--核心原理</title>
-    <url>/2020/12/26/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="消息通信原理"><a href="#消息通信原理" class="headerlink" title="消息通信原理"></a>消息通信原理</h1><h1 id="作业执行原理"><a href="#作业执行原理" class="headerlink" title="作业执行原理"></a>作业执行原理</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="1-Application"><a href="#1-Application" class="headerlink" title="1. Application"></a>1. Application</h3><pre><code>表示本次运次的应用程序
-</code></pre>
-<h3 id="2-Driver"><a href="#2-Driver" class="headerlink" title="2. Driver"></a>2. Driver</h3><pre><code>表示main()函数，创建SparkContext。由SparkContext负责与CLusterManager通信，进行资源的申请、任务的分配和监控等。程序执行完毕后关闭SparkContext
-</code></pre>
-<h3 id="3-Executor"><a href="#3-Executor" class="headerlink" title="3. Executor"></a>3. Executor</h3><pre><code>某个Application运行在Worker节点上的一个进程，该进程负责运行某些Task，负责将数据存在内存或者磁盘上。在Spark On Yarn模式下，其进程名称为CoarseGrainedExecutorBackend，一个CoarseGrainedExecutorBackend能运行Task的数据就取决于分配给它的CPU的个数
-</code></pre>
-<h3 id="4-Worker"><a href="#4-Worker" class="headerlink" title="4. Worker"></a>4. Worker</h3><pre><code>集群中可以运行Application的节点。在Standalone模式中指的是通过slave文件配置的worker节点，在Spark On Yarn模式中指的就是NodeManager节点
-</code></pre>
-<h3 id="5-Task"><a href="#5-Task" class="headerlink" title="5. Task"></a>5. Task</h3><pre><code>在Executor进程中执行任务的工作单元，多个Task组成一个Stage
-</code></pre>
-<h3 id="6-Job"><a href="#6-Job" class="headerlink" title="6. Job"></a>6. Job</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">包含多个Task组成的并行计算，是有行动算子触发的</span><br></pre></td></tr></table></figure>
-
-<h3 id="7-Stage"><a href="#7-Stage" class="headerlink" title="7. Stage"></a>7. Stage</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">每个Job会被拆分成很多组Task，作为一个TaskSet，其名称为Stage</span><br></pre></td></tr></table></figure>
-
-<h3 id="8-DAGScheduler"><a href="#8-DAGScheduler" class="headerlink" title="8. DAGScheduler"></a>8. DAGScheduler</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">根据Job构建基于Stage的DAG，并提交Stage给TaskScheduler，其划分Stage的依据是RDD之间的依赖关系</span><br></pre></td></tr></table></figure>
-
-<h3 id="9-TaskScheduler"><a href="#9-TaskScheduler" class="headerlink" title="9. TaskScheduler"></a>9. TaskScheduler</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">将TaskSet提交给Worker（集群）运行，每个Executor运行什么Task就是在此处分配的</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注：<br>  有关Application、Driver、Job、Stage、Task之间的关系如下图所示：</p>
-</blockquote>
-<h2 id="运行流程"><a href="#运行流程" class="headerlink" title="运行流程"></a>运行流程</h2><h3 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h3><h3 id="文字说明"><a href="#文字说明" class="headerlink" title="文字说明"></a>文字说明</h3><ol>
-<li><p>构建SparkApplication的运行环境（启动SparkContext），SparkContext向资源管理器（Standalone、Mesos或者Yarn）注册并申请运行Executor资源</p>
-</li>
-<li><p>资源管理器分配Executor资源并启动StandaloneExecutorBackend，Executor运行情况将随着心跳发送到资源管理器上</p>
-</li>
-<li><p>SparkContext构成DAG图，将DAG图分解成Stage，并把TaskSet发送给Task Scheduler；Executor向SparkContext申请Task</p>
-</li>
-<li><p>Task Scheduler将Task发放给Executor运行同时SparkContext将应用程序代码发放给Executor</p>
-</li>
-<li><p>Task在Executor上运行，运行完毕释放所有资源</p>
-</li>
-</ol>
-<h1 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h1><h1 id="容错及HA"><a href="#容错及HA" class="headerlink" title="容错及HA"></a>容错及HA</h1><h1 id="监控管理"><a href="#监控管理" class="headerlink" title="监控管理"></a>监控管理</h1>]]></content>
-      <categories>
-        <category>Bigdata</category>
-        <category>Spark</category>
-      </categories>
-      <tags>
-        <tag>Spark</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>初识Hive</title>
-    <url>/2020/06/13/%E5%88%9D%E8%AF%86Hive/</url>
+    <url>/project/2020/06/13/%E5%88%9D%E8%AF%86Hive/</url>
     <content><![CDATA[<span id="more"></span>
 
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="什么是Hive？"><a href="#什么是Hive？" class="headerlink" title="什么是Hive？"></a>什么是Hive？</h1><ol>
@@ -1339,7 +1339,7 @@
   </entry>
   <entry>
     <title>Spark学习文档--运行流程</title>
-    <url>/2020/12/27/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B/</url>
+    <url>/project/2020/12/27/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B/</url>
     <content><![CDATA[<span id="more"></span>
 
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="1-Application"><a href="#1-Application" class="headerlink" title="1. Application"></a>1. Application</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">表示本次运次的应用程序</span><br></pre></td></tr></table></figure>
@@ -1386,7 +1386,7 @@
   </entry>
   <entry>
     <title>初识Linux</title>
-    <url>/2020/06/12/%E5%88%9D%E8%AF%86Linux/</url>
+    <url>/project/2020/06/12/%E5%88%9D%E8%AF%86Linux/</url>
     <content><![CDATA[<span id="more"></span>
 
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h2 id="操作系统发展史"><a href="#操作系统发展史" class="headerlink" title="操作系统发展史"></a>操作系统发展史</h2><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B1%95%E5%8F%B2.png?raw=true"></p>
