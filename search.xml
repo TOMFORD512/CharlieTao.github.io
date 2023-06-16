@@ -3,8 +3,10 @@
   <entry>
     <title>CnetOS7初始化</title>
     <url>/2020/06/11/CentOS7%E5%88%9D%E5%A7%8B%E5%8C%96/</url>
-    <content><![CDATA[<span id="more"></span>
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><h3 id="1-查看服务器的CentOS版本"><a href="#1-查看服务器的CentOS版本" class="headerlink" title="1. 查看服务器的CentOS版本"></a>1. 查看服务器的CentOS版本</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#二者皆可</span></span><br><span class="line"><span class="built_in">tail</span> /etc/redhat-release</span><br><span class="line"><span class="built_in">cat</span> /etc/redhat-release</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><span id="more"></span>
+
+
+<h3 id="1-查看服务器的CentOS版本"><a href="#1-查看服务器的CentOS版本" class="headerlink" title="1. 查看服务器的CentOS版本"></a>1. 查看服务器的CentOS版本</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#二者皆可</span></span><br><span class="line"><span class="built_in">tail</span> /etc/redhat-release</span><br><span class="line"><span class="built_in">cat</span> /etc/redhat-release</span><br></pre></td></tr></table></figure>
 
 <h3 id="2-更改服务器名称"><a href="#2-更改服务器名称" class="headerlink" title="2. 更改服务器名称"></a>2. 更改服务器名称</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#输入以下命令，而后直接输入服务器名称</span></span><br><span class="line">vim /etc/hostname</span><br></pre></td></tr></table></figure>
 
