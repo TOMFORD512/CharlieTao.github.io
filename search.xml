@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CnetOS时间同步</title>
+    <url>/2020/06/13/CentOS%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>本文所述的CnetOS时间同步方法用于CDH安装时准备工作。以下是服务器的一些基本信息:</p>
+<ol>
+<li>环境：自建虚拟机</li>
+<li>系统：CentOS 7</li>
+<li>NTP服务器：阿里云（ntp.aliyun.com）</li>
+<li>同步频率：开机自动同步</li>
+</ol>
+</blockquote>
+<h1 id="NTP安装与配置"><a href="#NTP安装与配置" class="headerlink" title="NTP安装与配置"></a>NTP安装与配置</h1><h2 id="1-下载"><a href="#1-下载" class="headerlink" title="1. 下载"></a>1. 下载</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum -y install ntp</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-修改配置文件-x2F-etc-x2F-ntp-conf）"><a href="#2-修改配置文件-x2F-etc-x2F-ntp-conf）" class="headerlink" title="2. 修改配置文件(&#x2F;etc&#x2F;ntp.conf）"></a>2. 修改配置文件(&#x2F;etc&#x2F;ntp.conf）</h2><figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#注释掉一下内容：</span></span><br><span class="line"><span class="attr">server</span> <span class="string">0.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="attr">server</span> <span class="string">1.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="attr">server</span> <span class="string">2.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="attr">server</span> <span class="string">3.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#添加以下内容：</span></span><br><span class="line"><span class="attr">server</span> <span class="string">ntp.aliyun.com</span></span><br><span class="line"><span class="attr">server</span> <span class="string">ntp.aliyun.com</span></span><br><span class="line"><span class="attr">server</span> <span class="string">ntp.aliyun.com</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-开启服务"><a href="#3-开启服务" class="headerlink" title="3. 开启服务"></a>3. 开启服务</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl start ntpd</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-设置NTP服务开机自启"><a href="#4-设置NTP服务开机自启" class="headerlink" title="4. 设置NTP服务开机自启"></a>4. 设置NTP服务开机自启</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> ntpd</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-将系统时钟同步到NTP服务器"><a href="#5-将系统时钟同步到NTP服务器" class="headerlink" title="5. 将系统时钟同步到NTP服务器"></a>5. 将系统时钟同步到NTP服务器</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ntpdate -u ntp.aliyun.com</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-将硬件时钟与系统时钟同步"><a href="#6-将硬件时钟与系统时钟同步" class="headerlink" title="6. 将硬件时钟与系统时钟同步"></a>6. 将硬件时钟与系统时钟同步</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hwclock --systohc</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：</p>
+<ol>
+<li>本次同步的频率为开机自启，也可以设置Linux自带的crontab定时器定时执行。具体根据自身需求而定。</li>
+<li>由于本次时间同步环境为自建虚拟机，时区在新建时就已经设置了；如果是线上服务器，可能会自动设置。具体后面会进一步补充。</li>
+<li>更换时区命令：ln -sf &#x2F;usr&#x2F;share&#x2F;zoneinfo&#x2F;Asia&#x2F;Shanghai &#x2F;etc&#x2F;localtime</li>
+<li>查看当前时区命令： ll &#x2F;etc&#x2F;localtime</li>
+</ol>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>CentOS</category>
+      </categories>
+      <tags>
+        <tag>CentOS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CnetOS7初始化</title>
     <url>/2020/06/11/CentOS7%E5%88%9D%E5%A7%8B%E5%8C%96/</url>
     <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><span id="more"></span>
@@ -45,50 +89,6 @@
 <li>配置环境变量</li>
 </ul>
 <img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/Java%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE.png?raw=true" />
-]]></content>
-      <categories>
-        <category>Linux</category>
-        <category>CentOS</category>
-      </categories>
-      <tags>
-        <tag>CentOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CnetOS时间同步</title>
-    <url>/2020/06/13/CentOS%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
-<p>本文所述的CnetOS时间同步方法用于CDH安装时准备工作。以下是服务器的一些基本信息:</p>
-<ol>
-<li>环境：自建虚拟机</li>
-<li>系统：CentOS 7</li>
-<li>NTP服务器：阿里云（ntp.aliyun.com）</li>
-<li>同步频率：开机自动同步</li>
-</ol>
-</blockquote>
-<h1 id="NTP安装与配置"><a href="#NTP安装与配置" class="headerlink" title="NTP安装与配置"></a>NTP安装与配置</h1><h2 id="1-下载"><a href="#1-下载" class="headerlink" title="1. 下载"></a>1. 下载</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum -y install ntp</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-修改配置文件-x2F-etc-x2F-ntp-conf）"><a href="#2-修改配置文件-x2F-etc-x2F-ntp-conf）" class="headerlink" title="2. 修改配置文件(&#x2F;etc&#x2F;ntp.conf）"></a>2. 修改配置文件(&#x2F;etc&#x2F;ntp.conf）</h2><figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#注释掉一下内容：</span></span><br><span class="line"><span class="attr">server</span> <span class="string">0.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="attr">server</span> <span class="string">1.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="attr">server</span> <span class="string">2.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="attr">server</span> <span class="string">3.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#添加以下内容：</span></span><br><span class="line"><span class="attr">server</span> <span class="string">ntp.aliyun.com</span></span><br><span class="line"><span class="attr">server</span> <span class="string">ntp.aliyun.com</span></span><br><span class="line"><span class="attr">server</span> <span class="string">ntp.aliyun.com</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-开启服务"><a href="#3-开启服务" class="headerlink" title="3. 开启服务"></a>3. 开启服务</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl start ntpd</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-设置NTP服务开机自启"><a href="#4-设置NTP服务开机自启" class="headerlink" title="4. 设置NTP服务开机自启"></a>4. 设置NTP服务开机自启</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> ntpd</span><br></pre></td></tr></table></figure>
-
-<h2 id="5-将系统时钟同步到NTP服务器"><a href="#5-将系统时钟同步到NTP服务器" class="headerlink" title="5. 将系统时钟同步到NTP服务器"></a>5. 将系统时钟同步到NTP服务器</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ntpdate -u ntp.aliyun.com</span><br></pre></td></tr></table></figure>
-
-<h2 id="6-将硬件时钟与系统时钟同步"><a href="#6-将硬件时钟与系统时钟同步" class="headerlink" title="6. 将硬件时钟与系统时钟同步"></a>6. 将硬件时钟与系统时钟同步</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hwclock --systohc</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注：</p>
-<ol>
-<li>本次同步的频率为开机自启，也可以设置Linux自带的crontab定时器定时执行。具体根据自身需求而定。</li>
-<li>由于本次时间同步环境为自建虚拟机，时区在新建时就已经设置了；如果是线上服务器，可能会自动设置。具体后面会进一步补充。</li>
-<li>更换时区命令：ln -sf &#x2F;usr&#x2F;share&#x2F;zoneinfo&#x2F;Asia&#x2F;Shanghai &#x2F;etc&#x2F;localtime</li>
-<li>查看当前时区命令： ll &#x2F;etc&#x2F;localtime</li>
-</ol>
-</blockquote>
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -678,9 +678,7 @@
   <entry>
     <title>Linux学习文档-文件权限与目录配置</title>
     <url>/2021/04/20/Linux%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><span id="more"></span>
-
-<h2 id="1-文件属性"><a href="#1-文件属性" class="headerlink" title="1. 文件属性"></a>1. 文件属性</h2><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E7%A4%BA%E6%84%8F%E5%9B%BE.png?raw=true" alt="图一（文件属性示意图）"></p>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h2 id="1-文件属性"><a href="#1-文件属性" class="headerlink" title="1. 文件属性"></a>1. 文件属性</h2><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E7%A4%BA%E6%84%8F%E5%9B%BE.png?raw=true" alt="图一（文件属性示意图）"></p>
 <ul>
 <li><p>图一中，第1串字符代表这个文件的类型与权限</p>
 <ul>
@@ -1305,6 +1303,41 @@
       </tags>
   </entry>
   <entry>
+    <title>初识Hive</title>
+    <url>/2020/06/13/%E5%88%9D%E8%AF%86Hive/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="什么是Hive？"><a href="#什么是Hive？" class="headerlink" title="什么是Hive？"></a>什么是Hive？</h1><ol>
+<li>由Facebook实现并开源、基于Hadoop的<strong>数据仓库的工具</strong></li>
+<li>提供HQL（Hive SQL）查询功能</li>
+<li>Hive本质上是将SQL<strong>翻译</strong>转换成MapReduce任务执行</li>
+</ol>
+<h1 id="为什么使用Hive（MapReduce、Spark）？"><a href="#为什么使用Hive（MapReduce、Spark）？" class="headerlink" title="为什么使用Hive（MapReduce、Spark）？"></a>为什么使用Hive（MapReduce、Spark）？</h1><ol>
+<li>MR在实现复杂逻辑查询的时候，成本高、难度大。</li>
+<li>Spark对集群资源更高（基于内存）</li>
+</ol>
+<h1 id="Hive内部架构"><a href="#Hive内部架构" class="headerlink" title="Hive内部架构"></a>Hive内部架构</h1><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Hive/Hive%E5%86%85%E9%83%A8%E6%9E%B6%E6%9E%84.png?raw=true"></p>
+<ul>
+<li><p>Thrift Server：提供了一种让用户可以使用多种不同的语言来操作Hive</p>
+<!-- Thrift 是 Facebook 开发的一个软件框架，可以用来进行可扩展且跨语言的服务的开发， Hive 集成了该服务，能让不同的编程语言调用 Hive 的接口 -->
+</li>
+<li><p>Compiler（编译解释器）：将HiveSQL转换为抽象语法树（AST），并将语法树编译为逻辑执行计划</p>
+</li>
+<li><p>Optimizer（优化器） ： 对逻辑执行计划进行优化 </p>
+</li>
+<li><p>Executor（执行器）：调用<strong>底层的运行框架</strong>执行逻辑执行计划</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Bigdata</category>
+        <category>Hive</category>
+      </categories>
+      <tags>
+        <tag>Hive</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Spark学习文档--运行流程</title>
     <url>/2020/12/27/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B/</url>
     <content><![CDATA[<span id="more"></span>
@@ -1349,41 +1382,6 @@
       </categories>
       <tags>
         <tag>Spark</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>初识Hive</title>
-    <url>/2020/06/13/%E5%88%9D%E8%AF%86Hive/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="什么是Hive？"><a href="#什么是Hive？" class="headerlink" title="什么是Hive？"></a>什么是Hive？</h1><ol>
-<li>由Facebook实现并开源、基于Hadoop的<strong>数据仓库的工具</strong></li>
-<li>提供HQL（Hive SQL）查询功能</li>
-<li>Hive本质上是将SQL<strong>翻译</strong>转换成MapReduce任务执行</li>
-</ol>
-<h1 id="为什么使用Hive（MapReduce、Spark）？"><a href="#为什么使用Hive（MapReduce、Spark）？" class="headerlink" title="为什么使用Hive（MapReduce、Spark）？"></a>为什么使用Hive（MapReduce、Spark）？</h1><ol>
-<li>MR在实现复杂逻辑查询的时候，成本高、难度大。</li>
-<li>Spark对集群资源更高（基于内存）</li>
-</ol>
-<h1 id="Hive内部架构"><a href="#Hive内部架构" class="headerlink" title="Hive内部架构"></a>Hive内部架构</h1><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Hive/Hive%E5%86%85%E9%83%A8%E6%9E%B6%E6%9E%84.png?raw=true"></p>
-<ul>
-<li><p>Thrift Server：提供了一种让用户可以使用多种不同的语言来操作Hive</p>
-<!-- Thrift 是 Facebook 开发的一个软件框架，可以用来进行可扩展且跨语言的服务的开发， Hive 集成了该服务，能让不同的编程语言调用 Hive 的接口 -->
-</li>
-<li><p>Compiler（编译解释器）：将HiveSQL转换为抽象语法树（AST），并将语法树编译为逻辑执行计划</p>
-</li>
-<li><p>Optimizer（优化器） ： 对逻辑执行计划进行优化 </p>
-</li>
-<li><p>Executor（执行器）：调用<strong>底层的运行框架</strong>执行逻辑执行计划</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Bigdata</category>
-        <category>Hive</category>
-      </categories>
-      <tags>
-        <tag>Hive</tag>
       </tags>
   </entry>
   <entry>
