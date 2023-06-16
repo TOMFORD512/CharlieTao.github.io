@@ -35,10 +35,10 @@ https://charlietao.github.io/project/tags/Hive/
 https://charlietao.github.io/project/categories/Linux/
 https://charlietao.github.io/project/categories/Bigdata/
 https://charlietao.github.io/project/categories/Linux/CentOS/
-https://charlietao.github.io/project/categories/Linux/%E6%96%87%E4%BB%B6%E3%80%81%E7%9B%AE%E5%BD%95%E4%B8%8E%E7%A3%81%E7%9B%98/
 https://charlietao.github.io/project/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/
-https://charlietao.github.io/project/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/
 https://charlietao.github.io/project/categories/Bigdata/Flume/
+https://charlietao.github.io/project/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/
+https://charlietao.github.io/project/categories/Linux/%E6%96%87%E4%BB%B6%E3%80%81%E7%9B%AE%E5%BD%95%E4%B8%8E%E7%A3%81%E7%9B%98/
 https://charlietao.github.io/project/categories/Bigdata/Spark/
 https://charlietao.github.io/project/categories/Bigdata/HBase/
 https://charlietao.github.io/project/categories/Bigdata/Hadoop/
