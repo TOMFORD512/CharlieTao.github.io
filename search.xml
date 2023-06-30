@@ -1120,9 +1120,7 @@
   <entry>
     <title>Spark学习文档--RDD编程</title>
     <url>/2020/12/28/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-RDD%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="RDD简介"><a href="#RDD简介" class="headerlink" title="RDD简介"></a>RDD简介</h1><h2 id="1-含义"><a href="#1-含义" class="headerlink" title="1.含义"></a>1.含义</h2><pre><code>1. RDD（Resilient Distributed Dataset）叫做弹性分布式数据集，是Spark中最基本的数据抽象。
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="RDD简介"><a href="#RDD简介" class="headerlink" title="RDD简介"></a>RDD简介</h1><h2 id="1-含义"><a href="#1-含义" class="headerlink" title="1.含义"></a>1.含义</h2><pre><code>1. RDD（Resilient Distributed Dataset）叫做弹性分布式数据集，是Spark中最基本的数据抽象。
 2. 它代表一个不可变、可分区、里面的元素可并行计算的集合。
 3. RDD具有数据流模型的特点：自动容错、位置感知性调度和可伸缩性。
 4. RDD允许用户在执行多个查询时显式地将工作集缓存在内存中，后续的查询能够重用工作集，这极大地提升了查询速度
@@ -1137,10 +1135,42 @@
       </tags>
   </entry>
   <entry>
-    <title>Spark学习文档--Spark3.0.0安装文档</title>
+    <title>Spark学习文档--Spark安装文档</title>
     <url>/2020/12/25/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-Spark%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
-    <content><![CDATA[<h1 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h1><p>Hadoop版本： </p>
-<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h1 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h1><h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1>]]></content>
+    <content><![CDATA[<h2 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h2><blockquote>
+<ul>
+<li>Spark版本： 3.0.3</li>
+<li>Hadoop版本： 3.1.3</li>
+<li>Scala版本： 2.11.12</li>
+</ul>
+</blockquote>
+<h2 id="下载及解压"><a href="#下载及解压" class="headerlink" title="下载及解压"></a>下载及解压</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar -zxvf spark-3.0.1-bin-hadoop3.2</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="1-配置spark-env-sh"><a href="#1-配置spark-env-sh" class="headerlink" title="1.配置spark-env.sh"></a>1.配置spark-env.sh</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> spark-env.sh.template spark-env.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># jdk地址</span></span><br><span class="line">JAVA_HOME=/data/java/jdk1.8.0_11</span><br><span class="line"><span class="comment"># hadoop安装的完的etc目录,hadoop我安装的是3.1.2版本的</span></span><br><span class="line">HADOOP_CONF_DIR=/data/hadoop/hadoop-3.1.2/etc/hadoop</span><br><span class="line"><span class="comment"># zookeeper信息配置，知道所在节点地址信息</span></span><br><span class="line">SPARK_DAEMON_JAVA_OPTS=<span class="string">&quot;-Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url=bigdata1:2181,bigdata2:2181,bigdata3:2181 -Dspark.deploy.zookeeper.dir=/spark3.0&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-配置slaves"><a href="#2-配置slaves" class="headerlink" title="2.配置slaves"></a>2.配置slaves</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> slaves.template slaves</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在slaves中添加自己的集群主机名,把里面的localhost删掉。</span></span><br><span class="line"><span class="comment"># 以下配置的是worker节点的Host，Spark集群中不需要配置Master的Host</span></span><br><span class="line">bigdata1</span><br><span class="line">bigdata2</span><br><span class="line">bigdata3</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-拷贝至其他Worker节点"><a href="#3-拷贝至其他Worker节点" class="headerlink" title="3.拷贝至其他Worker节点"></a>3.拷贝至其他Worker节点</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">scp -r software/spark bigdata2:/home/TomFor/software/</span><br><span class="line">scp -r software/spark bigdata3:/home/TomFor/software/</span><br><span class="line"><span class="comment"># 或者写一个简单的Shell命令，通过for循环执行也可</span></span><br><span class="line"><span class="keyword">for</span> A <span class="keyword">in</span> &#123;2..3&#125;; <span class="keyword">do</span> scp -r software/spark bigdata<span class="variable">$A</span>:/home/TomFor/software/;<span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-配置Spark-On-Yarn"><a href="#4-配置Spark-On-Yarn" class="headerlink" title="4.配置Spark On Yarn"></a>4.配置Spark On Yarn</h3><p>在Hadoop集群的<code>yarn-site.xml</code>中添加以下配置</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">&lt;property&gt;</span></span><br><span class="line">  <span class="attr">&lt;name&gt;yarn.nodemanager.pmem-check-enabled&lt;/name&gt;</span></span><br><span class="line">  <span class="attr">&lt;value&gt;false&lt;/value&gt;</span></span><br><span class="line"><span class="attr">&lt;/property&gt;</span></span><br><span class="line"><span class="attr">&lt;property&gt;</span></span><br><span class="line">   <span class="attr">&lt;name&gt;yarn.nodemanager.vmem-check-enabled&lt;/name&gt;</span></span><br><span class="line">   <span class="attr">&lt;value&gt;false&lt;/value&gt;</span></span><br><span class="line"><span class="attr">&lt;/property&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-配置历史服务器"><a href="#5-配置历史服务器" class="headerlink" title="5.配置历史服务器"></a>5.配置历史服务器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 配置历史服务器的原因在于： 可以查看整个Spark任务的执行情况，是否出现数据倾斜等；否则当Spark任务执行完了之后就无法查看了</span></span><br><span class="line"><span class="comment"># 修改spark default.conf文件，配置日志存储路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启eventLog功能</span></span><br><span class="line">spark.eventLog.enabled <span class="literal">true</span></span><br><span class="line"><span class="comment"># 指定历史日志文件存放地址，这里是配置的HDFS，也是推荐配置。因为放在本地不利于多集群间的共享</span></span><br><span class="line">spark.eventLog.<span class="built_in">dir</span> hdfs://ns1:8020/spark-history-server</span><br><span class="line"><span class="comment"># 这里主要是指定启动historyServer的机器的Host，也可以指定一个或多个</span></span><br><span class="line">spark.yarn.historyServer.address= bigdata3:18080</span><br><span class="line"><span class="comment"># WebUI</span></span><br><span class="line">spark.history.ui.port=18080</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：</p>
+<ul>
+<li>配置完之后需要启动或者重启Hadoop集群，并且需要提前创建eventLog.dir：hadoop fs -mkdir &#x2F;directory</li>
+</ul>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 修改spark-env.sh文件 , 添加日志配置</span></span><br><span class="line"><span class="built_in">export</span> SPARK_HISTORY_OPTS=<span class="string">&quot;-Dspark.history.ui.port=18080 -Dspark.history.fs.logDirectory=hdfs://ns1:8020/spark-history-server -Dspark.history.retainedApplications=30&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><h3 id="1-启动Spark集群"><a href="#1-启动Spark集群" class="headerlink" title="1.启动Spark集群"></a>1.启动Spark集群</h3><blockquote>
+<p>由于配置了Spark On Yarn，所以这里要先启动Hadoop集群</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在决定好的机器上执行以下命令，即可在本机上启动一个Master进程，以及在配置好节点上启动的Worker进程</span></span><br><span class="line"><span class="comment"># 因为Spark和Hadoop的启动命令都是start-all.sh，因此这里可以改成start-all-spark.sh</span></span><br><span class="line">start-all-spark.sh</span><br><span class="line"><span class="comment"># 通常需要再启动一个stand by状态的Master进程，保证高可用。所以在另外的一台机器上执行以下命令</span></span><br><span class="line">start-master.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-启动Spark的历史服务进程"><a href="#2-启动Spark的历史服务进程" class="headerlink" title="2. 启动Spark的历史服务进程"></a>2. 启动Spark的历史服务进程</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 因为之前配置了启动historyServer的机器的Host（spark.yarn.historyServer.address），所以这里在Bigdata3上执行以下命令</span></span><br><span class="line">start-history-server.sh</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="1-测试Master的高可用"><a href="#1-测试Master的高可用" class="headerlink" title="1.测试Master的高可用"></a>1.测试Master的高可用</h3><h3 id="2-测试history-server"><a href="#2-测试history-server" class="headerlink" title="2.测试history-server"></a>2.测试history-server</h3>]]></content>
       <categories>
         <category>Bigdata</category>
         <category>Spark</category>
@@ -1152,9 +1182,7 @@
   <entry>
     <title>Spark学习文档--初识Spark</title>
     <url>/2020/12/24/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%88%9D%E8%AF%86Spark/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h2 id="1-什么是Spark？"><a href="#1-什么是Spark？" class="headerlink" title="1. 什么是Spark？"></a>1. 什么是Spark？</h2><p>Apache Spark用于大规模数据处理的统一分析引擎。</p>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h2 id="1-什么是Spark？"><a href="#1-什么是Spark？" class="headerlink" title="1. 什么是Spark？"></a>1. 什么是Spark？</h2><p>Apache Spark用于大规模数据处理的统一分析引擎。</p>
 <h2 id="2-特点"><a href="#2-特点" class="headerlink" title="2. 特点"></a>2. 特点</h2><ul>
 <li>处理速度快<ul>
 <li>Apache Spark通过使用最先进的DAG调度器、查询优化器和物理执行引擎，实现了批处理和流数据的高性能</li>
@@ -1257,9 +1285,7 @@
   <entry>
     <title>Spark学习文档--运行流程</title>
     <url>/2020/12/27/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="1-Application"><a href="#1-Application" class="headerlink" title="1. Application"></a>1. Application</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">表示本次运次的应用程序</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="1-Application"><a href="#1-Application" class="headerlink" title="1. Application"></a>1. Application</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">表示本次运次的应用程序</span><br></pre></td></tr></table></figure>
 
 <h2 id="2-Driver"><a href="#2-Driver" class="headerlink" title="2. Driver"></a>2. Driver</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">表示main()函数，创建SparkContext。由SparkContext负责与CLusterManager通信，进行资源的申请、任务的分配和监控等。程序执行完毕后关闭SparkContext</span><br></pre></td></tr></table></figure>
 
@@ -1304,9 +1330,7 @@
   <entry>
     <title>Spark学习文档--核心原理</title>
     <url>/2020/12/26/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="消息通信原理"><a href="#消息通信原理" class="headerlink" title="消息通信原理"></a>消息通信原理</h1><h1 id="作业执行原理"><a href="#作业执行原理" class="headerlink" title="作业执行原理"></a>作业执行原理</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="1-Application"><a href="#1-Application" class="headerlink" title="1. Application"></a>1. Application</h3><pre><code>表示本次运次的应用程序
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="消息通信原理"><a href="#消息通信原理" class="headerlink" title="消息通信原理"></a>消息通信原理</h1><h1 id="作业执行原理"><a href="#作业执行原理" class="headerlink" title="作业执行原理"></a>作业执行原理</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="1-Application"><a href="#1-Application" class="headerlink" title="1. Application"></a>1. Application</h3><pre><code>表示本次运次的应用程序
 </code></pre>
 <h3 id="2-Driver"><a href="#2-Driver" class="headerlink" title="2. Driver"></a>2. Driver</h3><pre><code>表示main()函数，创建SparkContext。由SparkContext负责与CLusterManager通信，进行资源的申请、任务的分配和监控等。程序执行完毕后关闭SparkContext
 </code></pre>

@@ -22,13 +22,13 @@
 
   <meta name="description" content="。。。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spark学习文档--Spark3.0.0安装文档">
+<meta property="og:title" content="Spark学习文档--Spark安装文档">
 <meta property="og:url" content="http://example.com/2020/12/25/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-Spark%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/index.html">
 <meta property="og:site_name" content="TomFor&#39;s Blog">
 <meta property="og:description" content="。。。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-25T15:53:08.000Z">
-<meta property="article:modified_time" content="2023-06-24T10:43:11.581Z">
+<meta property="article:modified_time" content="2023-06-30T17:14:41.874Z">
 <meta property="article:author" content="TomFor">
 <meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>Spark学习文档--Spark3.0.0安装文档 | TomFor's Blog</title>
+  <title>Spark学习文档--Spark安装文档 | TomFor's Blog</title>
   
 
 
@@ -215,7 +215,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Spark学习文档--Spark3.0.0安装文档
+          Spark学习文档--Spark安装文档
         </h1>
 
         <div class="post-meta">
@@ -232,7 +232,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-24 18:43:11" itemprop="dateModified" datetime="2023-06-24T18:43:11+08:00">2023-06-24</time>
+                <time title="修改时间：2023-07-01 01:14:41" itemprop="dateModified" datetime="2023-07-01T01:14:41+08:00">2023-07-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -254,14 +254,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>25</span>
+              <span>2.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -273,8 +273,40 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h1><p>Hadoop版本： </p>
-<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h1 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h1><h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1>
+        <h2 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h2><blockquote>
+<ul>
+<li>Spark版本： 3.0.3</li>
+<li>Hadoop版本： 3.1.3</li>
+<li>Scala版本： 2.11.12</li>
+</ul>
+</blockquote>
+<h2 id="下载及解压"><a href="#下载及解压" class="headerlink" title="下载及解压"></a>下载及解压</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf spark-3.0.1-bin-hadoop3.2</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="1-配置spark-env-sh"><a href="#1-配置spark-env-sh" class="headerlink" title="1.配置spark-env.sh"></a>1.配置spark-env.sh</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> spark-env.sh.template spark-env.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># jdk地址</span></span><br><span class="line">JAVA_HOME=/data/java/jdk1.8.0_11</span><br><span class="line"><span class="comment"># hadoop安装的完的etc目录,hadoop我安装的是3.1.2版本的</span></span><br><span class="line">HADOOP_CONF_DIR=/data/hadoop/hadoop-3.1.2/etc/hadoop</span><br><span class="line"><span class="comment"># zookeeper信息配置，知道所在节点地址信息</span></span><br><span class="line">SPARK_DAEMON_JAVA_OPTS=<span class="string">&quot;-Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url=bigdata1:2181,bigdata2:2181,bigdata3:2181 -Dspark.deploy.zookeeper.dir=/spark3.0&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-配置slaves"><a href="#2-配置slaves" class="headerlink" title="2.配置slaves"></a>2.配置slaves</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> slaves.template slaves</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在slaves中添加自己的集群主机名,把里面的localhost删掉。</span></span><br><span class="line"><span class="comment"># 以下配置的是worker节点的Host，Spark集群中不需要配置Master的Host</span></span><br><span class="line">bigdata1</span><br><span class="line">bigdata2</span><br><span class="line">bigdata3</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-拷贝至其他Worker节点"><a href="#3-拷贝至其他Worker节点" class="headerlink" title="3.拷贝至其他Worker节点"></a>3.拷贝至其他Worker节点</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">scp -r software/spark bigdata2:/home/TomFor/software/</span><br><span class="line">scp -r software/spark bigdata3:/home/TomFor/software/</span><br><span class="line"><span class="comment"># 或者写一个简单的Shell命令，通过for循环执行也可</span></span><br><span class="line"><span class="keyword">for</span> A <span class="keyword">in</span> &#123;2..3&#125;; <span class="keyword">do</span> scp -r software/spark bigdata<span class="variable">$A</span>:/home/TomFor/software/;<span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-配置Spark-On-Yarn"><a href="#4-配置Spark-On-Yarn" class="headerlink" title="4.配置Spark On Yarn"></a>4.配置Spark On Yarn</h3><p>在Hadoop集群的<code>yarn-site.xml</code>中添加以下配置</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&lt;property&gt;</span></span><br><span class="line">  <span class="attr">&lt;name&gt;yarn.nodemanager.pmem-check-enabled&lt;/name&gt;</span></span><br><span class="line">  <span class="attr">&lt;value&gt;false&lt;/value&gt;</span></span><br><span class="line"><span class="attr">&lt;/property&gt;</span></span><br><span class="line"><span class="attr">&lt;property&gt;</span></span><br><span class="line">   <span class="attr">&lt;name&gt;yarn.nodemanager.vmem-check-enabled&lt;/name&gt;</span></span><br><span class="line">   <span class="attr">&lt;value&gt;false&lt;/value&gt;</span></span><br><span class="line"><span class="attr">&lt;/property&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-配置历史服务器"><a href="#5-配置历史服务器" class="headerlink" title="5.配置历史服务器"></a>5.配置历史服务器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置历史服务器的原因在于： 可以查看整个Spark任务的执行情况，是否出现数据倾斜等；否则当Spark任务执行完了之后就无法查看了</span></span><br><span class="line"><span class="comment"># 修改spark default.conf文件，配置日志存储路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启eventLog功能</span></span><br><span class="line">spark.eventLog.enabled <span class="literal">true</span></span><br><span class="line"><span class="comment"># 指定历史日志文件存放地址，这里是配置的HDFS，也是推荐配置。因为放在本地不利于多集群间的共享</span></span><br><span class="line">spark.eventLog.<span class="built_in">dir</span> hdfs://ns1:8020/spark-history-server</span><br><span class="line"><span class="comment"># 这里主要是指定启动historyServer的机器的Host，也可以指定一个或多个</span></span><br><span class="line">spark.yarn.historyServer.address= bigdata3:18080</span><br><span class="line"><span class="comment"># WebUI</span></span><br><span class="line">spark.history.ui.port=18080</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：</p>
+<ul>
+<li>配置完之后需要启动或者重启Hadoop集群，并且需要提前创建eventLog.dir：hadoop fs -mkdir &#x2F;directory</li>
+</ul>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 修改spark-env.sh文件 , 添加日志配置</span></span><br><span class="line"><span class="built_in">export</span> SPARK_HISTORY_OPTS=<span class="string">&quot;-Dspark.history.ui.port=18080 -Dspark.history.fs.logDirectory=hdfs://ns1:8020/spark-history-server -Dspark.history.retainedApplications=30&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><h3 id="1-启动Spark集群"><a href="#1-启动Spark集群" class="headerlink" title="1.启动Spark集群"></a>1.启动Spark集群</h3><blockquote>
+<p>由于配置了Spark On Yarn，所以这里要先启动Hadoop集群</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在决定好的机器上执行以下命令，即可在本机上启动一个Master进程，以及在配置好节点上启动的Worker进程</span></span><br><span class="line"><span class="comment"># 因为Spark和Hadoop的启动命令都是start-all.sh，因此这里可以改成start-all-spark.sh</span></span><br><span class="line">start-all-spark.sh</span><br><span class="line"><span class="comment"># 通常需要再启动一个stand by状态的Master进程，保证高可用。所以在另外的一台机器上执行以下命令</span></span><br><span class="line">start-master.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-启动Spark的历史服务进程"><a href="#2-启动Spark的历史服务进程" class="headerlink" title="2. 启动Spark的历史服务进程"></a>2. 启动Spark的历史服务进程</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 因为之前配置了启动historyServer的机器的Host（spark.yarn.historyServer.address），所以这里在Bigdata3上执行以下命令</span></span><br><span class="line">start-history-server.sh</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="1-测试Master的高可用"><a href="#1-测试Master的高可用" class="headerlink" title="1.测试Master的高可用"></a>1.测试Master的高可用</h3><h3 id="2-测试history-server"><a href="#2-测试history-server" class="headerlink" title="2.测试history-server"></a>2.测试history-server</h3>
     </div>
 
     
@@ -289,7 +321,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2020/12/25/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-Spark%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/" title="Spark学习文档--Spark3.0.0安装文档">http://example.com/2020/12/25/Spark学习文档-Spark安装文档/</a>
+    <a href="http://example.com/2020/12/25/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-Spark%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/" title="Spark学习文档--Spark安装文档">http://example.com/2020/12/25/Spark学习文档-Spark安装文档/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -424,7 +456,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%89%8D"><span class="nav-text">写在最前</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E6%8F%90%E6%9D%A1%E4%BB%B6"><span class="nav-text">前提条件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD"><span class="nav-text">下载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE"><span class="nav-text">配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8"><span class="nav-text">启动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-text">测试</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%89%8D"><span class="nav-text">写在最前</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%8F%8A%E8%A7%A3%E5%8E%8B"><span class="nav-text">下载及解压</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE"><span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%85%8D%E7%BD%AEspark-env-sh"><span class="nav-text">1.配置spark-env.sh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%85%8D%E7%BD%AEslaves"><span class="nav-text">2.配置slaves</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%8B%B7%E8%B4%9D%E8%87%B3%E5%85%B6%E4%BB%96Worker%E8%8A%82%E7%82%B9"><span class="nav-text">3.拷贝至其他Worker节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E9%85%8D%E7%BD%AESpark-On-Yarn"><span class="nav-text">4.配置Spark On Yarn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E9%85%8D%E7%BD%AE%E5%8E%86%E5%8F%B2%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-text">5.配置历史服务器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8"><span class="nav-text">启动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%90%AF%E5%8A%A8Spark%E9%9B%86%E7%BE%A4"><span class="nav-text">1.启动Spark集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%90%AF%E5%8A%A8Spark%E7%9A%84%E5%8E%86%E5%8F%B2%E6%9C%8D%E5%8A%A1%E8%BF%9B%E7%A8%8B"><span class="nav-text">2. 启动Spark的历史服务进程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%B5%8B%E8%AF%95Master%E7%9A%84%E9%AB%98%E5%8F%AF%E7%94%A8"><span class="nav-text">1.测试Master的高可用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%B5%8B%E8%AF%95history-server"><span class="nav-text">2.测试history-server</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -504,12 +536,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">45k</span>
+    <span title="站点总字数">48k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">41 分钟</span>
+    <span title="站点阅读时长">43 分钟</span>
 </div>
 
         
