@@ -1,60 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CnetOS7初始化</title>
-    <url>/2020/06/11/CentOS7%E5%88%9D%E5%A7%8B%E5%8C%96/</url>
-    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><span id="more"></span>
-
-<h3 id="1-查看服务器的CentOS版本"><a href="#1-查看服务器的CentOS版本" class="headerlink" title="1. 查看服务器的CentOS版本"></a>1. 查看服务器的CentOS版本</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#二者皆可</span></span><br><span class="line"><span class="built_in">tail</span> /etc/redhat-release</span><br><span class="line"><span class="built_in">cat</span> /etc/redhat-release</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-更改服务器名称"><a href="#2-更改服务器名称" class="headerlink" title="2. 更改服务器名称"></a>2. 更改服务器名称</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#输入以下命令，而后直接输入服务器名称</span></span><br><span class="line">vim /etc/hostname</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-更改网络设置"><a href="#3-更改网络设置" class="headerlink" title="3. 更改网络设置"></a>3. 更改网络设置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/sysconfig/network-scripts/ifcfg-ens33</span><br></pre></td></tr></table></figure>
-
-<p>更改以下几点</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#1.设置静态IP</span></span><br><span class="line">BOOTPROTO=static</span><br><span class="line"><span class="comment">#2.</span></span><br><span class="line">ONBOOT=<span class="built_in">yes</span></span><br><span class="line"><span class="comment">#3.给定固定IP</span></span><br><span class="line">IPADDR=192.168.0.101</span><br><span class="line"><span class="comment">#4.子网掩码</span></span><br><span class="line">GATEWAY=192.168.0.1</span><br><span class="line"><span class="comment">#5.网关</span></span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line"><span class="comment">#6.</span></span><br><span class="line">DNS1=8.8.8.8</span><br><span class="line">DNS2=8.8.4.4</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-更换默认镜像（设置Yum源）"><a href="#4-更换默认镜像（设置Yum源）" class="headerlink" title="4. 更换默认镜像（设置Yum源）"></a>4. 更换默认镜像（设置Yum源）</h3><p>注：详情请参考<a href="https://charlietao.github.io/2020/06/13/CentOS%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F/">CnetOS 更换镜像</a></p>
-<h3 id="5-按需更改防火墙状态"><a href="#5-按需更改防火墙状态" class="headerlink" title="5. 按需更改防火墙状态"></a>5. 按需更改防火墙状态</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#1.查看防火墙状态</span></span><br><span class="line">systemctl status firewalld</span><br><span class="line"><span class="comment">#2.关闭(开启)防火墙</span></span><br><span class="line">systemctl stop firewalld/systemctl start firewalld</span><br><span class="line"><span class="comment">#4.禁用防火墙服务</span></span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld</span><br><span class="line"><span class="comment">#注：如果需要永久关闭，需要先关闭再禁用防火墙服务</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="6-扩展（使用Telnet连接虚拟机）"><a href="#6-扩展（使用Telnet连接虚拟机）" class="headerlink" title="6. 扩展（使用Telnet连接虚拟机）"></a>6. 扩展（使用Telnet连接虚拟机）</h3><h3 id="7-创建用户"><a href="#7-创建用户" class="headerlink" title="7. 创建用户"></a>7. 创建用户</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#优先创建用户组</span></span><br><span class="line">groupadd Worker</span><br><span class="line"><span class="comment">#创建用户并制定用户组</span></span><br><span class="line">useradd CharlieTao -g Worker</span><br><span class="line"><span class="comment">#创建用户之后应立即更新密码（输入以下命令后输入两次密码则密码设置成功）</span></span><br><span class="line">passwd CharlieTao</span><br></pre></td></tr></table></figure>
-
-<h3 id="8-为用户赋予Root权限"><a href="#8-为用户赋予Root权限" class="headerlink" title="8. 为用户赋予Root权限"></a>8. 为用户赋予Root权限</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在执行某些命令时需要sudo并输入密码</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#先切换到root用户</span></span><br><span class="line">vim /etc/sudoers</span><br><span class="line"><span class="comment">#修改如下：</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Allow root to run any commands anywhere </span></span><br><span class="line">root    ALL=(ALL)       ALL</span><br><span class="line"><span class="comment">## Allows members of the &#x27;sys&#x27; group to run networking, software, </span></span><br><span class="line"><span class="comment">## service management apps and more.</span></span><br><span class="line"><span class="comment"># %sys ALL = NETWORKING, SOFTWARE, SERVICES, STORAGE, DELEGATING, PROCESSES, LOCATE, DRIVERS</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Allows people in group wheel to run all commands</span></span><br><span class="line">%wheel  ALL=(ALL)       ALL</span><br><span class="line"></span><br><span class="line"><span class="comment">## Same thing without a password</span></span><br><span class="line"><span class="comment"># %wheel        ALL=(ALL)       NOPASSWD: ALL</span></span><br><span class="line"><span class="comment">#可以写用户或者用户所属组</span></span><br><span class="line">%Worker ALL=(ALL) NOPASSWD:ALL</span><br><span class="line"><span class="comment">## Allows members of the users g</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="9-服务器之间配置别名"><a href="#9-服务器之间配置别名" class="headerlink" title="9. 服务器之间配置别名"></a>9. 服务器之间配置别名</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/hosts</span><br><span class="line"></span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line"></span><br><span class="line">192.168.0.101 bigdata1</span><br><span class="line">192.168.0.102 bigdata2</span><br><span class="line">192.168.0.103 bigdata3</span><br></pre></td></tr></table></figure>
-
-<h3 id="10-服务器之间配置免密"><a href="#10-服务器之间配置免密" class="headerlink" title="10.服务器之间配置免密"></a>10.服务器之间配置免密</h3><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/SSH%E9%85%8D%E7%BD%AE.png?raw=true" />
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#生成密钥对</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment">#将公钥上传到需要配置免密的服务器，并以相同用户登录（默认是以相同用户登录），根据提示输入免密即可</span></span><br><span class="line">ssh-copy-id CharlieTao@192.168.0.102</span><br></pre></td></tr></table></figure>
-
-<h3 id="11-服务器之间传输文件（配置完免密之后）"><a href="#11-服务器之间传输文件（配置完免密之后）" class="headerlink" title="11. 服务器之间传输文件（配置完免密之后）"></a>11. 服务器之间传输文件（配置完免密之后）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">scp -r package/ CharlieTao@bigdata2:/home/CharlieTao/</span><br></pre></td></tr></table></figure>
-
-<h3 id="12-配置JDK"><a href="#12-配置JDK" class="headerlink" title="12. 配置JDK"></a>12. 配置JDK</h3><ul>
-<li>前置工作：检查系统是否已自带JDK（一般最小版本安装是没有自带JDK的，其余版本建议先检测，有则卸载）</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#检测</span></span><br><span class="line">rpm -qa | grep -i java</span><br><span class="line"></span><br><span class="line"><span class="comment">#检测+删除（检测出来的结果可能有多个，直接每行遍历删除）</span></span><br><span class="line">rpm -qa | grep -i java | xargs -n1 rpm -e --nodeps </span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>解压</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar -zxvf jdk-8u45-linux-x64.tar.gz -C /home/CharlieTao/software/</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>配置环境变量</li>
-</ul>
-<img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/Java%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE.png?raw=true" />
-]]></content>
-      <categories>
-        <category>Linux</category>
-        <category>CentOS</category>
-      </categories>
-      <tags>
-        <tag>CentOS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CnetOS时间同步</title>
     <url>/2020/06/13/CentOS%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/</url>
     <content><![CDATA[<span id="more"></span>
@@ -129,6 +75,60 @@
 <blockquote>
 <p>注：网上有一篇博客说要将跟换后的CentOS-Base.repo中的所有http开头的更改为https，作用暂时未知（可能网络安全），后续了解后，会进一步补充。</p>
 </blockquote>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>CentOS</category>
+      </categories>
+      <tags>
+        <tag>CentOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CnetOS7初始化</title>
+    <url>/2020/06/11/CentOS7%E5%88%9D%E5%A7%8B%E5%8C%96/</url>
+    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><span id="more"></span>
+
+<h3 id="1-查看服务器的CentOS版本"><a href="#1-查看服务器的CentOS版本" class="headerlink" title="1. 查看服务器的CentOS版本"></a>1. 查看服务器的CentOS版本</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#二者皆可</span></span><br><span class="line"><span class="built_in">tail</span> /etc/redhat-release</span><br><span class="line"><span class="built_in">cat</span> /etc/redhat-release</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-更改服务器名称"><a href="#2-更改服务器名称" class="headerlink" title="2. 更改服务器名称"></a>2. 更改服务器名称</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#输入以下命令，而后直接输入服务器名称</span></span><br><span class="line">vim /etc/hostname</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-更改网络设置"><a href="#3-更改网络设置" class="headerlink" title="3. 更改网络设置"></a>3. 更改网络设置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/sysconfig/network-scripts/ifcfg-ens33</span><br></pre></td></tr></table></figure>
+
+<p>更改以下几点</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#1.设置静态IP</span></span><br><span class="line">BOOTPROTO=static</span><br><span class="line"><span class="comment">#2.</span></span><br><span class="line">ONBOOT=<span class="built_in">yes</span></span><br><span class="line"><span class="comment">#3.给定固定IP</span></span><br><span class="line">IPADDR=192.168.0.101</span><br><span class="line"><span class="comment">#4.子网掩码</span></span><br><span class="line">GATEWAY=192.168.0.1</span><br><span class="line"><span class="comment">#5.网关</span></span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line"><span class="comment">#6.</span></span><br><span class="line">DNS1=8.8.8.8</span><br><span class="line">DNS2=8.8.4.4</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-更换默认镜像（设置Yum源）"><a href="#4-更换默认镜像（设置Yum源）" class="headerlink" title="4. 更换默认镜像（设置Yum源）"></a>4. 更换默认镜像（设置Yum源）</h3><p>注：详情请参考<a href="https://charlietao.github.io/2020/06/13/CentOS%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F/">CnetOS 更换镜像</a></p>
+<h3 id="5-按需更改防火墙状态"><a href="#5-按需更改防火墙状态" class="headerlink" title="5. 按需更改防火墙状态"></a>5. 按需更改防火墙状态</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#1.查看防火墙状态</span></span><br><span class="line">systemctl status firewalld</span><br><span class="line"><span class="comment">#2.关闭(开启)防火墙</span></span><br><span class="line">systemctl stop firewalld/systemctl start firewalld</span><br><span class="line"><span class="comment">#4.禁用防火墙服务</span></span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld</span><br><span class="line"><span class="comment">#注：如果需要永久关闭，需要先关闭再禁用防火墙服务</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-扩展（使用Telnet连接虚拟机）"><a href="#6-扩展（使用Telnet连接虚拟机）" class="headerlink" title="6. 扩展（使用Telnet连接虚拟机）"></a>6. 扩展（使用Telnet连接虚拟机）</h3><h3 id="7-创建用户"><a href="#7-创建用户" class="headerlink" title="7. 创建用户"></a>7. 创建用户</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#优先创建用户组</span></span><br><span class="line">groupadd Worker</span><br><span class="line"><span class="comment">#创建用户并制定用户组</span></span><br><span class="line">useradd CharlieTao -g Worker</span><br><span class="line"><span class="comment">#创建用户之后应立即更新密码（输入以下命令后输入两次密码则密码设置成功）</span></span><br><span class="line">passwd CharlieTao</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-为用户赋予Root权限"><a href="#8-为用户赋予Root权限" class="headerlink" title="8. 为用户赋予Root权限"></a>8. 为用户赋予Root权限</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在执行某些命令时需要sudo并输入密码</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#先切换到root用户</span></span><br><span class="line">vim /etc/sudoers</span><br><span class="line"><span class="comment">#修改如下：</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Allow root to run any commands anywhere </span></span><br><span class="line">root    ALL=(ALL)       ALL</span><br><span class="line"><span class="comment">## Allows members of the &#x27;sys&#x27; group to run networking, software, </span></span><br><span class="line"><span class="comment">## service management apps and more.</span></span><br><span class="line"><span class="comment"># %sys ALL = NETWORKING, SOFTWARE, SERVICES, STORAGE, DELEGATING, PROCESSES, LOCATE, DRIVERS</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Allows people in group wheel to run all commands</span></span><br><span class="line">%wheel  ALL=(ALL)       ALL</span><br><span class="line"></span><br><span class="line"><span class="comment">## Same thing without a password</span></span><br><span class="line"><span class="comment"># %wheel        ALL=(ALL)       NOPASSWD: ALL</span></span><br><span class="line"><span class="comment">#可以写用户或者用户所属组</span></span><br><span class="line">%Worker ALL=(ALL) NOPASSWD:ALL</span><br><span class="line"><span class="comment">## Allows members of the users g</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="9-服务器之间配置别名"><a href="#9-服务器之间配置别名" class="headerlink" title="9. 服务器之间配置别名"></a>9. 服务器之间配置别名</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/hosts</span><br><span class="line"></span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line"></span><br><span class="line">192.168.0.101 bigdata1</span><br><span class="line">192.168.0.102 bigdata2</span><br><span class="line">192.168.0.103 bigdata3</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-服务器之间配置免密"><a href="#10-服务器之间配置免密" class="headerlink" title="10.服务器之间配置免密"></a>10.服务器之间配置免密</h3><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/SSH%E9%85%8D%E7%BD%AE.png?raw=true" />
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#生成密钥对</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment">#将公钥上传到需要配置免密的服务器，并以相同用户登录（默认是以相同用户登录），根据提示输入免密即可</span></span><br><span class="line">ssh-copy-id CharlieTao@192.168.0.102</span><br></pre></td></tr></table></figure>
+
+<h3 id="11-服务器之间传输文件（配置完免密之后）"><a href="#11-服务器之间传输文件（配置完免密之后）" class="headerlink" title="11. 服务器之间传输文件（配置完免密之后）"></a>11. 服务器之间传输文件（配置完免密之后）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">scp -r package/ CharlieTao@bigdata2:/home/CharlieTao/</span><br></pre></td></tr></table></figure>
+
+<h3 id="12-配置JDK"><a href="#12-配置JDK" class="headerlink" title="12. 配置JDK"></a>12. 配置JDK</h3><ul>
+<li>前置工作：检查系统是否已自带JDK（一般最小版本安装是没有自带JDK的，其余版本建议先检测，有则卸载）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#检测</span></span><br><span class="line">rpm -qa | grep -i java</span><br><span class="line"></span><br><span class="line"><span class="comment">#检测+删除（检测出来的结果可能有多个，直接每行遍历删除）</span></span><br><span class="line">rpm -qa | grep -i java | xargs -n1 rpm -e --nodeps </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>解压</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar -zxvf jdk-8u45-linux-x64.tar.gz -C /home/CharlieTao/software/</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置环境变量</li>
+</ul>
+<img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/Java%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE.png?raw=true" />
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -325,205 +325,6 @@
       </categories>
       <tags>
         <tag>HBase</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hadoop-3.1.3安装文档</title>
-    <url>/2020/06/17/Hadoop-3.1.3%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><span id="more"></span>
-
-<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><ol>
-<li>免密登录</li>
-<li>关闭防⽕墙</li>
-<li>JDK的安装</li>
-<li>Zookeeper的安装</li>
-</ol>
-<blockquote>
-<p>注：搭配的Spark版本是2.3.4</p>
-</blockquote>
-<h1 id="角色分配"><a href="#角色分配" class="headerlink" title="角色分配"></a>角色分配</h1><table>
-<thead>
-<tr>
-<th align="center">机器名称</th>
-<th align="center">bigdata001</th>
-<th align="center">bigdata002</th>
-<th align="center">bigdata003</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">QuorumPeerMain</td>
-<td align="center">√</td>
-<td align="center">√</td>
-<td align="center">√</td>
-</tr>
-<tr>
-<td align="center">NameNode</td>
-<td align="center">√</td>
-<td align="center">√</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">DataNode</td>
-<td align="center">√</td>
-<td align="center">√</td>
-<td align="center">√</td>
-</tr>
-<tr>
-<td align="center">JournalNode</td>
-<td align="center">√</td>
-<td align="center">√</td>
-<td align="center">√</td>
-</tr>
-<tr>
-<td align="center">ResourceManager</td>
-<td align="center">√</td>
-<td align="center">√</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">NodeManager</td>
-<td align="center">√</td>
-<td align="center">√</td>
-<td align="center">√</td>
-</tr>
-<tr>
-<td align="center">ZKFC</td>
-<td align="center">√</td>
-<td align="center">√</td>
-<td align="center"></td>
-</tr>
-</tbody></table>
-<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><h2 id="1-浏览器下载"><a href="#1-浏览器下载" class="headerlink" title="1. 浏览器下载"></a>1. 浏览器下载</h2><ul>
-<li><p><a href="https://archive.apache.org/dist/hadoop/common"><strong>Hadoop官网下载</strong></a></p>
-</li>
-<li><p><a href="https://mirrors.tuna.tsinghua.edu.cn/apache/hadoop/common"><strong>国内镜像下载</strong></a></p>
-</li>
-</ul>
-<h2 id="2-服务器下载"><a href="#2-服务器下载" class="headerlink" title="2. 服务器下载"></a>2. 服务器下载</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#官网镜像</span></span><br><span class="line">wget https://archive.apache.org/dist/hadoop/common/hadoop-3.1.3/hadoop-3.1.3.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment">#国内镜像</span></span><br><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/hadoop/common/hadoop-3.1.3/hadoop-3.1.3.tar.gz</span><br></pre></td></tr></table></figure>
-
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="1-修改配置文件："><a href="#1-修改配置文件：" class="headerlink" title="1. 修改配置文件："></a>1. 修改配置文件：</h2><ul>
-<li>apache-hadoop-3.1.3&#x2F;etc&#x2F;hadoop&#x2F;core-site.xml</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 指定hdfs地址，高可用模式中是连接到nameservice --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://ns1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 这里的路径默认是NameNode、DataNode、JournalNode等存放数据的公共目录，也可以单独指定 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/xuanfu01/software/hadoop/data/dfs<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定ZooKeeper集群的地址和端口。注意，数量一定是奇数，且不少于三个节点 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>ha.zookeeper.quorum<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:2181,bigdata002:2181,bigdata003:2181<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">&lt;!-- 代理用户 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.proxyuser.root.hosts<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">value</span>&gt;</span>*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.proxyuser.CharlieTao.hosts<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">value</span>&gt;</span>*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.proxyuser.CharlieTao.groups<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">value</span>&gt;</span>*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>apache-hadoop-3.1.3&#x2F;etc&#x2F;hadoop&#x2F;hadoop-env.sh</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/home/xuanfu01/software/jdk</span><br><span class="line"><span class="built_in">export</span> HDFS_NAMENODE_USER=root</span><br><span class="line"><span class="built_in">export</span> HDFS_DATANODE_USER=root</span><br><span class="line"><span class="built_in">export</span> HDFS_ZKFC_USER=root</span><br><span class="line"><span class="built_in">export</span> HDFS_JOURNALNODE_USER=root</span><br><span class="line"><span class="built_in">export</span> HDFS_SECONDARYNAMENODE_USER=root</span><br><span class="line"><span class="built_in">export</span> YARN_NODEMANAGER_USER=root</span><br><span class="line"><span class="built_in">export</span> YARN_RESOURCEMANAGER_USER=root</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>apache-hadoop-3.1.3&#x2F;etc&#x2F;hadoop&#x2F;hdfs-site.xml</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 指定副本数，不能超过机器节点数 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>3<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 为Namenode集群定义一个ServicesName --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.nameservices<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>ns1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- ServicesName包含哪些NameNode --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.namenodes.ns1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>nn1,nn2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 名为nn1的NameNode的rpc地址和端口号，rpc用来和DataNode通讯 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.rpc-address.ns1.nn1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 名为nn2的NameNode的rpc地址和端口号，rpc用来和DataNode通讯 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.rpc-address.ns1.nn2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--名为nn1的NameNode的http地址和端口号，用来和web客户端通讯 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.http-address.ns1.nn1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:50070<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 名为nn2的NameNode的http地址和端口号，用来和web客户端通讯 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.http-address.ns1.nn2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:50070<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        </span><br><span class="line">    <span class="comment">&lt;!-- NameNode间用于共享编辑日志的Journal节点列表 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.shared.edits.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>qjournal://bigdata001:8485;bigdata002:8485;bigdata003:8485/ns1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定该集群出现故障时，是否自动切换到另一台NameNode --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.automatic-failover.enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Journalnode上用于存放edits日志的目录 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.journalnode.edits.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/xuanfu01/software/hadoop/data/dfs/journalnode<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--指定NameNode Dir的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/xuanfu01/software/hadoop/data/dfs/namenode<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--指定Datanode Dir的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/xuanfu01/software/hadoop/data/dfs/datanode<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 客户端连接可用状态的NameNode所用的代理类 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.client.failover.proxy.provider.ns1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 一旦需要NameNode切换，使用ssh方式进行操作 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.fencing.methods<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>sshfence<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 如果使用ssh进行故障切换，使用ssh通信时用的密钥存储的位置 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.fencing.ssh.private-key-files<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/xuanfu01/.ssh/id_rsa<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- connect-timeout超时时间 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.fencing.ssh.connect-timeout<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>30000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--开启Web HDFS --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.webhdfs.enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>apache-hadoop-3.1.3&#x2F;etc&#x2F;hadoop&#x2F;mapred-site.xml</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 使用Yarn作为资源调度 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>apache-hadoop-3.1.3&#x2F;etc&#x2F;hadoop&#x2F;yarn-site.xml</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 启用HA高可用性 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定ResourceManager的名字 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.cluster-id<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>yrc<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 使用了2个ResourceManager,分别指定ResourceManager的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.rm-ids<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>rm1,rm2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定rm1的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定rm2的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定当前机器bigdata001作为rm1 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.id<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>rm1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定Zookeeper集群机器 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.zk-address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:2181,bigdata002:2181,bigdata003:2181<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- NodeManager上运行的附属服务，默认是mapreduce_shuffle --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Hadoop ClassPath（执行hadoop classpath的结果） --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.application.classpath<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span></span><br><span class="line">            /home/CharlieTao/software/hadoop/etc/hadoop:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/common/lib/*:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/common/*:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/hdfs:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/hdfs/lib/*:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/hdfs/*:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/mapreduce/lib/*:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/mapreduce/*:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/yarn:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/yarn/lib/*:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/yarn/*</span><br><span class="line">        <span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 客户端通过该地址向RM提交对应用程序操作 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:8032<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--ResourceManager对ApplicationMaster暴露的访问地址。ApplicationMaster通过该地址向RM申请资源释放资源等。 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.scheduler.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:8030<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- RM WebUI访问地址,查看集群信息--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.webapp.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:8088<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- NodeManager通过该地址交换信息 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.resource-tracker.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:8031<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--管理员通过该地址向RM发送管理命令 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.admin.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:8033<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.admin.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:23142<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.admin.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:23142<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:8032<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.scheduler.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:8030<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 设置Yarn WebUI页面访问端口 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.webapp.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:8088<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.resource-tracker.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:8031<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.admin.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:8033<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 设置Yarn可调度的最大内存，防止执行Hive时MR跑不起来（java.io.InterruptedIOException） --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.scheduler.maximum-allocation-mb<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>30720<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>apache-hadoop-3.1.3&#x2F;etc&#x2F;hadoop&#x2F;workers</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bigdata001</span><br><span class="line">bigdata002</span><br><span class="line">bigdata003</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>apache-hadoop-3.1.3&#x2F;etc&#x2F;hadoop&#x2F;hadoop-evn.sh</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#优雅的关闭NodeManager(默认HADOOP的PID和YARN的PID时存放在Linux的TEMP目录下，当时间Hadoop集群运行时间较长时，TEMP目录下的文件会被系统清理掉。因此使用stop-all.sh关闭集群时会找不到PID，从而报出nodemanager did not stop gracefully after 5 seconds的错误，所以在这里我们自定义PID的地址即可解决)</span></span><br><span class="line"><span class="built_in">export</span> HADOOP_PID_DIR=<span class="variable">$&#123;HADOOP_HOME&#125;</span>/pid</span><br><span class="line"><span class="comment">#YARN_PID_DIR无需指定，与HADOOP_PID_DIR地址一致</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="2-拷贝"><a href="#2-拷贝" class="headerlink" title="2. 拷贝"></a>2. 拷贝</h2><ul>
-<li>将bigdata001的Hadoop⽂件夹拷⻉⾄其余机器上</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">scp -r apache-hadoop-3.1.3/ xuanfu01@bigdata002:/home/xuanfu01/software/</span><br><span class="line">scp -r apache-hadoop-3.1.3/ xuanfu01@bigdata003:/home/xuanfu01/software/</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在bigdata002服务器上的 yarn-site.xml 配置⽂件中做出如下修改</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.id<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>rm2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在bigdata003上删除上述配置项</li>
-</ul>
-<h2 id="3-配置环境变量"><a href="#3-配置环境变量" class="headerlink" title="3. 配置环境变量"></a>3. 配置环境变量</h2><blockquote>
-<p>在此不做过多赘述，以下为本⼈服务器的所有环境变量（&#x2F;home&#x2F;xuanfu01&#x2F;.bashrc）</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># .bashrc</span></span><br><span class="line"><span class="comment"># Source global definitions</span></span><br><span class="line"><span class="keyword">if</span> [ -f /etc/bashrc ]; <span class="keyword">then</span></span><br><span class="line">. /etc/bashrc</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="comment"># User specific environment</span></span><br><span class="line"><span class="built_in">export</span></span><br><span class="line">PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$SCALA_HOME</span>/bin:<span class="variable">$ZOOKEEPER_HOME</span>/bin:<span class="variable">$HADOOP_HOM</span></span><br><span class="line">E/bin:<span class="variable">$HADOOP_HOME</span>/sbin:<span class="variable">$KAFKA_HOME</span>/bin:<span class="variable">$SPARK_HOME</span>/bin:<span class="variable">$FLUME_HOME</span>/bin:$</span><br><span class="line">HBASE_HOME/bin:</span><br><span class="line"><span class="comment"># Uncomment the following line if you don&#x27;t like systemctl&#x27;s auto-paging</span></span><br><span class="line">feature:</span><br><span class="line"><span class="comment"># export SYSTEMD_PAGER=</span></span><br><span class="line"><span class="comment"># User specific aliases and functions</span></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/home/xuanfu01/software/jdk</span><br><span class="line"><span class="built_in">export</span> SCALA_HOME=/home/xuanfu01/software/scala</span><br><span class="line"><span class="built_in">export</span> ZOOKEEPER_HOME=/home/xuanfu01/software/zookeeper</span><br><span class="line"><span class="built_in">export</span> HADOOP_HOME=/home/xuanfu01/software/hadoop</span><br><span class="line"><span class="built_in">export</span> KAFKA_HOME=/home/xuanfu01/software/kafka</span><br><span class="line"><span class="built_in">export</span> SPARK_HOME=/home/xuanfu01/software/spark</span><br><span class="line"><span class="built_in">export</span> FLUME_HOME=/home/xuanfu01/software/flume</span><br><span class="line"><span class="built_in">export</span> HBASE_HOME=/home/xuanfu01/software/hbase</span><br></pre></td></tr></table></figure>
-
-<!--注：添加完环境变量之后记得source-->
-
-
-
-<h2 id="4-初始化及启动流程"><a href="#4-初始化及启动流程" class="headerlink" title="4. 初始化及启动流程"></a>4. 初始化及启动流程</h2><!--注：⾄此，Hadoop⾼可⽤集群已经安装完毕。以下将进⾏初始化操作，必须按照顺序进⾏！-->
-
-<h3 id="1-初始化HDFS"><a href="#1-初始化HDFS" class="headerlink" title="(1) 初始化HDFS"></a>(1) 初始化HDFS</h3><h4 id="①-启动JournalNode-三台都要启动"><a href="#①-启动JournalNode-三台都要启动" class="headerlink" title="① 启动JournalNode(三台都要启动)"></a>① 启动JournalNode(三台都要启动)</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hadoop-daemon.sh start journalnode</span><br></pre></td></tr></table></figure>
-
-<!--注：JournalNode之所以需要三台都启动，是因为JournalNode的作用在于同步两台NameNode的元数据，而为了保证JournalNode自身的高可用特性，通常数量设置为（2N-1），其中N表示NameNode的数量，具体在这里不做赘述，后续文章会说明JournalNode及Hadoop其他进程的作用。因此要搭建高可用的Hdaoop集群，则JournalNode进程的最小个数为3-->
-
-<h4 id="②-格式化NameNode（bigdata001执行）"><a href="#②-格式化NameNode（bigdata001执行）" class="headerlink" title="② 格式化NameNode（bigdata001执行）"></a>② 格式化NameNode（bigdata001执行）</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hdfs namenode -format</span><br></pre></td></tr></table></figure>
-
-<h4 id="③-同步NameNode的元数据（bigdata002执行）"><a href="#③-同步NameNode的元数据（bigdata002执行）" class="headerlink" title="③ 同步NameNode的元数据（bigdata002执行）"></a>③ 同步NameNode的元数据（bigdata002执行）</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hdfs namenode -bootstrapStandby</span><br></pre></td></tr></table></figure>
-
-<h4 id="④-格式化ZKFC（bigdata001）"><a href="#④-格式化ZKFC（bigdata001）" class="headerlink" title="④ 格式化ZKFC（bigdata001）"></a>④ 格式化ZKFC（bigdata001）</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hdfs zkfc -formatZK</span><br></pre></td></tr></table></figure>
-
-<p>注：至此，HDFS的格式化完毕。现将现有HDFS进程关闭，再重新启动Hadoop集群</p>
-<h4 id="⑤-关闭现有HDFS进程（bigdata001）"><a href="#⑤-关闭现有HDFS进程（bigdata001）" class="headerlink" title="⑤ 关闭现有HDFS进程（bigdata001）"></a>⑤ 关闭现有HDFS进程（bigdata001）</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">stop-dfs.sh</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="2-启动HDFS（bigdata001）"><a href="#2-启动HDFS（bigdata001）" class="headerlink" title="(2) 启动HDFS（bigdata001）"></a>(2) 启动HDFS（bigdata001）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">startp-dfs.sh</span><br></pre></td></tr></table></figure>
-
-<!--注：ZKFC与JournalNode进程无需单独启动，包含在startp-dfs.sh脚本里面-->
-
-
-
-<h3 id="3-检验HDFS是否启动成功"><a href="#3-检验HDFS是否启动成功" class="headerlink" title="(3) 检验HDFS是否启动成功"></a>(3) 检验HDFS是否启动成功</h3><ol>
-<li>在浏览器中分别输⼊ bigdata001:50070 、 bigdata002:50070 检查主从NameNode是否 为正常状态。如下所⽰：</li>
-</ol>
-<p>ActiveNameNode<br><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Hadoop/ActiveNameNode.png?raw=true" alt="bigdata001:50070"></p>
-<p>StandbyNameNode<br><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Hadoop/StandbyNameNode.png?raw=true" alt="bigdata002:50070"></p>
-<ol start="2">
-<li>⾼可⽤测试（将bigdata001上的NameNode进程杀死，在Web⻚⾯上观察bigdata002的NameNode是否可以自行变更为Active状态）</li>
-<li>重新启动bigdata001上NameNode进程</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hdfs --daemon start namenode</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="4-启动Yarn（bigdata001）"><a href="#4-启动Yarn（bigdata001）" class="headerlink" title="(4) 启动Yarn（bigdata001）"></a>(4) 启动Yarn（bigdata001）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">start-yarn.sh</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>在浏览器中输入bigdata002:8088，页面如下所示：</li>
-</ol>
-<p>ResourceManager</p>
-<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Hadoop/ResourceManager.png?raw=true" alt="bigdata002:8088"></p>
-<ol start="2">
-<li>ResourceManager不存在Active、StandBy一说，只能访问活动的那台服务器，如果你访问bigdata001:8088，则会自动跳转到bigdata002:8088页面上</li>
-</ol>
-<!--注：-->
-
-<p>​		<!--1. Yarn无需格式化，直接启动即可--></p>
-<p>​		<!--2. 这里采用的是逐一启动HDFS与Yarn服务，Hadoop支持一键启动：start-all.sh、一键关闭：stop-all.sh--></p>
-<h2 id="5-疑难解答"><a href="#5-疑难解答" class="headerlink" title="5. 疑难解答"></a>5. 疑难解答</h2><ol>
-<li>在搭建集群过程中曾出现Active状态NameNode与StandBy状态的NameNode无法自动切换的现象<ul>
-<li>日志：查看ZKFC的日志，发现日志中报错（bash: fuser: 未找到命令）</li>
-<li>解决方法：sudo yum install psmisc，关闭所有Hadoop进程，重新启动即可</li>
-</ul>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Bigdata</category>
-        <category>Hadoop</category>
-      </categories>
-      <tags>
-        <tag>Hadoop</tag>
       </tags>
   </entry>
   <entry>
@@ -802,6 +603,249 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux服务器初始化——CentOS7</title>
+    <url>/2020/06/12/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E2%80%94%E2%80%94CentOS7/</url>
+    <content><![CDATA[<span id="more"></span>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><h3 id="1-查看服务器的CentOS版本"><a href="#1-查看服务器的CentOS版本" class="headerlink" title="1. 查看服务器的CentOS版本"></a>1. 查看服务器的CentOS版本</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#二者皆可</span></span><br><span class="line"><span class="built_in">tail</span> /etc/redhat-release</span><br><span class="line"><span class="built_in">cat</span> /etc/redhat-release</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-更改服务器名称"><a href="#2-更改服务器名称" class="headerlink" title="2. 更改服务器名称"></a>2. 更改服务器名称</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#输入以下命令，而后直接输入服务器名称</span></span><br><span class="line">vim /etc/hostname</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-更改网络设置"><a href="#3-更改网络设置" class="headerlink" title="3. 更改网络设置"></a>3. 更改网络设置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/sysconfig/network-scripts/ifcfg-ens33</span><br></pre></td></tr></table></figure>
+
+<p>更改以下几点</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#1.设置静态IP</span></span><br><span class="line">BOOTPROTO=static</span><br><span class="line"><span class="comment">#2.</span></span><br><span class="line">ONBOOT=<span class="built_in">yes</span></span><br><span class="line"><span class="comment">#3.给定固定IP</span></span><br><span class="line">IPADDR=192.168.0.101</span><br><span class="line"><span class="comment">#4.子网掩码</span></span><br><span class="line">GATEWAY=192.168.0.1</span><br><span class="line"><span class="comment">#5.网关</span></span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line"><span class="comment">#6.</span></span><br><span class="line">DNS1=8.8.8.8</span><br><span class="line">DNS2=8.8.4.4</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-更换默认镜像（设置Yum源）"><a href="#4-更换默认镜像（设置Yum源）" class="headerlink" title="4. 更换默认镜像（设置Yum源）"></a>4. 更换默认镜像（设置Yum源）</h3><p>注：详情请参考<a href="https://charlietao.github.io/2020/06/13/CentOS%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F/">CnetOS 更换镜像</a></p>
+<h3 id="5-按需更改防火墙状态"><a href="#5-按需更改防火墙状态" class="headerlink" title="5. 按需更改防火墙状态"></a>5. 按需更改防火墙状态</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#1.查看防火墙状态</span></span><br><span class="line">systemctl status firewalld</span><br><span class="line"><span class="comment">#2.关闭(开启)防火墙</span></span><br><span class="line">systemctl stop firewalld/systemctl start firewalld</span><br><span class="line"><span class="comment">#4.禁用防火墙服务</span></span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld</span><br><span class="line"><span class="comment">#注：如果需要永久关闭，需要先关闭再禁用防火墙服务</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-扩展（使用Telnet连接虚拟机）"><a href="#6-扩展（使用Telnet连接虚拟机）" class="headerlink" title="6. 扩展（使用Telnet连接虚拟机）"></a>6. 扩展（使用Telnet连接虚拟机）</h3><h3 id="7-创建用户"><a href="#7-创建用户" class="headerlink" title="7. 创建用户"></a>7. 创建用户</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#优先创建用户组</span></span><br><span class="line">groupadd Worker</span><br><span class="line"><span class="comment">#创建用户并制定用户组</span></span><br><span class="line">useradd CharlieTao -g Worker</span><br><span class="line"><span class="comment">#创建用户之后应立即更新密码（输入以下命令后输入两次密码则密码设置成功）</span></span><br><span class="line">passwd CharlieTao</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-服务器之间配置别名"><a href="#8-服务器之间配置别名" class="headerlink" title="8. 服务器之间配置别名"></a>8. 服务器之间配置别名</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/hosts</span><br><span class="line"></span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line"></span><br><span class="line">192.168.0.101 bigdata1</span><br><span class="line">192.168.0.102 bigdata2</span><br><span class="line">192.168.0.103 bigdata3</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-服务器之间配置免密"><a href="#9-服务器之间配置免密" class="headerlink" title="9.服务器之间配置免密"></a>9.服务器之间配置免密</h3><img data-src="./Pictures/SSH配置.png" style="zoom:75%;">
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#生成密钥对</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment">#将公钥上传到需要配置免密的服务器，并以相同用户登录（默认是以相同用户登录），根据提示输入免密即可</span></span><br><span class="line">ssh-copy-id CharlieTao@192.168.0.102</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-服务器之间传输文件（配置完免密之后）"><a href="#10-服务器之间传输文件（配置完免密之后）" class="headerlink" title="10. 服务器之间传输文件（配置完免密之后）"></a>10. 服务器之间传输文件（配置完免密之后）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">scp -r package/ CharlieTao@bigdata2:/home/CharlieTao/</span><br></pre></td></tr></table></figure>
+
+<h3 id="11-配置JDK"><a href="#11-配置JDK" class="headerlink" title="11. 配置JDK"></a>11. 配置JDK</h3><ul>
+<li>解压</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar -zxvf jdk-8u45-linux-x64.tar.gz -C /home/CharlieTao/software/</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置环境变量</li>
+</ul>
+<img data-src="./Pictures/Java环境变量设置.png" style="zoom:75%;">
+]]></content>
+      <categories>
+        <category>操作系统</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hadoop-3.1.3安装文档</title>
+    <url>/2020/06/17/Hadoop-3.1.3%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><span id="more"></span>
+
+<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><ol>
+<li>免密登录</li>
+<li>关闭防⽕墙</li>
+<li>JDK的安装</li>
+<li>Zookeeper的安装</li>
+</ol>
+<blockquote>
+<p>注：搭配的Spark版本是2.3.4</p>
+</blockquote>
+<h1 id="角色分配"><a href="#角色分配" class="headerlink" title="角色分配"></a>角色分配</h1><table>
+<thead>
+<tr>
+<th align="center">机器名称</th>
+<th align="center">bigdata001</th>
+<th align="center">bigdata002</th>
+<th align="center">bigdata003</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">QuorumPeerMain</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">NameNode</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">DataNode</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">JournalNode</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">ResourceManager</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">NodeManager</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">ZKFC</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><h2 id="1-浏览器下载"><a href="#1-浏览器下载" class="headerlink" title="1. 浏览器下载"></a>1. 浏览器下载</h2><ul>
+<li><p><a href="https://archive.apache.org/dist/hadoop/common"><strong>Hadoop官网下载</strong></a></p>
+</li>
+<li><p><a href="https://mirrors.tuna.tsinghua.edu.cn/apache/hadoop/common"><strong>国内镜像下载</strong></a></p>
+</li>
+</ul>
+<h2 id="2-服务器下载"><a href="#2-服务器下载" class="headerlink" title="2. 服务器下载"></a>2. 服务器下载</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#官网镜像</span></span><br><span class="line">wget https://archive.apache.org/dist/hadoop/common/hadoop-3.1.3/hadoop-3.1.3.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment">#国内镜像</span></span><br><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/hadoop/common/hadoop-3.1.3/hadoop-3.1.3.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="1-修改配置文件："><a href="#1-修改配置文件：" class="headerlink" title="1. 修改配置文件："></a>1. 修改配置文件：</h2><ul>
+<li>apache-hadoop-3.1.3&#x2F;etc&#x2F;hadoop&#x2F;core-site.xml</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 指定hdfs地址，高可用模式中是连接到nameservice --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://ns1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 这里的路径默认是NameNode、DataNode、JournalNode等存放数据的公共目录，也可以单独指定 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/xuanfu01/software/hadoop/data/dfs<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定ZooKeeper集群的地址和端口。注意，数量一定是奇数，且不少于三个节点 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>ha.zookeeper.quorum<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:2181,bigdata002:2181,bigdata003:2181<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">&lt;!-- 代理用户 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.proxyuser.root.hosts<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">value</span>&gt;</span>*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.proxyuser.CharlieTao.hosts<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">value</span>&gt;</span>*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.proxyuser.CharlieTao.groups<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">value</span>&gt;</span>*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>apache-hadoop-3.1.3&#x2F;etc&#x2F;hadoop&#x2F;hadoop-env.sh</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/home/xuanfu01/software/jdk</span><br><span class="line"><span class="built_in">export</span> HDFS_NAMENODE_USER=root</span><br><span class="line"><span class="built_in">export</span> HDFS_DATANODE_USER=root</span><br><span class="line"><span class="built_in">export</span> HDFS_ZKFC_USER=root</span><br><span class="line"><span class="built_in">export</span> HDFS_JOURNALNODE_USER=root</span><br><span class="line"><span class="built_in">export</span> HDFS_SECONDARYNAMENODE_USER=root</span><br><span class="line"><span class="built_in">export</span> YARN_NODEMANAGER_USER=root</span><br><span class="line"><span class="built_in">export</span> YARN_RESOURCEMANAGER_USER=root</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>apache-hadoop-3.1.3&#x2F;etc&#x2F;hadoop&#x2F;hdfs-site.xml</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 指定副本数，不能超过机器节点数 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>3<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 为Namenode集群定义一个ServicesName --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.nameservices<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>ns1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- ServicesName包含哪些NameNode --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.namenodes.ns1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>nn1,nn2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 名为nn1的NameNode的rpc地址和端口号，rpc用来和DataNode通讯 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.rpc-address.ns1.nn1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 名为nn2的NameNode的rpc地址和端口号，rpc用来和DataNode通讯 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.rpc-address.ns1.nn2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--名为nn1的NameNode的http地址和端口号，用来和web客户端通讯 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.http-address.ns1.nn1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:50070<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 名为nn2的NameNode的http地址和端口号，用来和web客户端通讯 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.http-address.ns1.nn2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:50070<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        </span><br><span class="line">    <span class="comment">&lt;!-- NameNode间用于共享编辑日志的Journal节点列表 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.shared.edits.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>qjournal://bigdata001:8485;bigdata002:8485;bigdata003:8485/ns1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定该集群出现故障时，是否自动切换到另一台NameNode --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.automatic-failover.enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Journalnode上用于存放edits日志的目录 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.journalnode.edits.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/xuanfu01/software/hadoop/data/dfs/journalnode<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--指定NameNode Dir的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/xuanfu01/software/hadoop/data/dfs/namenode<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--指定Datanode Dir的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/xuanfu01/software/hadoop/data/dfs/datanode<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 客户端连接可用状态的NameNode所用的代理类 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.client.failover.proxy.provider.ns1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 一旦需要NameNode切换，使用ssh方式进行操作 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.fencing.methods<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>sshfence<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 如果使用ssh进行故障切换，使用ssh通信时用的密钥存储的位置 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.fencing.ssh.private-key-files<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/xuanfu01/.ssh/id_rsa<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- connect-timeout超时时间 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.fencing.ssh.connect-timeout<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>30000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--开启Web HDFS --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.webhdfs.enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>apache-hadoop-3.1.3&#x2F;etc&#x2F;hadoop&#x2F;mapred-site.xml</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 使用Yarn作为资源调度 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>apache-hadoop-3.1.3&#x2F;etc&#x2F;hadoop&#x2F;yarn-site.xml</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 启用HA高可用性 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定ResourceManager的名字 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.cluster-id<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>yrc<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 使用了2个ResourceManager,分别指定ResourceManager的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.rm-ids<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>rm1,rm2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定rm1的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定rm2的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定当前机器bigdata001作为rm1 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.id<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>rm1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 指定Zookeeper集群机器 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.zk-address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:2181,bigdata002:2181,bigdata003:2181<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- NodeManager上运行的附属服务，默认是mapreduce_shuffle --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Hadoop ClassPath（执行hadoop classpath的结果） --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.application.classpath<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span></span><br><span class="line">            /home/CharlieTao/software/hadoop/etc/hadoop:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/common/lib/*:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/common/*:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/hdfs:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/hdfs/lib/*:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/hdfs/*:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/mapreduce/lib/*:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/mapreduce/*:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/yarn:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/yarn/lib/*:</span><br><span class="line">            /home/CharlieTao/software/hadoop/share/hadoop/yarn/*</span><br><span class="line">        <span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 客户端通过该地址向RM提交对应用程序操作 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:8032<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--ResourceManager对ApplicationMaster暴露的访问地址。ApplicationMaster通过该地址向RM申请资源释放资源等。 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.scheduler.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:8030<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- RM WebUI访问地址,查看集群信息--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.webapp.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:8088<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- NodeManager通过该地址交换信息 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.resource-tracker.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:8031<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--管理员通过该地址向RM发送管理命令 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.admin.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:8033<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.admin.address.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata001:23142<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.admin.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:23142<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:8032<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.scheduler.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:8030<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 设置Yarn WebUI页面访问端口 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.webapp.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:8088<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.resource-tracker.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:8031<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.admin.address.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata002:8033<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 设置Yarn可调度的最大内存，防止执行Hive时MR跑不起来（java.io.InterruptedIOException） --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.scheduler.maximum-allocation-mb<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>30720<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>apache-hadoop-3.1.3&#x2F;etc&#x2F;hadoop&#x2F;workers</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bigdata001</span><br><span class="line">bigdata002</span><br><span class="line">bigdata003</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>apache-hadoop-3.1.3&#x2F;etc&#x2F;hadoop&#x2F;hadoop-evn.sh</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#优雅的关闭NodeManager(默认HADOOP的PID和YARN的PID时存放在Linux的TEMP目录下，当时间Hadoop集群运行时间较长时，TEMP目录下的文件会被系统清理掉。因此使用stop-all.sh关闭集群时会找不到PID，从而报出nodemanager did not stop gracefully after 5 seconds的错误，所以在这里我们自定义PID的地址即可解决)</span></span><br><span class="line"><span class="built_in">export</span> HADOOP_PID_DIR=<span class="variable">$&#123;HADOOP_HOME&#125;</span>/pid</span><br><span class="line"><span class="comment">#YARN_PID_DIR无需指定，与HADOOP_PID_DIR地址一致</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-拷贝"><a href="#2-拷贝" class="headerlink" title="2. 拷贝"></a>2. 拷贝</h2><ul>
+<li>将bigdata001的Hadoop⽂件夹拷⻉⾄其余机器上</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">scp -r apache-hadoop-3.1.3/ xuanfu01@bigdata002:/home/xuanfu01/software/</span><br><span class="line">scp -r apache-hadoop-3.1.3/ xuanfu01@bigdata003:/home/xuanfu01/software/</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在bigdata002服务器上的 yarn-site.xml 配置⽂件中做出如下修改</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.id<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>rm2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在bigdata003上删除上述配置项</li>
+</ul>
+<h2 id="3-配置环境变量"><a href="#3-配置环境变量" class="headerlink" title="3. 配置环境变量"></a>3. 配置环境变量</h2><blockquote>
+<p>在此不做过多赘述，以下为本⼈服务器的所有环境变量（&#x2F;home&#x2F;xuanfu01&#x2F;.bashrc）</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># .bashrc</span></span><br><span class="line"><span class="comment"># Source global definitions</span></span><br><span class="line"><span class="keyword">if</span> [ -f /etc/bashrc ]; <span class="keyword">then</span></span><br><span class="line">. /etc/bashrc</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="comment"># User specific environment</span></span><br><span class="line"><span class="built_in">export</span></span><br><span class="line">PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$SCALA_HOME</span>/bin:<span class="variable">$ZOOKEEPER_HOME</span>/bin:<span class="variable">$HADOOP_HOM</span></span><br><span class="line">E/bin:<span class="variable">$HADOOP_HOME</span>/sbin:<span class="variable">$KAFKA_HOME</span>/bin:<span class="variable">$SPARK_HOME</span>/bin:<span class="variable">$FLUME_HOME</span>/bin:$</span><br><span class="line">HBASE_HOME/bin:</span><br><span class="line"><span class="comment"># Uncomment the following line if you don&#x27;t like systemctl&#x27;s auto-paging</span></span><br><span class="line">feature:</span><br><span class="line"><span class="comment"># export SYSTEMD_PAGER=</span></span><br><span class="line"><span class="comment"># User specific aliases and functions</span></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/home/xuanfu01/software/jdk</span><br><span class="line"><span class="built_in">export</span> SCALA_HOME=/home/xuanfu01/software/scala</span><br><span class="line"><span class="built_in">export</span> ZOOKEEPER_HOME=/home/xuanfu01/software/zookeeper</span><br><span class="line"><span class="built_in">export</span> HADOOP_HOME=/home/xuanfu01/software/hadoop</span><br><span class="line"><span class="built_in">export</span> KAFKA_HOME=/home/xuanfu01/software/kafka</span><br><span class="line"><span class="built_in">export</span> SPARK_HOME=/home/xuanfu01/software/spark</span><br><span class="line"><span class="built_in">export</span> FLUME_HOME=/home/xuanfu01/software/flume</span><br><span class="line"><span class="built_in">export</span> HBASE_HOME=/home/xuanfu01/software/hbase</span><br></pre></td></tr></table></figure>
+
+<!--注：添加完环境变量之后记得source-->
+
+
+
+<h2 id="4-初始化及启动流程"><a href="#4-初始化及启动流程" class="headerlink" title="4. 初始化及启动流程"></a>4. 初始化及启动流程</h2><!--注：⾄此，Hadoop⾼可⽤集群已经安装完毕。以下将进⾏初始化操作，必须按照顺序进⾏！-->
+
+<h3 id="1-初始化HDFS"><a href="#1-初始化HDFS" class="headerlink" title="(1) 初始化HDFS"></a>(1) 初始化HDFS</h3><h4 id="①-启动JournalNode-三台都要启动"><a href="#①-启动JournalNode-三台都要启动" class="headerlink" title="① 启动JournalNode(三台都要启动)"></a>① 启动JournalNode(三台都要启动)</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hadoop-daemon.sh start journalnode</span><br></pre></td></tr></table></figure>
+
+<!--注：JournalNode之所以需要三台都启动，是因为JournalNode的作用在于同步两台NameNode的元数据，而为了保证JournalNode自身的高可用特性，通常数量设置为（2N-1），其中N表示NameNode的数量，具体在这里不做赘述，后续文章会说明JournalNode及Hadoop其他进程的作用。因此要搭建高可用的Hdaoop集群，则JournalNode进程的最小个数为3-->
+
+<h4 id="②-格式化NameNode（bigdata001执行）"><a href="#②-格式化NameNode（bigdata001执行）" class="headerlink" title="② 格式化NameNode（bigdata001执行）"></a>② 格式化NameNode（bigdata001执行）</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hdfs namenode -format</span><br></pre></td></tr></table></figure>
+
+<h4 id="③-同步NameNode的元数据（bigdata002执行）"><a href="#③-同步NameNode的元数据（bigdata002执行）" class="headerlink" title="③ 同步NameNode的元数据（bigdata002执行）"></a>③ 同步NameNode的元数据（bigdata002执行）</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hdfs namenode -bootstrapStandby</span><br></pre></td></tr></table></figure>
+
+<h4 id="④-格式化ZKFC（bigdata001）"><a href="#④-格式化ZKFC（bigdata001）" class="headerlink" title="④ 格式化ZKFC（bigdata001）"></a>④ 格式化ZKFC（bigdata001）</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hdfs zkfc -formatZK</span><br></pre></td></tr></table></figure>
+
+<p>注：至此，HDFS的格式化完毕。现将现有HDFS进程关闭，再重新启动Hadoop集群</p>
+<h4 id="⑤-关闭现有HDFS进程（bigdata001）"><a href="#⑤-关闭现有HDFS进程（bigdata001）" class="headerlink" title="⑤ 关闭现有HDFS进程（bigdata001）"></a>⑤ 关闭现有HDFS进程（bigdata001）</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">stop-dfs.sh</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-启动HDFS（bigdata001）"><a href="#2-启动HDFS（bigdata001）" class="headerlink" title="(2) 启动HDFS（bigdata001）"></a>(2) 启动HDFS（bigdata001）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">startp-dfs.sh</span><br></pre></td></tr></table></figure>
+
+<!--注：ZKFC与JournalNode进程无需单独启动，包含在startp-dfs.sh脚本里面-->
+
+
+
+<h3 id="3-检验HDFS是否启动成功"><a href="#3-检验HDFS是否启动成功" class="headerlink" title="(3) 检验HDFS是否启动成功"></a>(3) 检验HDFS是否启动成功</h3><ol>
+<li>在浏览器中分别输⼊ bigdata001:50070 、 bigdata002:50070 检查主从NameNode是否 为正常状态。如下所⽰：</li>
+</ol>
+<p>ActiveNameNode<br><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Hadoop/ActiveNameNode.png?raw=true" alt="bigdata001:50070"></p>
+<p>StandbyNameNode<br><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Hadoop/StandbyNameNode.png?raw=true" alt="bigdata002:50070"></p>
+<ol start="2">
+<li>⾼可⽤测试（将bigdata001上的NameNode进程杀死，在Web⻚⾯上观察bigdata002的NameNode是否可以自行变更为Active状态）</li>
+<li>重新启动bigdata001上NameNode进程</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hdfs --daemon start namenode</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4-启动Yarn（bigdata001）"><a href="#4-启动Yarn（bigdata001）" class="headerlink" title="(4) 启动Yarn（bigdata001）"></a>(4) 启动Yarn（bigdata001）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">start-yarn.sh</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>在浏览器中输入bigdata002:8088，页面如下所示：</li>
+</ol>
+<p>ResourceManager</p>
+<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Hadoop/ResourceManager.png?raw=true" alt="bigdata002:8088"></p>
+<ol start="2">
+<li>ResourceManager不存在Active、StandBy一说，只能访问活动的那台服务器，如果你访问bigdata001:8088，则会自动跳转到bigdata002:8088页面上</li>
+</ol>
+<!--注：-->
+
+<p>​		<!--1. Yarn无需格式化，直接启动即可--></p>
+<p>​		<!--2. 这里采用的是逐一启动HDFS与Yarn服务，Hadoop支持一键启动：start-all.sh、一键关闭：stop-all.sh--></p>
+<h2 id="5-疑难解答"><a href="#5-疑难解答" class="headerlink" title="5. 疑难解答"></a>5. 疑难解答</h2><ol>
+<li>在搭建集群过程中曾出现Active状态NameNode与StandBy状态的NameNode无法自动切换的现象<ul>
+<li>日志：查看ZKFC的日志，发现日志中报错（bash: fuser: 未找到命令）</li>
+<li>解决方法：sudo yum install psmisc，关闭所有Hadoop进程，重新启动即可</li>
+</ul>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Bigdata</category>
+        <category>Hadoop</category>
+      </categories>
+      <tags>
+        <tag>Hadoop</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Scala学习文档——基础语法</title>
     <url>/2020/06/08/Scala%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<span id="more"></span>
@@ -941,50 +985,6 @@
       </categories>
       <tags>
         <tag>Scala</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux服务器初始化——CentOS7</title>
-    <url>/2020/06/12/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E2%80%94%E2%80%94CentOS7/</url>
-    <content><![CDATA[<span id="more"></span>
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><h3 id="1-查看服务器的CentOS版本"><a href="#1-查看服务器的CentOS版本" class="headerlink" title="1. 查看服务器的CentOS版本"></a>1. 查看服务器的CentOS版本</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#二者皆可</span></span><br><span class="line"><span class="built_in">tail</span> /etc/redhat-release</span><br><span class="line"><span class="built_in">cat</span> /etc/redhat-release</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-更改服务器名称"><a href="#2-更改服务器名称" class="headerlink" title="2. 更改服务器名称"></a>2. 更改服务器名称</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#输入以下命令，而后直接输入服务器名称</span></span><br><span class="line">vim /etc/hostname</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-更改网络设置"><a href="#3-更改网络设置" class="headerlink" title="3. 更改网络设置"></a>3. 更改网络设置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/sysconfig/network-scripts/ifcfg-ens33</span><br></pre></td></tr></table></figure>
-
-<p>更改以下几点</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#1.设置静态IP</span></span><br><span class="line">BOOTPROTO=static</span><br><span class="line"><span class="comment">#2.</span></span><br><span class="line">ONBOOT=<span class="built_in">yes</span></span><br><span class="line"><span class="comment">#3.给定固定IP</span></span><br><span class="line">IPADDR=192.168.0.101</span><br><span class="line"><span class="comment">#4.子网掩码</span></span><br><span class="line">GATEWAY=192.168.0.1</span><br><span class="line"><span class="comment">#5.网关</span></span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line"><span class="comment">#6.</span></span><br><span class="line">DNS1=8.8.8.8</span><br><span class="line">DNS2=8.8.4.4</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-更换默认镜像（设置Yum源）"><a href="#4-更换默认镜像（设置Yum源）" class="headerlink" title="4. 更换默认镜像（设置Yum源）"></a>4. 更换默认镜像（设置Yum源）</h3><p>注：详情请参考<a href="https://charlietao.github.io/2020/06/13/CentOS%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F/">CnetOS 更换镜像</a></p>
-<h3 id="5-按需更改防火墙状态"><a href="#5-按需更改防火墙状态" class="headerlink" title="5. 按需更改防火墙状态"></a>5. 按需更改防火墙状态</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#1.查看防火墙状态</span></span><br><span class="line">systemctl status firewalld</span><br><span class="line"><span class="comment">#2.关闭(开启)防火墙</span></span><br><span class="line">systemctl stop firewalld/systemctl start firewalld</span><br><span class="line"><span class="comment">#4.禁用防火墙服务</span></span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld</span><br><span class="line"><span class="comment">#注：如果需要永久关闭，需要先关闭再禁用防火墙服务</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="6-扩展（使用Telnet连接虚拟机）"><a href="#6-扩展（使用Telnet连接虚拟机）" class="headerlink" title="6. 扩展（使用Telnet连接虚拟机）"></a>6. 扩展（使用Telnet连接虚拟机）</h3><h3 id="7-创建用户"><a href="#7-创建用户" class="headerlink" title="7. 创建用户"></a>7. 创建用户</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#优先创建用户组</span></span><br><span class="line">groupadd Worker</span><br><span class="line"><span class="comment">#创建用户并制定用户组</span></span><br><span class="line">useradd CharlieTao -g Worker</span><br><span class="line"><span class="comment">#创建用户之后应立即更新密码（输入以下命令后输入两次密码则密码设置成功）</span></span><br><span class="line">passwd CharlieTao</span><br></pre></td></tr></table></figure>
-
-<h3 id="8-服务器之间配置别名"><a href="#8-服务器之间配置别名" class="headerlink" title="8. 服务器之间配置别名"></a>8. 服务器之间配置别名</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/hosts</span><br><span class="line"></span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line"></span><br><span class="line">192.168.0.101 bigdata1</span><br><span class="line">192.168.0.102 bigdata2</span><br><span class="line">192.168.0.103 bigdata3</span><br></pre></td></tr></table></figure>
-
-<h3 id="9-服务器之间配置免密"><a href="#9-服务器之间配置免密" class="headerlink" title="9.服务器之间配置免密"></a>9.服务器之间配置免密</h3><img data-src="./Pictures/SSH配置.png" style="zoom:75%;">
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#生成密钥对</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment">#将公钥上传到需要配置免密的服务器，并以相同用户登录（默认是以相同用户登录），根据提示输入免密即可</span></span><br><span class="line">ssh-copy-id CharlieTao@192.168.0.102</span><br></pre></td></tr></table></figure>
-
-<h3 id="10-服务器之间传输文件（配置完免密之后）"><a href="#10-服务器之间传输文件（配置完免密之后）" class="headerlink" title="10. 服务器之间传输文件（配置完免密之后）"></a>10. 服务器之间传输文件（配置完免密之后）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">scp -r package/ CharlieTao@bigdata2:/home/CharlieTao/</span><br></pre></td></tr></table></figure>
-
-<h3 id="11-配置JDK"><a href="#11-配置JDK" class="headerlink" title="11. 配置JDK"></a>11. 配置JDK</h3><ul>
-<li>解压</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar -zxvf jdk-8u45-linux-x64.tar.gz -C /home/CharlieTao/software/</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>配置环境变量</li>
-</ul>
-<img data-src="./Pictures/Java环境变量设置.png" style="zoom:75%;">
-]]></content>
-      <categories>
-        <category>操作系统</category>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1137,6 +1137,19 @@
       </tags>
   </entry>
   <entry>
+    <title>Spark学习文档--Spark3.0.0安装文档</title>
+    <url>/2020/12/25/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-Spark%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<h1 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h1><p>Hadoop版本： </p>
+<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h1 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h1><h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1>]]></content>
+      <categories>
+        <category>Bigdata</category>
+        <category>Spark</category>
+      </categories>
+      <tags>
+        <tag>Spark</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Spark学习文档--初识Spark</title>
     <url>/2020/12/24/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%88%9D%E8%AF%86Spark/</url>
     <content><![CDATA[<span id="more"></span>
@@ -1242,10 +1255,44 @@
       </tags>
   </entry>
   <entry>
-    <title>Spark学习文档--Spark3.0.0安装文档</title>
-    <url>/2020/12/25/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-Spark%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
-    <content><![CDATA[<h1 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h1><p>Hadoop版本： </p>
-<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h1 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h1><h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1>]]></content>
+    <title>Spark学习文档--运行流程</title>
+    <url>/2020/12/27/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="1-Application"><a href="#1-Application" class="headerlink" title="1. Application"></a>1. Application</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">表示本次运次的应用程序</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-Driver"><a href="#2-Driver" class="headerlink" title="2. Driver"></a>2. Driver</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">表示main()函数，创建SparkContext。由SparkContext负责与CLusterManager通信，进行资源的申请、任务的分配和监控等。程序执行完毕后关闭SparkContext</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Executor"><a href="#3-Executor" class="headerlink" title="3. Executor"></a>3. Executor</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">某个Application运行在Worker节点上的一个进程，该进程负责运行某些Task，负责将数据存在内存或者磁盘上。在Spark On Yarn模式下，其进程名称为CoarseGrainedExecutorBackend，一个CoarseGrainedExecutorBackend能运行Task的数据就取决于分配给它的CPU的个数</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-Worker"><a href="#4-Worker" class="headerlink" title="4. Worker"></a>4. Worker</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">集群中可以运行Application的节点。在Standalone模式中指的是通过slave文件配置的worker节点，在Spark On Yarn模式中指的就是NodeManager节点</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-Task"><a href="#5-Task" class="headerlink" title="5. Task"></a>5. Task</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">在Executor进程中执行任务的工作单元，多个Task组成一个Stage</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-Job"><a href="#6-Job" class="headerlink" title="6. Job"></a>6. Job</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">包含多个Task组成的并行计算，是有行动算子触发的</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-Stage"><a href="#7-Stage" class="headerlink" title="7. Stage"></a>7. Stage</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">每个Job会被拆分成很多组Task，作为一个TaskSet，其名称为Stage</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-DAGScheduler"><a href="#8-DAGScheduler" class="headerlink" title="8. DAGScheduler"></a>8. DAGScheduler</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">根据Job构建基于Stage的DAG，并提交Stage给TaskScheduler，其划分Stage的依据是RDD之间的依赖关系</span><br></pre></td></tr></table></figure>
+
+<h2 id="9-TaskScheduler"><a href="#9-TaskScheduler" class="headerlink" title="9. TaskScheduler"></a>9. TaskScheduler</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">将TaskSet提交给Worker（集群）运行，每个Executor运行什么Task就是在此处分配的</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：<br>  有关Application、Driver、Job、Stage、Task之间的关系如下图所示：</p>
+</blockquote>
+<h1 id="运行流程"><a href="#运行流程" class="headerlink" title="运行流程"></a>运行流程</h1><h2 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h2><h2 id="文字说明"><a href="#文字说明" class="headerlink" title="文字说明"></a>文字说明</h2><ol>
+<li><p>构建SparkApplication的运行环境（启动SparkContext），SparkContext向资源管理器（Standalone、Mesos或者Yarn）注册并申请运行Executor资源</p>
+</li>
+<li><p>资源管理器分配Executor资源并启动StandaloneExecutorBackend，Executor运行情况将随着心跳发送到资源管理器上</p>
+</li>
+<li><p>SparkContext构成DAG图，将DAG图分解成Stage，并把TaskSet发送给Task Scheduler；Executor向SparkContext申请Task</p>
+</li>
+<li><p>Task Scheduler将Task发放给Executor运行同时SparkContext将应用程序代码发放给Executor</p>
+</li>
+<li><p>Task在Executor上运行，运行完毕释放所有资源</p>
+</li>
+</ol>
+]]></content>
       <categories>
         <category>Bigdata</category>
         <category>Spark</category>
@@ -1299,88 +1346,6 @@
       </categories>
       <tags>
         <tag>Spark</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Spark学习文档--运行流程</title>
-    <url>/2020/12/27/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="1-Application"><a href="#1-Application" class="headerlink" title="1. Application"></a>1. Application</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">表示本次运次的应用程序</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-Driver"><a href="#2-Driver" class="headerlink" title="2. Driver"></a>2. Driver</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">表示main()函数，创建SparkContext。由SparkContext负责与CLusterManager通信，进行资源的申请、任务的分配和监控等。程序执行完毕后关闭SparkContext</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-Executor"><a href="#3-Executor" class="headerlink" title="3. Executor"></a>3. Executor</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">某个Application运行在Worker节点上的一个进程，该进程负责运行某些Task，负责将数据存在内存或者磁盘上。在Spark On Yarn模式下，其进程名称为CoarseGrainedExecutorBackend，一个CoarseGrainedExecutorBackend能运行Task的数据就取决于分配给它的CPU的个数</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-Worker"><a href="#4-Worker" class="headerlink" title="4. Worker"></a>4. Worker</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">集群中可以运行Application的节点。在Standalone模式中指的是通过slave文件配置的worker节点，在Spark On Yarn模式中指的就是NodeManager节点</span><br></pre></td></tr></table></figure>
-
-<h2 id="5-Task"><a href="#5-Task" class="headerlink" title="5. Task"></a>5. Task</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">在Executor进程中执行任务的工作单元，多个Task组成一个Stage</span><br></pre></td></tr></table></figure>
-
-<h2 id="6-Job"><a href="#6-Job" class="headerlink" title="6. Job"></a>6. Job</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">包含多个Task组成的并行计算，是有行动算子触发的</span><br></pre></td></tr></table></figure>
-
-<h2 id="7-Stage"><a href="#7-Stage" class="headerlink" title="7. Stage"></a>7. Stage</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">每个Job会被拆分成很多组Task，作为一个TaskSet，其名称为Stage</span><br></pre></td></tr></table></figure>
-
-<h2 id="8-DAGScheduler"><a href="#8-DAGScheduler" class="headerlink" title="8. DAGScheduler"></a>8. DAGScheduler</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">根据Job构建基于Stage的DAG，并提交Stage给TaskScheduler，其划分Stage的依据是RDD之间的依赖关系</span><br></pre></td></tr></table></figure>
-
-<h2 id="9-TaskScheduler"><a href="#9-TaskScheduler" class="headerlink" title="9. TaskScheduler"></a>9. TaskScheduler</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">将TaskSet提交给Worker（集群）运行，每个Executor运行什么Task就是在此处分配的</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注：<br>  有关Application、Driver、Job、Stage、Task之间的关系如下图所示：</p>
-</blockquote>
-<h1 id="运行流程"><a href="#运行流程" class="headerlink" title="运行流程"></a>运行流程</h1><h2 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h2><h2 id="文字说明"><a href="#文字说明" class="headerlink" title="文字说明"></a>文字说明</h2><ol>
-<li><p>构建SparkApplication的运行环境（启动SparkContext），SparkContext向资源管理器（Standalone、Mesos或者Yarn）注册并申请运行Executor资源</p>
-</li>
-<li><p>资源管理器分配Executor资源并启动StandaloneExecutorBackend，Executor运行情况将随着心跳发送到资源管理器上</p>
-</li>
-<li><p>SparkContext构成DAG图，将DAG图分解成Stage，并把TaskSet发送给Task Scheduler；Executor向SparkContext申请Task</p>
-</li>
-<li><p>Task Scheduler将Task发放给Executor运行同时SparkContext将应用程序代码发放给Executor</p>
-</li>
-<li><p>Task在Executor上运行，运行完毕释放所有资源</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Bigdata</category>
-        <category>Spark</category>
-      </categories>
-      <tags>
-        <tag>Spark</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>初识Hive</title>
-    <url>/2020/06/13/%E5%88%9D%E8%AF%86Hive/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="什么是Hive？"><a href="#什么是Hive？" class="headerlink" title="什么是Hive？"></a>什么是Hive？</h1><ol>
-<li>由Facebook实现并开源、基于Hadoop的<strong>数据仓库的工具</strong></li>
-<li>提供HQL（Hive SQL）查询功能</li>
-<li>Hive本质上是将SQL<strong>翻译</strong>转换成MapReduce任务执行</li>
-</ol>
-<h1 id="为什么使用Hive（MapReduce、Spark）？"><a href="#为什么使用Hive（MapReduce、Spark）？" class="headerlink" title="为什么使用Hive（MapReduce、Spark）？"></a>为什么使用Hive（MapReduce、Spark）？</h1><ol>
-<li>MR在实现复杂逻辑查询的时候，成本高、难度大。</li>
-<li>Spark对集群资源更高（基于内存）</li>
-</ol>
-<h1 id="Hive内部架构"><a href="#Hive内部架构" class="headerlink" title="Hive内部架构"></a>Hive内部架构</h1><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Hive/Hive%E5%86%85%E9%83%A8%E6%9E%B6%E6%9E%84.png?raw=true"></p>
-<ul>
-<li><p>Thrift Server：提供了一种让用户可以使用多种不同的语言来操作Hive</p>
-<!-- Thrift 是 Facebook 开发的一个软件框架，可以用来进行可扩展且跨语言的服务的开发， Hive 集成了该服务，能让不同的编程语言调用 Hive 的接口 -->
-</li>
-<li><p>Compiler（编译解释器）：将HiveSQL转换为抽象语法树（AST），并将语法树编译为逻辑执行计划</p>
-</li>
-<li><p>Optimizer（优化器） ： 对逻辑执行计划进行优化 </p>
-</li>
-<li><p>Executor（执行器）：调用<strong>底层的运行框架</strong>执行逻辑执行计划</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Bigdata</category>
-        <category>Hive</category>
-      </categories>
-      <tags>
-        <tag>Hive</tag>
       </tags>
   </entry>
   <entry>
@@ -1469,6 +1434,41 @@
       </categories>
       <tags>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>初识Hive</title>
+    <url>/2020/06/13/%E5%88%9D%E8%AF%86Hive/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="什么是Hive？"><a href="#什么是Hive？" class="headerlink" title="什么是Hive？"></a>什么是Hive？</h1><ol>
+<li>由Facebook实现并开源、基于Hadoop的<strong>数据仓库的工具</strong></li>
+<li>提供HQL（Hive SQL）查询功能</li>
+<li>Hive本质上是将SQL<strong>翻译</strong>转换成MapReduce任务执行</li>
+</ol>
+<h1 id="为什么使用Hive（MapReduce、Spark）？"><a href="#为什么使用Hive（MapReduce、Spark）？" class="headerlink" title="为什么使用Hive（MapReduce、Spark）？"></a>为什么使用Hive（MapReduce、Spark）？</h1><ol>
+<li>MR在实现复杂逻辑查询的时候，成本高、难度大。</li>
+<li>Spark对集群资源更高（基于内存）</li>
+</ol>
+<h1 id="Hive内部架构"><a href="#Hive内部架构" class="headerlink" title="Hive内部架构"></a>Hive内部架构</h1><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Hive/Hive%E5%86%85%E9%83%A8%E6%9E%B6%E6%9E%84.png?raw=true"></p>
+<ul>
+<li><p>Thrift Server：提供了一种让用户可以使用多种不同的语言来操作Hive</p>
+<!-- Thrift 是 Facebook 开发的一个软件框架，可以用来进行可扩展且跨语言的服务的开发， Hive 集成了该服务，能让不同的编程语言调用 Hive 的接口 -->
+</li>
+<li><p>Compiler（编译解释器）：将HiveSQL转换为抽象语法树（AST），并将语法树编译为逻辑执行计划</p>
+</li>
+<li><p>Optimizer（优化器） ： 对逻辑执行计划进行优化 </p>
+</li>
+<li><p>Executor（执行器）：调用<strong>底层的运行框架</strong>执行逻辑执行计划</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Bigdata</category>
+        <category>Hive</category>
+      </categories>
+      <tags>
+        <tag>Hive</tag>
       </tags>
   </entry>
 </search>
