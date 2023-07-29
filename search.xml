@@ -217,106 +217,6 @@
       </tags>
   </entry>
   <entry>
-    <title>HBase-1.3.6安装文档</title>
-    <url>/2020/06/07/HBase-1.3.6%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><span id="more"></span>
-
-<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><ol>
-<li>Zookeeper的安装</li>
-<li>Hadoop的安装</li>
-<li>JDK的安装</li>
-</ol>
-<blockquote>
-<p>注：</p>
-<ol>
-<li>虽然HBase内部存在Zookeeper，但是业内不推荐这种做法。建议使用外部自行安装的Zookeeper进行管理，以便好的集成大数据其他组件。</li>
-<li>HBase与Hive相似，数据存储在HDFS上，因此需要提前搭建好Hadoop</li>
-</ol>
-</blockquote>
-<h1 id="角色分类"><a href="#角色分类" class="headerlink" title="角色分类"></a>角色分类</h1><table>
-<thead>
-<tr>
-<th align="center">机器名</th>
-<th align="center">bigdata001</th>
-<th align="center">bigdata002</th>
-<th align="center">bigdata003</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">QuorumPeerMain</td>
-<td align="center">√</td>
-<td align="center">√</td>
-<td align="center">√</td>
-</tr>
-<tr>
-<td align="center">HMaster</td>
-<td align="center"></td>
-<td align="center">√(Backup   )</td>
-<td align="center">√(Active)</td>
-</tr>
-<tr>
-<td align="center">HRegionServer</td>
-<td align="center">√</td>
-<td align="center">√</td>
-<td align="center">√</td>
-</tr>
-</tbody></table>
-<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><h2 id="1-自行下载源码，编译（Git）"><a href="#1-自行下载源码，编译（Git）" class="headerlink" title="1. 自行下载源码，编译（Git）"></a>1. 自行下载源码，编译（Git）</h2><h2 id="2-浏览器下载"><a href="#2-浏览器下载" class="headerlink" title="2. 浏览器下载"></a>2. 浏览器下载</h2><ul>
-<li><p><a href="https://apache.website-solution.net/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz">HBase官网下载</a></p>
-</li>
-<li><p><a href="https://mirrors.tuna.tsinghua.edu.cn/apache/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz">国内镜像下载</a></p>
-</li>
-</ul>
-<h2 id="3-服务器下载"><a href="#3-服务器下载" class="headerlink" title="3. 服务器下载"></a>3. 服务器下载</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#官网镜像</span></span><br><span class="line">wget https://apache.website-solution.net/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment">#国内镜像</span></span><br><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz</span><br></pre></td></tr></table></figure>
-
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
-<li>在conf&#x2F;hbase-site.xml⽂件中添加以下内容</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 开启集群模式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.cluster.distributed<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 元数据在HDFS上的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.rootdir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://bigdata1:9000/hbase<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Zookeeper连接地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.zookeeper.quorum<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata1,bigdata2,bigdata3<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Zookeeper元数据地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.zookeeper.property.dataDir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/worker/software/zookeeper/zkData<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 文件存放地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/worker/software/hbase/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>更改conf&#x2F; hbase-env.sh ⽂件</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Java环境变量：</span></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/home/worker/software/jdk</span><br><span class="line"></span><br><span class="line"><span class="comment">#禁用HBASE内置Zookeeper：</span></span><br><span class="line"><span class="built_in">export</span> HBASE_MANAGES_ZK=<span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#HBASE PID地址（若果不添加以下内容，启动和停止HBASE时会自动去tmp目录下寻找改文件，报错）</span></span><br><span class="line"><span class="built_in">export</span> HBASE_PID_DIR=/home/worker/software/hbase/conf/hadoop/pids</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>更改conf&#x2F;regionservers⽂件</li>
-</ul>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在该文件中添加你的集群中即将充当HRegionserver角色的机器名</span></span><br><span class="line"><span class="attr">bigdata1</span></span><br><span class="line"><span class="attr">bigdata2</span></span><br><span class="line"><span class="attr">bigdata3</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>创建backup-masters⽂件</li>
-</ul>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在改文件中添加你的集群中即将充当backup HMaster角色的机器名</span></span><br><span class="line"><span class="attr">bigdata2</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>分发HBASE整个⽬录到各个机器上（scp）</li>
-<li>配置HBASE环境变量<blockquote>
-<p>环境变量的配置较为简单，这里不做过多赘述。集群的整个环境变量配置在Hadoop集群搭建中已给出。</p>
-</blockquote>
-</li>
-</ul>
-<h1 id="启动与关闭"><a href="#启动与关闭" class="headerlink" title="启动与关闭"></a>启动与关闭</h1><ul>
-<li>在被认定为HMaster的机器上执⾏以下命令</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#启动</span></span><br><span class="line">start-hbase.sh</span><br><span class="line"></span><br><span class="line"><span class="comment">#关闭</span></span><br><span class="line">stop-hbase.sh</span><br></pre></td></tr></table></figure>
-
-<h1 id="检验"><a href="#检验" class="headerlink" title="检验"></a>检验</h1><p>浏览器中输⼊<a href="http://bigdata3:16010、http://bigdata2:16010查看Master以及Backup">http://bigdata3:16010、http://bigdata2:16010查看Master以及Backup</a> Master</p>
-<blockquote>
-<p>注：HBASE默认Web UI端⼝号为16010，可在配置⽂件中更改。若显⽰正常，则安装完成。</p>
-</blockquote>
-<p>HMaster页面如下：<br><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/HBase/HBASEMaster.png?raw=true"></p>
-<p>Backup HMaster⻚⾯如下：<br><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/HBase/BackupMaster.png?raw=true"></p>
-]]></content>
-      <categories>
-        <category>Bigdata</category>
-        <category>HBase</category>
-      </categories>
-      <tags>
-        <tag>HBase</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hadoop-2.7.7安装文档</title>
     <url>/2020/06/07/Hadoop-2.7.7%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><span id="more"></span>
@@ -463,6 +363,232 @@
       </categories>
       <tags>
         <tag>Hadoop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HBase-1.3.6安装文档</title>
+    <url>/2020/06/07/HBase-1.3.6%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><span id="more"></span>
+
+<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><ol>
+<li>Zookeeper的安装</li>
+<li>Hadoop的安装</li>
+<li>JDK的安装</li>
+</ol>
+<blockquote>
+<p>注：</p>
+<ol>
+<li>虽然HBase内部存在Zookeeper，但是业内不推荐这种做法。建议使用外部自行安装的Zookeeper进行管理，以便好的集成大数据其他组件。</li>
+<li>HBase与Hive相似，数据存储在HDFS上，因此需要提前搭建好Hadoop</li>
+</ol>
+</blockquote>
+<h1 id="角色分类"><a href="#角色分类" class="headerlink" title="角色分类"></a>角色分类</h1><table>
+<thead>
+<tr>
+<th align="center">机器名</th>
+<th align="center">bigdata001</th>
+<th align="center">bigdata002</th>
+<th align="center">bigdata003</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">QuorumPeerMain</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">HMaster</td>
+<td align="center"></td>
+<td align="center">√(Backup   )</td>
+<td align="center">√(Active)</td>
+</tr>
+<tr>
+<td align="center">HRegionServer</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+</tbody></table>
+<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><h2 id="1-自行下载源码，编译（Git）"><a href="#1-自行下载源码，编译（Git）" class="headerlink" title="1. 自行下载源码，编译（Git）"></a>1. 自行下载源码，编译（Git）</h2><h2 id="2-浏览器下载"><a href="#2-浏览器下载" class="headerlink" title="2. 浏览器下载"></a>2. 浏览器下载</h2><ul>
+<li><p><a href="https://apache.website-solution.net/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz">HBase官网下载</a></p>
+</li>
+<li><p><a href="https://mirrors.tuna.tsinghua.edu.cn/apache/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz">国内镜像下载</a></p>
+</li>
+</ul>
+<h2 id="3-服务器下载"><a href="#3-服务器下载" class="headerlink" title="3. 服务器下载"></a>3. 服务器下载</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#官网镜像</span></span><br><span class="line">wget https://apache.website-solution.net/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment">#国内镜像</span></span><br><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/hbase/hbase-1.3.6/hbase-1.3.6-bin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
+<li>在conf&#x2F;hbase-site.xml⽂件中添加以下内容</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 开启集群模式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.cluster.distributed<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 元数据在HDFS上的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.rootdir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://bigdata1:9000/hbase<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Zookeeper连接地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.zookeeper.quorum<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>bigdata1,bigdata2,bigdata3<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Zookeeper元数据地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.zookeeper.property.dataDir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/worker/software/zookeeper/zkData<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 文件存放地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/worker/software/hbase/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>更改conf&#x2F; hbase-env.sh ⽂件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Java环境变量：</span></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/home/worker/software/jdk</span><br><span class="line"></span><br><span class="line"><span class="comment">#禁用HBASE内置Zookeeper：</span></span><br><span class="line"><span class="built_in">export</span> HBASE_MANAGES_ZK=<span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#HBASE PID地址（若果不添加以下内容，启动和停止HBASE时会自动去tmp目录下寻找改文件，报错）</span></span><br><span class="line"><span class="built_in">export</span> HBASE_PID_DIR=/home/worker/software/hbase/conf/hadoop/pids</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>更改conf&#x2F;regionservers⽂件</li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在该文件中添加你的集群中即将充当HRegionserver角色的机器名</span></span><br><span class="line"><span class="attr">bigdata1</span></span><br><span class="line"><span class="attr">bigdata2</span></span><br><span class="line"><span class="attr">bigdata3</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建backup-masters⽂件</li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在改文件中添加你的集群中即将充当backup HMaster角色的机器名</span></span><br><span class="line"><span class="attr">bigdata2</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>分发HBASE整个⽬录到各个机器上（scp）</li>
+<li>配置HBASE环境变量<blockquote>
+<p>环境变量的配置较为简单，这里不做过多赘述。集群的整个环境变量配置在Hadoop集群搭建中已给出。</p>
+</blockquote>
+</li>
+</ul>
+<h1 id="启动与关闭"><a href="#启动与关闭" class="headerlink" title="启动与关闭"></a>启动与关闭</h1><ul>
+<li>在被认定为HMaster的机器上执⾏以下命令</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#启动</span></span><br><span class="line">start-hbase.sh</span><br><span class="line"></span><br><span class="line"><span class="comment">#关闭</span></span><br><span class="line">stop-hbase.sh</span><br></pre></td></tr></table></figure>
+
+<h1 id="检验"><a href="#检验" class="headerlink" title="检验"></a>检验</h1><p>浏览器中输⼊<a href="http://bigdata3:16010、http://bigdata2:16010查看Master以及Backup">http://bigdata3:16010、http://bigdata2:16010查看Master以及Backup</a> Master</p>
+<blockquote>
+<p>注：HBASE默认Web UI端⼝号为16010，可在配置⽂件中更改。若显⽰正常，则安装完成。</p>
+</blockquote>
+<p>HMaster页面如下：<br><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/HBase/HBASEMaster.png?raw=true"></p>
+<p>Backup HMaster⻚⾯如下：<br><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/HBase/BackupMaster.png?raw=true"></p>
+]]></content>
+      <categories>
+        <category>Bigdata</category>
+        <category>HBase</category>
+      </categories>
+      <tags>
+        <tag>HBase</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux学习文档-文件权限与目录配置</title>
+    <url>/2021/04/20/Linux%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h4 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h4><h2 id="1-文件属性"><a href="#1-文件属性" class="headerlink" title="1. 文件属性"></a>1. 文件属性</h2><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E7%A4%BA%E6%84%8F%E5%9B%BE.png?raw=true" alt="图一（文件属性示意图）"></p>
+<ul>
+<li><p>图一中，第1串字符代表这个文件的类型与权限</p>
+<ul>
+<li><p>第一个字符代表着个文件是目录、文件或链接文件等</p>
+<ul>
+<li>[d]代表目录</li>
+<li>[-]代表文件</li>
+<li>[l]代表链接文件</li>
+</ul>
+<p>  <img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8E%E6%9D%83%E9%99%90%E4%B9%8B%E5%86%85%E5%AE%B9.png?raw=true" alt="图二（文件类型与权限之内容）">
+  </p>
+</li>
+<li><p>如图二所示，后九位字符中每三个字符为一组，且均为【rwx】的组合。</p>
+</li>
+<li><p>第一组为文件拥有者的权限，第二组为文件所属用户组的权限，第三组为其他用户的权限</p>
+</li>
+<li><p>以第一组为例：</p>
+<p>  [r]代表read，可读权限，权限值为4，权限排名最低</p>
+<p>  [w]代表write，可写权限，权限值为2，权限排名居中</p>
+<p>  [r]代表excute,可执行权限，权限值为1，权限排名最高</p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注：</p>
+<ul>
+<li>rwx所在的位置或者说顺序是不会改变的，有权限就会显示字符，没有则用-表示</li>
+<li>此处要与第一个字符区分开</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>图一中，第2串字符表示有多少个文件名链接到此节点</p>
+</li>
+<li><p>图一中，第3串字符表示这个文件的拥有者账号名</p>
+</li>
+<li><p>图一中，第4串字符表示这个文件的所属用户组</p>
+</li>
+<li><p>图一中，第5串字符表示这个文件的大小（默认单位为Bytes）</p>
+</li>
+<li><p>图一中，第6串字符表示这个文件的创建日期或者是最近的修改日期，若文件的修改时间距今太久，那么只会显示年月日</p>
+</li>
+<li><p>图一中，第7串字符表示文件名</p>
+<p>  文件名前面有[.]则表示改文件为隐藏文件，可用【ls】、【ls -a】及【ls -al】来查看</p>
+</li>
+</ul>
+<blockquote>
+<p>注：</p>
+<ul>
+<li>对于文件夹来说，[x]原本代表执行权限，但如果某个用户对于某个目录没有[x]的权限，则该用户无法进入该目录</li>
+</ul>
+</blockquote>
+<h2 id="2-如何修改文件属性与权限"><a href="#2-如何修改文件属性与权限" class="headerlink" title="2. 如何修改文件属性与权限"></a>2. 如何修改文件属性与权限</h2><table>
+<thead>
+<tr>
+<th align="center">命令</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">chgrp</td>
+<td align="center">修改文件所属用户组</td>
+</tr>
+<tr>
+<td align="center">chown</td>
+<td align="center">修改文件拥有者</td>
+</tr>
+<tr>
+<td align="center">chmod</td>
+<td align="center">修改文件的权限，SUID、SGID、SBIT等的特性</td>
+</tr>
+</tbody></table>
+<h3 id="1-修改所属用户组"><a href="#1-修改所属用户组" class="headerlink" title="(1) 修改所属用户组"></a>(1) 修改所属用户组</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chgrp</span>   [-R]  账号名   <span class="built_in">dirname</span>/filename</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：</p>
+<ul>
+<li>目标用户组必须存在于&#x2F;etc&#x2F;group中才能修改成功，否则会报错</li>
+<li>修改文件拥有者亦是如此，目标用户必须存在于&#x2F;etc&#x2F;passwd中</li>
+</ul>
+</blockquote>
+<h3 id="2-修改文件拥有者，chown"><a href="#2-修改文件拥有者，chown" class="headerlink" title="(2) 修改文件拥有者，chown"></a>(2) 修改文件拥有者，chown</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chown</span>   [-R]    账号名称    文件或目录</span><br><span class="line"><span class="built_in">chown</span>   [-R]    账号名称：用户组名称    文件或目录</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-修改文件权限，chmod"><a href="#3-修改文件权限，chmod" class="headerlink" title="(3) 修改文件权限，chmod"></a>(3) 修改文件权限，chmod</h3><h4 id="①-用数字修改"><a href="#①-用数字修改" class="headerlink" title="① 用数字修改"></a>① 用数字修改</h4><table>
+<thead>
+<tr>
+<th align="center">权限</th>
+<th align="center">权限值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">r</td>
+<td align="center">4</td>
+</tr>
+<tr>
+<td align="center">w</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">x</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#例：</span></span><br><span class="line">owner = rwx = 4+2+1 = 7</span><br><span class="line">group = rwx = 4+2+1 = 7</span><br><span class="line">others = --- = 0+0+0 = 0</span><br><span class="line"></span><br><span class="line"><span class="comment">#因此，对应用数字修改权限的语法是：</span></span><br><span class="line"><span class="built_in">chmod</span>   -R  xyz 文件或目录</span><br><span class="line"><span class="comment">#-R: 递归修改</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#常用的如果要将某个文件所有的权限都开通则为</span></span><br><span class="line"><span class="built_in">chmod</span> 777 .bashrc</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：</p>
+<ul>
+<li>通常以vim编辑一个Shell文件的时候，他的权限通常是：-rw-rw-r–，也就是644，且此文件是不能够执行的,如果要把它变成可执行问文件，则需要执行命令：【chmod 744 test.sh】或者：【chmod a+x test.sh】，后者即为下面要介绍的用符号修改</li>
+<li>另外，如果有些文件你不想被其他人看到，可以执行：【chmod 700 text.sh】</li>
+</ul>
+</blockquote>
+<h4 id="②-用符号修改"><a href="#②-用符号修改" class="headerlink" title="② 用符号修改"></a>② 用符号修改</h4><p>在修改之前，首先需要知道权限只有user、group、同任何人三种身份，分别用u、g、o来表示。此外，所有a代表all即全部的身份，因此修改方法如下图所示：</p>
+<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90.png?raw=true" alt="符号类型修改文件权限"></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 例1：当我们要设置一个文件的权限为【-rwxr-xr-x】时，可执行如下命令：</span></span><br><span class="line"><span class="built_in">chmod</span> u=rwx,go=rx .bashrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 例2：当我们不知道原来的文件属性，但是只想要增加.bashrc这个文件的每个人都可以写入得权限时，可执行如下命令：</span></span><br><span class="line"><span class="built_in">chmod</span> a+w .bashrc</span><br><span class="line"></span><br><span class="line"><span class="comment">#例3：当我想要将全部人的可执行权限去掉而不修改其他已存在的权限时，可执行如下命令：</span></span><br><span class="line"><span class="built_in">chmod</span> a-x .bashrc</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>文件、目录与磁盘</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -662,132 +788,6 @@
       </categories>
       <tags>
         <tag>Hadoop</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux学习文档-文件权限与目录配置</title>
-    <url>/2021/04/20/Linux%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h4 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h4><h2 id="1-文件属性"><a href="#1-文件属性" class="headerlink" title="1. 文件属性"></a>1. 文件属性</h2><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E7%A4%BA%E6%84%8F%E5%9B%BE.png?raw=true" alt="图一（文件属性示意图）"></p>
-<ul>
-<li><p>图一中，第1串字符代表这个文件的类型与权限</p>
-<ul>
-<li><p>第一个字符代表着个文件是目录、文件或链接文件等</p>
-<ul>
-<li>[d]代表目录</li>
-<li>[-]代表文件</li>
-<li>[l]代表链接文件</li>
-</ul>
-<p>  <img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8E%E6%9D%83%E9%99%90%E4%B9%8B%E5%86%85%E5%AE%B9.png?raw=true" alt="图二（文件类型与权限之内容）">
-  </p>
-</li>
-<li><p>如图二所示，后九位字符中每三个字符为一组，且均为【rwx】的组合。</p>
-</li>
-<li><p>第一组为文件拥有者的权限，第二组为文件所属用户组的权限，第三组为其他用户的权限</p>
-</li>
-<li><p>以第一组为例：</p>
-<p>  [r]代表read，可读权限，权限值为4，权限排名最低</p>
-<p>  [w]代表write，可写权限，权限值为2，权限排名居中</p>
-<p>  [r]代表excute,可执行权限，权限值为1，权限排名最高</p>
-</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>注：</p>
-<ul>
-<li>rwx所在的位置或者说顺序是不会改变的，有权限就会显示字符，没有则用-表示</li>
-<li>此处要与第一个字符区分开</li>
-</ul>
-</blockquote>
-<ul>
-<li><p>图一中，第2串字符表示有多少个文件名链接到此节点</p>
-</li>
-<li><p>图一中，第3串字符表示这个文件的拥有者账号名</p>
-</li>
-<li><p>图一中，第4串字符表示这个文件的所属用户组</p>
-</li>
-<li><p>图一中，第5串字符表示这个文件的大小（默认单位为Bytes）</p>
-</li>
-<li><p>图一中，第6串字符表示这个文件的创建日期或者是最近的修改日期，若文件的修改时间距今太久，那么只会显示年月日</p>
-</li>
-<li><p>图一中，第7串字符表示文件名</p>
-<p>  文件名前面有[.]则表示改文件为隐藏文件，可用【ls】、【ls -a】及【ls -al】来查看</p>
-</li>
-</ul>
-<blockquote>
-<p>注：</p>
-<ul>
-<li>对于文件夹来说，[x]原本代表执行权限，但如果某个用户对于某个目录没有[x]的权限，则该用户无法进入该目录</li>
-</ul>
-</blockquote>
-<h2 id="2-如何修改文件属性与权限"><a href="#2-如何修改文件属性与权限" class="headerlink" title="2. 如何修改文件属性与权限"></a>2. 如何修改文件属性与权限</h2><table>
-<thead>
-<tr>
-<th align="center">命令</th>
-<th align="center">作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">chgrp</td>
-<td align="center">修改文件所属用户组</td>
-</tr>
-<tr>
-<td align="center">chown</td>
-<td align="center">修改文件拥有者</td>
-</tr>
-<tr>
-<td align="center">chmod</td>
-<td align="center">修改文件的权限，SUID、SGID、SBIT等的特性</td>
-</tr>
-</tbody></table>
-<h3 id="1-修改所属用户组"><a href="#1-修改所属用户组" class="headerlink" title="(1) 修改所属用户组"></a>(1) 修改所属用户组</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chgrp</span>   [-R]  账号名   <span class="built_in">dirname</span>/filename</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注：</p>
-<ul>
-<li>目标用户组必须存在于&#x2F;etc&#x2F;group中才能修改成功，否则会报错</li>
-<li>修改文件拥有者亦是如此，目标用户必须存在于&#x2F;etc&#x2F;passwd中</li>
-</ul>
-</blockquote>
-<h3 id="2-修改文件拥有者，chown"><a href="#2-修改文件拥有者，chown" class="headerlink" title="(2) 修改文件拥有者，chown"></a>(2) 修改文件拥有者，chown</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chown</span>   [-R]    账号名称    文件或目录</span><br><span class="line"><span class="built_in">chown</span>   [-R]    账号名称：用户组名称    文件或目录</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-修改文件权限，chmod"><a href="#3-修改文件权限，chmod" class="headerlink" title="(3) 修改文件权限，chmod"></a>(3) 修改文件权限，chmod</h3><h4 id="①-用数字修改"><a href="#①-用数字修改" class="headerlink" title="① 用数字修改"></a>① 用数字修改</h4><table>
-<thead>
-<tr>
-<th align="center">权限</th>
-<th align="center">权限值</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">r</td>
-<td align="center">4</td>
-</tr>
-<tr>
-<td align="center">w</td>
-<td align="center">2</td>
-</tr>
-<tr>
-<td align="center">x</td>
-<td align="center">1</td>
-</tr>
-</tbody></table>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#例：</span></span><br><span class="line">owner = rwx = 4+2+1 = 7</span><br><span class="line">group = rwx = 4+2+1 = 7</span><br><span class="line">others = --- = 0+0+0 = 0</span><br><span class="line"></span><br><span class="line"><span class="comment">#因此，对应用数字修改权限的语法是：</span></span><br><span class="line"><span class="built_in">chmod</span>   -R  xyz 文件或目录</span><br><span class="line"><span class="comment">#-R: 递归修改</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#常用的如果要将某个文件所有的权限都开通则为</span></span><br><span class="line"><span class="built_in">chmod</span> 777 .bashrc</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注：</p>
-<ul>
-<li>通常以vim编辑一个Shell文件的时候，他的权限通常是：-rw-rw-r–，也就是644，且此文件是不能够执行的,如果要把它变成可执行问文件，则需要执行命令：【chmod 744 test.sh】或者：【chmod a+x test.sh】，后者即为下面要介绍的用符号修改</li>
-<li>另外，如果有些文件你不想被其他人看到，可以执行：【chmod 700 text.sh】</li>
-</ul>
-</blockquote>
-<h4 id="②-用符号修改"><a href="#②-用符号修改" class="headerlink" title="② 用符号修改"></a>② 用符号修改</h4><p>在修改之前，首先需要知道权限只有user、group、同任何人三种身份，分别用u、g、o来表示。此外，所有a代表all即全部的身份，因此修改方法如下图所示：</p>
-<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90.png?raw=true" alt="符号类型修改文件权限"></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 例1：当我们要设置一个文件的权限为【-rwxr-xr-x】时，可执行如下命令：</span></span><br><span class="line"><span class="built_in">chmod</span> u=rwx,go=rx .bashrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 例2：当我们不知道原来的文件属性，但是只想要增加.bashrc这个文件的每个人都可以写入得权限时，可执行如下命令：</span></span><br><span class="line"><span class="built_in">chmod</span> a+w .bashrc</span><br><span class="line"></span><br><span class="line"><span class="comment">#例3：当我想要将全部人的可执行权限去掉而不修改其他已存在的权限时，可执行如下命令：</span></span><br><span class="line"><span class="built_in">chmod</span> a-x .bashrc</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-        <category>文件、目录与磁盘</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1124,51 +1124,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Spark学习文档--Spark安装文档</title>
-    <url>/2020/12/25/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-Spark%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
-    <content><![CDATA[<h2 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h2><blockquote>
-<ul>
-<li>Spark版本： 3.0.3</li>
-<li>Hadoop版本： 3.1.3</li>
-<li>Scala版本： 2.11.12</li>
-</ul>
-</blockquote>
-<h2 id="下载及解压"><a href="#下载及解压" class="headerlink" title="下载及解压"></a>下载及解压</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar -zxvf spark-3.0.1-bin-hadoop3.2</span><br></pre></td></tr></table></figure>
-
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="1-配置spark-env-sh"><a href="#1-配置spark-env-sh" class="headerlink" title="1.配置spark-env.sh"></a>1.配置spark-env.sh</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> spark-env.sh.template spark-env.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># jdk地址</span></span><br><span class="line">JAVA_HOME=/data/java/jdk1.8.0_11</span><br><span class="line"><span class="comment"># hadoop安装的完的etc目录,hadoop我安装的是3.1.2版本的</span></span><br><span class="line">HADOOP_CONF_DIR=/data/hadoop/hadoop-3.1.2/etc/hadoop</span><br><span class="line"><span class="comment"># zookeeper信息配置，知道所在节点地址信息</span></span><br><span class="line">SPARK_DAEMON_JAVA_OPTS=<span class="string">&quot;-Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url=bigdata1:2181,bigdata2:2181,bigdata3:2181 -Dspark.deploy.zookeeper.dir=/spark3.0&quot;</span></span><br></pre></td></tr></table></figure>
-<h3 id="2-配置slaves"><a href="#2-配置slaves" class="headerlink" title="2.配置slaves"></a>2.配置slaves</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> slaves.template slaves</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在slaves中添加自己的集群主机名,把里面的localhost删掉。</span></span><br><span class="line"><span class="comment"># 以下配置的是worker节点的Host，Spark集群中不需要配置Master的Host</span></span><br><span class="line">bigdata1</span><br><span class="line">bigdata2</span><br><span class="line">bigdata3</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-拷贝至其他Worker节点"><a href="#3-拷贝至其他Worker节点" class="headerlink" title="3.拷贝至其他Worker节点"></a>3.拷贝至其他Worker节点</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">scp -r software/spark bigdata2:/home/TomFor/software/</span><br><span class="line">scp -r software/spark bigdata3:/home/TomFor/software/</span><br><span class="line"><span class="comment"># 或者写一个简单的Shell命令，通过for循环执行也可</span></span><br><span class="line"><span class="keyword">for</span> A <span class="keyword">in</span> &#123;2..3&#125;; <span class="keyword">do</span> scp -r software/spark bigdata<span class="variable">$A</span>:/home/TomFor/software/;<span class="keyword">done</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="4-配置Spark-On-Yarn"><a href="#4-配置Spark-On-Yarn" class="headerlink" title="4.配置Spark On Yarn"></a>4.配置Spark On Yarn</h3><p>在Hadoop集群的<code>yarn-site.xml</code>中添加以下配置</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">&lt;property&gt;</span></span><br><span class="line">  <span class="attr">&lt;name&gt;yarn.nodemanager.pmem-check-enabled&lt;/name&gt;</span></span><br><span class="line">  <span class="attr">&lt;value&gt;false&lt;/value&gt;</span></span><br><span class="line"><span class="attr">&lt;/property&gt;</span></span><br><span class="line"><span class="attr">&lt;property&gt;</span></span><br><span class="line">   <span class="attr">&lt;name&gt;yarn.nodemanager.vmem-check-enabled&lt;/name&gt;</span></span><br><span class="line">   <span class="attr">&lt;value&gt;false&lt;/value&gt;</span></span><br><span class="line"><span class="attr">&lt;/property&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="5-配置历史服务器"><a href="#5-配置历史服务器" class="headerlink" title="5.配置历史服务器"></a>5.配置历史服务器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 配置历史服务器的原因在于： 可以查看整个Spark任务的执行情况，是否出现数据倾斜等；否则当Spark任务执行完了之后就无法查看了</span></span><br><span class="line"><span class="comment"># 修改spark default.conf文件，配置日志存储路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启eventLog功能</span></span><br><span class="line">spark.eventLog.enabled <span class="literal">true</span></span><br><span class="line"><span class="comment"># 指定历史日志文件存放地址，这里是配置的HDFS，也是推荐配置。因为放在本地不利于多集群间的共享</span></span><br><span class="line">spark.eventLog.<span class="built_in">dir</span> hdfs://ns1:8020/spark-history-server</span><br><span class="line"><span class="comment"># 这里主要是指定启动historyServer的机器的Host，也可以指定一个或多个</span></span><br><span class="line">spark.yarn.historyServer.address= bigdata3:18080</span><br><span class="line"><span class="comment"># WebUI</span></span><br><span class="line">spark.history.ui.port=18080</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注意：</p>
-<ul>
-<li>配置完之后需要启动或者重启Hadoop集群，并且需要提前创建eventLog.dir：hadoop fs -mkdir &#x2F;directory</li>
-</ul>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 修改spark-env.sh文件 , 添加日志配置</span></span><br><span class="line"><span class="built_in">export</span> SPARK_HISTORY_OPTS=<span class="string">&quot;-Dspark.history.ui.port=18080 -Dspark.history.fs.logDirectory=hdfs://ns1:8020/spark-history-server -Dspark.history.retainedApplications=30&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><h3 id="1-启动Spark集群"><a href="#1-启动Spark集群" class="headerlink" title="1.启动Spark集群"></a>1.启动Spark集群</h3><blockquote>
-<p>由于配置了Spark On Yarn，所以这里要先启动Hadoop集群</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在决定好的机器上执行以下命令，即可在本机上启动一个Master进程，以及在配置好节点上启动的Worker进程</span></span><br><span class="line"><span class="comment"># 因为Spark和Hadoop的启动命令都是start-all.sh，因此这里可以改成start-all-spark.sh</span></span><br><span class="line">start-all-spark.sh</span><br><span class="line"><span class="comment"># 通常需要再启动一个stand by状态的Master进程，保证高可用。所以在另外的一台机器上执行以下命令</span></span><br><span class="line">start-master.sh</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-启动Spark的历史服务进程"><a href="#2-启动Spark的历史服务进程" class="headerlink" title="2. 启动Spark的历史服务进程"></a>2. 启动Spark的历史服务进程</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 因为之前配置了启动historyServer的机器的Host（spark.yarn.historyServer.address），所以这里在Bigdata3上执行以下命令</span></span><br><span class="line">start-history-server.sh</span><br></pre></td></tr></table></figure>
-
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="1-测试Master的高可用"><a href="#1-测试Master的高可用" class="headerlink" title="1.测试Master的高可用"></a>1.测试Master的高可用</h3><h3 id="2-测试history-server"><a href="#2-测试history-server" class="headerlink" title="2.测试history-server"></a>2.测试history-server</h3>]]></content>
-      <categories>
-        <category>Bigdata</category>
-        <category>Spark</category>
-      </categories>
-      <tags>
-        <tag>Spark</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Spark学习文档--初识Spark</title>
     <url>/2020/12/24/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%88%9D%E8%AF%86Spark/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h2 id="1-什么是Spark？"><a href="#1-什么是Spark？" class="headerlink" title="1. 什么是Spark？"></a>1. 什么是Spark？</h2><p>Apache Spark用于大规模数据处理的统一分析引擎。</p>
@@ -1317,38 +1272,48 @@
       </tags>
   </entry>
   <entry>
-    <title>初识Hive</title>
-    <url>/2020/06/13/%E5%88%9D%E8%AF%86Hive/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="什么是Hive？"><a href="#什么是Hive？" class="headerlink" title="什么是Hive？"></a>什么是Hive？</h1><ol>
-<li>由Facebook实现并开源、基于Hadoop的<strong>数据仓库的工具</strong></li>
-<li>提供HQL（Hive SQL）查询功能</li>
-<li>Hive本质上是将SQL<strong>翻译</strong>转换成MapReduce任务执行</li>
-</ol>
-<h1 id="为什么使用Hive（MapReduce、Spark）？"><a href="#为什么使用Hive（MapReduce、Spark）？" class="headerlink" title="为什么使用Hive（MapReduce、Spark）？"></a>为什么使用Hive（MapReduce、Spark）？</h1><ol>
-<li>MR在实现复杂逻辑查询的时候，成本高、难度大。</li>
-<li>Spark对集群资源更高（基于内存）</li>
-</ol>
-<h1 id="Hive内部架构"><a href="#Hive内部架构" class="headerlink" title="Hive内部架构"></a>Hive内部架构</h1><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Hive/Hive%E5%86%85%E9%83%A8%E6%9E%B6%E6%9E%84.png?raw=true"></p>
+    <title>Spark学习文档--Spark安装文档</title>
+    <url>/2020/12/25/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-Spark%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<h2 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h2><blockquote>
 <ul>
-<li><p>Thrift Server：提供了一种让用户可以使用多种不同的语言来操作Hive</p>
-<!-- Thrift 是 Facebook 开发的一个软件框架，可以用来进行可扩展且跨语言的服务的开发， Hive 集成了该服务，能让不同的编程语言调用 Hive 的接口 -->
-</li>
-<li><p>Compiler（编译解释器）：将HiveSQL转换为抽象语法树（AST），并将语法树编译为逻辑执行计划</p>
-</li>
-<li><p>Optimizer（优化器） ： 对逻辑执行计划进行优化 </p>
-</li>
-<li><p>Executor（执行器）：调用<strong>底层的运行框架</strong>执行逻辑执行计划</p>
-</li>
+<li>Spark版本： 3.0.3</li>
+<li>Hadoop版本： 3.1.3</li>
+<li>Scala版本： 2.11.12</li>
 </ul>
-]]></content>
+</blockquote>
+<h2 id="下载及解压"><a href="#下载及解压" class="headerlink" title="下载及解压"></a>下载及解压</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar -zxvf spark-3.0.1-bin-hadoop3.2</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="1-配置spark-env-sh"><a href="#1-配置spark-env-sh" class="headerlink" title="1.配置spark-env.sh"></a>1.配置spark-env.sh</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> spark-env.sh.template spark-env.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># jdk地址</span></span><br><span class="line">JAVA_HOME=/data/java/jdk1.8.0_11</span><br><span class="line"><span class="comment"># hadoop安装的完的etc目录,hadoop我安装的是3.1.2版本的</span></span><br><span class="line">HADOOP_CONF_DIR=/data/hadoop/hadoop-3.1.2/etc/hadoop</span><br><span class="line"><span class="comment"># zookeeper信息配置，知道所在节点地址信息</span></span><br><span class="line">SPARK_DAEMON_JAVA_OPTS=<span class="string">&quot;-Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url=bigdata1:2181,bigdata2:2181,bigdata3:2181 -Dspark.deploy.zookeeper.dir=/spark3.0&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-配置slaves"><a href="#2-配置slaves" class="headerlink" title="2.配置slaves"></a>2.配置slaves</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> slaves.template slaves</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在slaves中添加自己的集群主机名,把里面的localhost删掉。</span></span><br><span class="line"><span class="comment"># 以下配置的是worker节点的Host，Spark集群中不需要配置Master的Host</span></span><br><span class="line">bigdata1</span><br><span class="line">bigdata2</span><br><span class="line">bigdata3</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-拷贝至其他Worker节点"><a href="#3-拷贝至其他Worker节点" class="headerlink" title="3.拷贝至其他Worker节点"></a>3.拷贝至其他Worker节点</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">scp -r software/spark bigdata2:/home/TomFor/software/</span><br><span class="line">scp -r software/spark bigdata3:/home/TomFor/software/</span><br><span class="line"><span class="comment"># 或者写一个简单的Shell命令，通过for循环执行也可</span></span><br><span class="line"><span class="keyword">for</span> A <span class="keyword">in</span> &#123;2..3&#125;; <span class="keyword">do</span> scp -r software/spark bigdata<span class="variable">$A</span>:/home/TomFor/software/;<span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-配置Spark-On-Yarn"><a href="#4-配置Spark-On-Yarn" class="headerlink" title="4.配置Spark On Yarn"></a>4.配置Spark On Yarn</h3><p>在Hadoop集群的<code>yarn-site.xml</code>中添加以下配置</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">&lt;property&gt;</span></span><br><span class="line">  <span class="attr">&lt;name&gt;yarn.nodemanager.pmem-check-enabled&lt;/name&gt;</span></span><br><span class="line">  <span class="attr">&lt;value&gt;false&lt;/value&gt;</span></span><br><span class="line"><span class="attr">&lt;/property&gt;</span></span><br><span class="line"><span class="attr">&lt;property&gt;</span></span><br><span class="line">   <span class="attr">&lt;name&gt;yarn.nodemanager.vmem-check-enabled&lt;/name&gt;</span></span><br><span class="line">   <span class="attr">&lt;value&gt;false&lt;/value&gt;</span></span><br><span class="line"><span class="attr">&lt;/property&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-配置历史服务器"><a href="#5-配置历史服务器" class="headerlink" title="5.配置历史服务器"></a>5.配置历史服务器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 配置历史服务器的原因在于： 可以查看整个Spark任务的执行情况，是否出现数据倾斜等；否则当Spark任务执行完了之后就无法查看了</span></span><br><span class="line"><span class="comment"># 修改spark default.conf文件，配置日志存储路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启eventLog功能</span></span><br><span class="line">spark.eventLog.enabled <span class="literal">true</span></span><br><span class="line"><span class="comment"># 指定历史日志文件存放地址，这里是配置的HDFS，也是推荐配置。因为放在本地不利于多集群间的共享</span></span><br><span class="line">spark.eventLog.<span class="built_in">dir</span> hdfs://ns1:8020/spark-history-server</span><br><span class="line"><span class="comment"># 这里主要是指定启动historyServer的机器的Host，也可以指定一个或多个</span></span><br><span class="line">spark.yarn.historyServer.address= bigdata3:18080</span><br><span class="line"><span class="comment"># WebUI</span></span><br><span class="line">spark.history.ui.port=18080</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：</p>
+<ul>
+<li>配置完之后需要启动或者重启Hadoop集群，并且需要提前创建eventLog.dir：hadoop fs -mkdir &#x2F;directory</li>
+</ul>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 修改spark-env.sh文件 , 添加日志配置</span></span><br><span class="line"><span class="built_in">export</span> SPARK_HISTORY_OPTS=<span class="string">&quot;-Dspark.history.ui.port=18080 -Dspark.history.fs.logDirectory=hdfs://ns1:8020/spark-history-server -Dspark.history.retainedApplications=30&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><h3 id="1-启动Spark集群"><a href="#1-启动Spark集群" class="headerlink" title="1.启动Spark集群"></a>1.启动Spark集群</h3><blockquote>
+<p>由于配置了Spark On Yarn，所以这里要先启动Hadoop集群</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在决定好的机器上执行以下命令，即可在本机上启动一个Master进程，以及在配置好节点上启动的Worker进程</span></span><br><span class="line"><span class="comment"># 因为Spark和Hadoop的启动命令都是start-all.sh，因此这里可以改成start-all-spark.sh</span></span><br><span class="line">start-all-spark.sh</span><br><span class="line"><span class="comment"># 通常需要再启动一个stand by状态的Master进程，保证高可用。所以在另外的一台机器上执行以下命令</span></span><br><span class="line">start-master.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-启动Spark的历史服务进程"><a href="#2-启动Spark的历史服务进程" class="headerlink" title="2. 启动Spark的历史服务进程"></a>2. 启动Spark的历史服务进程</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 因为之前配置了启动historyServer的机器的Host（spark.yarn.historyServer.address），所以这里在Bigdata3上执行以下命令</span></span><br><span class="line">start-history-server.sh</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="1-测试Master的高可用"><a href="#1-测试Master的高可用" class="headerlink" title="1.测试Master的高可用"></a>1.测试Master的高可用</h3><h3 id="2-测试history-server"><a href="#2-测试history-server" class="headerlink" title="2.测试history-server"></a>2.测试history-server</h3>]]></content>
       <categories>
         <category>Bigdata</category>
-        <category>Hive</category>
+        <category>Spark</category>
       </categories>
       <tags>
-        <tag>Hive</tag>
+        <tag>Spark</tag>
       </tags>
   </entry>
   <entry>
@@ -1394,6 +1359,41 @@
       </categories>
       <tags>
         <tag>Spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>初识Hive</title>
+    <url>/2020/06/13/%E5%88%9D%E8%AF%86Hive/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="什么是Hive？"><a href="#什么是Hive？" class="headerlink" title="什么是Hive？"></a>什么是Hive？</h1><ol>
+<li>由Facebook实现并开源、基于Hadoop的<strong>数据仓库的工具</strong></li>
+<li>提供HQL（Hive SQL）查询功能</li>
+<li>Hive本质上是将SQL<strong>翻译</strong>转换成MapReduce任务执行</li>
+</ol>
+<h1 id="为什么使用Hive（MapReduce、Spark）？"><a href="#为什么使用Hive（MapReduce、Spark）？" class="headerlink" title="为什么使用Hive（MapReduce、Spark）？"></a>为什么使用Hive（MapReduce、Spark）？</h1><ol>
+<li>MR在实现复杂逻辑查询的时候，成本高、难度大。</li>
+<li>Spark对集群资源更高（基于内存）</li>
+</ol>
+<h1 id="Hive内部架构"><a href="#Hive内部架构" class="headerlink" title="Hive内部架构"></a>Hive内部架构</h1><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Hive/Hive%E5%86%85%E9%83%A8%E6%9E%B6%E6%9E%84.png?raw=true"></p>
+<ul>
+<li><p>Thrift Server：提供了一种让用户可以使用多种不同的语言来操作Hive</p>
+<!-- Thrift 是 Facebook 开发的一个软件框架，可以用来进行可扩展且跨语言的服务的开发， Hive 集成了该服务，能让不同的编程语言调用 Hive 的接口 -->
+</li>
+<li><p>Compiler（编译解释器）：将HiveSQL转换为抽象语法树（AST），并将语法树编译为逻辑执行计划</p>
+</li>
+<li><p>Optimizer（优化器） ： 对逻辑执行计划进行优化 </p>
+</li>
+<li><p>Executor（执行器）：调用<strong>底层的运行框架</strong>执行逻辑执行计划</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Bigdata</category>
+        <category>Hive</category>
+      </categories>
+      <tags>
+        <tag>Hive</tag>
       </tags>
   </entry>
   <entry>
