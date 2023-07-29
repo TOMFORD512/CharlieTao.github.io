@@ -466,6 +466,132 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux学习文档-文件权限与目录配置</title>
+    <url>/2021/04/20/Linux%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h4 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h4><h2 id="1-文件属性"><a href="#1-文件属性" class="headerlink" title="1. 文件属性"></a>1. 文件属性</h2><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E7%A4%BA%E6%84%8F%E5%9B%BE.png?raw=true" alt="图一（文件属性示意图）"></p>
+<ul>
+<li><p>图一中，第1串字符代表这个文件的类型与权限</p>
+<ul>
+<li><p>第一个字符代表着个文件是目录、文件或链接文件等</p>
+<ul>
+<li>[d]代表目录</li>
+<li>[-]代表文件</li>
+<li>[l]代表链接文件</li>
+</ul>
+<p>  <img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8E%E6%9D%83%E9%99%90%E4%B9%8B%E5%86%85%E5%AE%B9.png?raw=true" alt="图二（文件类型与权限之内容）">
+  </p>
+</li>
+<li><p>如图二所示，后九位字符中每三个字符为一组，且均为【rwx】的组合。</p>
+</li>
+<li><p>第一组为文件拥有者的权限，第二组为文件所属用户组的权限，第三组为其他用户的权限</p>
+</li>
+<li><p>以第一组为例：</p>
+<p>  [r]代表read，可读权限，权限值为4，权限排名最低</p>
+<p>  [w]代表write，可写权限，权限值为2，权限排名居中</p>
+<p>  [r]代表excute,可执行权限，权限值为1，权限排名最高</p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注：</p>
+<ul>
+<li>rwx所在的位置或者说顺序是不会改变的，有权限就会显示字符，没有则用-表示</li>
+<li>此处要与第一个字符区分开</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>图一中，第2串字符表示有多少个文件名链接到此节点</p>
+</li>
+<li><p>图一中，第3串字符表示这个文件的拥有者账号名</p>
+</li>
+<li><p>图一中，第4串字符表示这个文件的所属用户组</p>
+</li>
+<li><p>图一中，第5串字符表示这个文件的大小（默认单位为Bytes）</p>
+</li>
+<li><p>图一中，第6串字符表示这个文件的创建日期或者是最近的修改日期，若文件的修改时间距今太久，那么只会显示年月日</p>
+</li>
+<li><p>图一中，第7串字符表示文件名</p>
+<p>  文件名前面有[.]则表示改文件为隐藏文件，可用【ls】、【ls -a】及【ls -al】来查看</p>
+</li>
+</ul>
+<blockquote>
+<p>注：</p>
+<ul>
+<li>对于文件夹来说，[x]原本代表执行权限，但如果某个用户对于某个目录没有[x]的权限，则该用户无法进入该目录</li>
+</ul>
+</blockquote>
+<h2 id="2-如何修改文件属性与权限"><a href="#2-如何修改文件属性与权限" class="headerlink" title="2. 如何修改文件属性与权限"></a>2. 如何修改文件属性与权限</h2><table>
+<thead>
+<tr>
+<th align="center">命令</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">chgrp</td>
+<td align="center">修改文件所属用户组</td>
+</tr>
+<tr>
+<td align="center">chown</td>
+<td align="center">修改文件拥有者</td>
+</tr>
+<tr>
+<td align="center">chmod</td>
+<td align="center">修改文件的权限，SUID、SGID、SBIT等的特性</td>
+</tr>
+</tbody></table>
+<h3 id="1-修改所属用户组"><a href="#1-修改所属用户组" class="headerlink" title="(1) 修改所属用户组"></a>(1) 修改所属用户组</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chgrp</span>   [-R]  账号名   <span class="built_in">dirname</span>/filename</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：</p>
+<ul>
+<li>目标用户组必须存在于&#x2F;etc&#x2F;group中才能修改成功，否则会报错</li>
+<li>修改文件拥有者亦是如此，目标用户必须存在于&#x2F;etc&#x2F;passwd中</li>
+</ul>
+</blockquote>
+<h3 id="2-修改文件拥有者，chown"><a href="#2-修改文件拥有者，chown" class="headerlink" title="(2) 修改文件拥有者，chown"></a>(2) 修改文件拥有者，chown</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chown</span>   [-R]    账号名称    文件或目录</span><br><span class="line"><span class="built_in">chown</span>   [-R]    账号名称：用户组名称    文件或目录</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-修改文件权限，chmod"><a href="#3-修改文件权限，chmod" class="headerlink" title="(3) 修改文件权限，chmod"></a>(3) 修改文件权限，chmod</h3><h4 id="①-用数字修改"><a href="#①-用数字修改" class="headerlink" title="① 用数字修改"></a>① 用数字修改</h4><table>
+<thead>
+<tr>
+<th align="center">权限</th>
+<th align="center">权限值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">r</td>
+<td align="center">4</td>
+</tr>
+<tr>
+<td align="center">w</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">x</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#例：</span></span><br><span class="line">owner = rwx = 4+2+1 = 7</span><br><span class="line">group = rwx = 4+2+1 = 7</span><br><span class="line">others = --- = 0+0+0 = 0</span><br><span class="line"></span><br><span class="line"><span class="comment">#因此，对应用数字修改权限的语法是：</span></span><br><span class="line"><span class="built_in">chmod</span>   -R  xyz 文件或目录</span><br><span class="line"><span class="comment">#-R: 递归修改</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#常用的如果要将某个文件所有的权限都开通则为</span></span><br><span class="line"><span class="built_in">chmod</span> 777 .bashrc</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：</p>
+<ul>
+<li>通常以vim编辑一个Shell文件的时候，他的权限通常是：-rw-rw-r–，也就是644，且此文件是不能够执行的,如果要把它变成可执行问文件，则需要执行命令：【chmod 744 test.sh】或者：【chmod a+x test.sh】，后者即为下面要介绍的用符号修改</li>
+<li>另外，如果有些文件你不想被其他人看到，可以执行：【chmod 700 text.sh】</li>
+</ul>
+</blockquote>
+<h4 id="②-用符号修改"><a href="#②-用符号修改" class="headerlink" title="② 用符号修改"></a>② 用符号修改</h4><p>在修改之前，首先需要知道权限只有user、group、同任何人三种身份，分别用u、g、o来表示。此外，所有a代表all即全部的身份，因此修改方法如下图所示：</p>
+<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90.png?raw=true" alt="符号类型修改文件权限"></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 例1：当我们要设置一个文件的权限为【-rwxr-xr-x】时，可执行如下命令：</span></span><br><span class="line"><span class="built_in">chmod</span> u=rwx,go=rx .bashrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 例2：当我们不知道原来的文件属性，但是只想要增加.bashrc这个文件的每个人都可以写入得权限时，可执行如下命令：</span></span><br><span class="line"><span class="built_in">chmod</span> a+w .bashrc</span><br><span class="line"></span><br><span class="line"><span class="comment">#例3：当我想要将全部人的可执行权限去掉而不修改其他已存在的权限时，可执行如下命令：</span></span><br><span class="line"><span class="built_in">chmod</span> a-x .bashrc</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>文件、目录与磁盘</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hadoop-3.1.3安装文档</title>
     <url>/2020/06/17/Hadoop-3.1.3%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><span id="more"></span>
@@ -709,132 +835,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux学习文档-文件权限与目录配置</title>
-    <url>/2021/04/20/Linux%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h4 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h4><h2 id="1-文件属性"><a href="#1-文件属性" class="headerlink" title="1. 文件属性"></a>1. 文件属性</h2><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E7%A4%BA%E6%84%8F%E5%9B%BE.png?raw=true" alt="图一（文件属性示意图）"></p>
-<ul>
-<li><p>图一中，第1串字符代表这个文件的类型与权限</p>
-<ul>
-<li><p>第一个字符代表着个文件是目录、文件或链接文件等</p>
-<ul>
-<li>[d]代表目录</li>
-<li>[-]代表文件</li>
-<li>[l]代表链接文件</li>
-</ul>
-<p>  <img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8E%E6%9D%83%E9%99%90%E4%B9%8B%E5%86%85%E5%AE%B9.png?raw=true" alt="图二（文件类型与权限之内容）">
-  </p>
-</li>
-<li><p>如图二所示，后九位字符中每三个字符为一组，且均为【rwx】的组合。</p>
-</li>
-<li><p>第一组为文件拥有者的权限，第二组为文件所属用户组的权限，第三组为其他用户的权限</p>
-</li>
-<li><p>以第一组为例：</p>
-<p>  [r]代表read，可读权限，权限值为4，权限排名最低</p>
-<p>  [w]代表write，可写权限，权限值为2，权限排名居中</p>
-<p>  [r]代表excute,可执行权限，权限值为1，权限排名最高</p>
-</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>注：</p>
-<ul>
-<li>rwx所在的位置或者说顺序是不会改变的，有权限就会显示字符，没有则用-表示</li>
-<li>此处要与第一个字符区分开</li>
-</ul>
-</blockquote>
-<ul>
-<li><p>图一中，第2串字符表示有多少个文件名链接到此节点</p>
-</li>
-<li><p>图一中，第3串字符表示这个文件的拥有者账号名</p>
-</li>
-<li><p>图一中，第4串字符表示这个文件的所属用户组</p>
-</li>
-<li><p>图一中，第5串字符表示这个文件的大小（默认单位为Bytes）</p>
-</li>
-<li><p>图一中，第6串字符表示这个文件的创建日期或者是最近的修改日期，若文件的修改时间距今太久，那么只会显示年月日</p>
-</li>
-<li><p>图一中，第7串字符表示文件名</p>
-<p>  文件名前面有[.]则表示改文件为隐藏文件，可用【ls】、【ls -a】及【ls -al】来查看</p>
-</li>
-</ul>
-<blockquote>
-<p>注：</p>
-<ul>
-<li>对于文件夹来说，[x]原本代表执行权限，但如果某个用户对于某个目录没有[x]的权限，则该用户无法进入该目录</li>
-</ul>
-</blockquote>
-<h2 id="2-如何修改文件属性与权限"><a href="#2-如何修改文件属性与权限" class="headerlink" title="2. 如何修改文件属性与权限"></a>2. 如何修改文件属性与权限</h2><table>
-<thead>
-<tr>
-<th align="center">命令</th>
-<th align="center">作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">chgrp</td>
-<td align="center">修改文件所属用户组</td>
-</tr>
-<tr>
-<td align="center">chown</td>
-<td align="center">修改文件拥有者</td>
-</tr>
-<tr>
-<td align="center">chmod</td>
-<td align="center">修改文件的权限，SUID、SGID、SBIT等的特性</td>
-</tr>
-</tbody></table>
-<h3 id="1-修改所属用户组"><a href="#1-修改所属用户组" class="headerlink" title="(1) 修改所属用户组"></a>(1) 修改所属用户组</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chgrp</span>   [-R]  账号名   <span class="built_in">dirname</span>/filename</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注：</p>
-<ul>
-<li>目标用户组必须存在于&#x2F;etc&#x2F;group中才能修改成功，否则会报错</li>
-<li>修改文件拥有者亦是如此，目标用户必须存在于&#x2F;etc&#x2F;passwd中</li>
-</ul>
-</blockquote>
-<h3 id="2-修改文件拥有者，chown"><a href="#2-修改文件拥有者，chown" class="headerlink" title="(2) 修改文件拥有者，chown"></a>(2) 修改文件拥有者，chown</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chown</span>   [-R]    账号名称    文件或目录</span><br><span class="line"><span class="built_in">chown</span>   [-R]    账号名称：用户组名称    文件或目录</span><br><span class="line">-R: 递归修改</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-修改文件权限，chmod"><a href="#3-修改文件权限，chmod" class="headerlink" title="(3) 修改文件权限，chmod"></a>(3) 修改文件权限，chmod</h3><h4 id="①-用数字修改"><a href="#①-用数字修改" class="headerlink" title="① 用数字修改"></a>① 用数字修改</h4><table>
-<thead>
-<tr>
-<th align="center">权限</th>
-<th align="center">权限值</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">r</td>
-<td align="center">4</td>
-</tr>
-<tr>
-<td align="center">w</td>
-<td align="center">2</td>
-</tr>
-<tr>
-<td align="center">x</td>
-<td align="center">1</td>
-</tr>
-</tbody></table>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#例：</span></span><br><span class="line">owner = rwx = 4+2+1 = 7</span><br><span class="line">group = rwx = 4+2+1 = 7</span><br><span class="line">others = --- = 0+0+0 = 0</span><br><span class="line"></span><br><span class="line"><span class="comment">#因此，对应用数字修改权限的语法是：</span></span><br><span class="line"><span class="built_in">chmod</span>   -R  xyz 文件或目录</span><br><span class="line"><span class="comment">#-R: 递归修改</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#常用的如果要将某个文件所有的权限都开通则为</span></span><br><span class="line"><span class="built_in">chmod</span> 777 .bashrc</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注：</p>
-<ul>
-<li>通常以vim编辑一个Shell文件的时候，他的权限通常是：-rw-rw-r–，也就是644，且此文件是不能够执行的,如果要把它变成可执行问文件，则需要执行命令：【chmod 744 test.sh】或者：【chmod a+x test.sh】，后者即为下面要介绍的用符号修改</li>
-<li>另外，如果有些文件你不想被其他人看到，可以执行：【chmod 700 text.sh】</li>
-</ul>
-</blockquote>
-<h4 id="②-用符号修改"><a href="#②-用符号修改" class="headerlink" title="② 用符号修改"></a>② 用符号修改</h4><p>在修改之前，首先需要知道权限只有user、group、同任何人三种身份，分别用u、g、o来表示。此外，所有a代表all即全部的身份，因此修改方法如下图所示：</p>
-<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90.png?raw=true" alt="符号类型修改文件权限"></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 例1：当我们要设置一个文件的权限为【-rwxr-xr-x】时，可执行如下命令：</span></span><br><span class="line"><span class="built_in">chmod</span> u=rwx,go=rx .bashrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 例2：当我们不知道原来的文件属性，但是只想要增加.bashrc这个文件的每个人都可以写入得权限时，可执行如下命令：</span></span><br><span class="line"><span class="built_in">chmod</span> a+w .bashrc</span><br><span class="line"></span><br><span class="line"><span class="comment">#例3：当我想要将全部人的可执行权限去掉而不修改其他已存在的权限时，可执行如下命令：</span></span><br><span class="line"><span class="built_in">chmod</span> a-x .bashrc</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-        <category>文件、目录与磁盘</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Scala学习文档——基础语法</title>
     <url>/2020/06/08/Scala%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<span id="more"></span>
@@ -1055,23 +1055,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Spark学习文档--RDD编程</title>
-    <url>/2020/12/28/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-RDD%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="RDD简介"><a href="#RDD简介" class="headerlink" title="RDD简介"></a>RDD简介</h1><h2 id="1-含义"><a href="#1-含义" class="headerlink" title="1.含义"></a>1.含义</h2><pre><code>1. RDD（Resilient Distributed Dataset）叫做弹性分布式数据集，是Spark中最基本的数据抽象。
-2. 它代表一个不可变、可分区、里面的元素可并行计算的集合。
-3. RDD具有数据流模型的特点：自动容错、位置感知性调度和可伸缩性。
-4. RDD允许用户在执行多个查询时显式地将工作集缓存在内存中，后续的查询能够重用工作集，这极大地提升了查询速度
-</code></pre>
-<h2 id="2-RDD的属性"><a href="#2-RDD的属性" class="headerlink" title="2.RDD的属性"></a>2.RDD的属性</h2><h3 id="（1）"><a href="#（1）" class="headerlink" title="（1）"></a>（1）</h3><h1 id="RDD的创建方式"><a href="#RDD的创建方式" class="headerlink" title="RDD的创建方式"></a>RDD的创建方式</h1><h1 id="RDD编程API"><a href="#RDD编程API" class="headerlink" title="RDD编程API"></a>RDD编程API</h1><h1 id="RDD的宽依赖与窄依赖"><a href="#RDD的宽依赖与窄依赖" class="headerlink" title="RDD的宽依赖与窄依赖"></a>RDD的宽依赖与窄依赖</h1>]]></content>
-      <categories>
-        <category>Bigdata</category>
-        <category>Spark</category>
-      </categories>
-      <tags>
-        <tag>Spark</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Scala概述</title>
     <url>/2020/06/04/Scala%E6%A6%82%E8%BF%B0/</url>
     <content><![CDATA[<span id="more"></span>
@@ -1121,6 +1104,23 @@
       </categories>
       <tags>
         <tag>Scala</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spark学习文档--RDD编程</title>
+    <url>/2020/12/28/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-RDD%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="RDD简介"><a href="#RDD简介" class="headerlink" title="RDD简介"></a>RDD简介</h1><h2 id="1-含义"><a href="#1-含义" class="headerlink" title="1.含义"></a>1.含义</h2><pre><code>1. RDD（Resilient Distributed Dataset）叫做弹性分布式数据集，是Spark中最基本的数据抽象。
+2. 它代表一个不可变、可分区、里面的元素可并行计算的集合。
+3. RDD具有数据流模型的特点：自动容错、位置感知性调度和可伸缩性。
+4. RDD允许用户在执行多个查询时显式地将工作集缓存在内存中，后续的查询能够重用工作集，这极大地提升了查询速度
+</code></pre>
+<h2 id="2-RDD的属性"><a href="#2-RDD的属性" class="headerlink" title="2.RDD的属性"></a>2.RDD的属性</h2><h3 id="（1）"><a href="#（1）" class="headerlink" title="（1）"></a>（1）</h3><h1 id="RDD的创建方式"><a href="#RDD的创建方式" class="headerlink" title="RDD的创建方式"></a>RDD的创建方式</h1><h1 id="RDD编程API"><a href="#RDD编程API" class="headerlink" title="RDD编程API"></a>RDD编程API</h1><h1 id="RDD的宽依赖与窄依赖"><a href="#RDD的宽依赖与窄依赖" class="headerlink" title="RDD的宽依赖与窄依赖"></a>RDD的宽依赖与窄依赖</h1>]]></content>
+      <categories>
+        <category>Bigdata</category>
+        <category>Spark</category>
+      </categories>
+      <tags>
+        <tag>Spark</tag>
       </tags>
   </entry>
   <entry>
@@ -1362,6 +1362,41 @@
       </tags>
   </entry>
   <entry>
+    <title>初识Hive</title>
+    <url>/2020/06/13/%E5%88%9D%E8%AF%86Hive/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="什么是Hive？"><a href="#什么是Hive？" class="headerlink" title="什么是Hive？"></a>什么是Hive？</h1><ol>
+<li>由Facebook实现并开源、基于Hadoop的<strong>数据仓库的工具</strong></li>
+<li>提供HQL（Hive SQL）查询功能</li>
+<li>Hive本质上是将SQL<strong>翻译</strong>转换成MapReduce任务执行</li>
+</ol>
+<h1 id="为什么使用Hive（MapReduce、Spark）？"><a href="#为什么使用Hive（MapReduce、Spark）？" class="headerlink" title="为什么使用Hive（MapReduce、Spark）？"></a>为什么使用Hive（MapReduce、Spark）？</h1><ol>
+<li>MR在实现复杂逻辑查询的时候，成本高、难度大。</li>
+<li>Spark对集群资源更高（基于内存）</li>
+</ol>
+<h1 id="Hive内部架构"><a href="#Hive内部架构" class="headerlink" title="Hive内部架构"></a>Hive内部架构</h1><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Hive/Hive%E5%86%85%E9%83%A8%E6%9E%B6%E6%9E%84.png?raw=true"></p>
+<ul>
+<li><p>Thrift Server：提供了一种让用户可以使用多种不同的语言来操作Hive</p>
+<!-- Thrift 是 Facebook 开发的一个软件框架，可以用来进行可扩展且跨语言的服务的开发， Hive 集成了该服务，能让不同的编程语言调用 Hive 的接口 -->
+</li>
+<li><p>Compiler（编译解释器）：将HiveSQL转换为抽象语法树（AST），并将语法树编译为逻辑执行计划</p>
+</li>
+<li><p>Optimizer（优化器） ： 对逻辑执行计划进行优化 </p>
+</li>
+<li><p>Executor（执行器）：调用<strong>底层的运行框架</strong>执行逻辑执行计划</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Bigdata</category>
+        <category>Hive</category>
+      </categories>
+      <tags>
+        <tag>Hive</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>初识Linux</title>
     <url>/2020/06/12/%E5%88%9D%E8%AF%86Linux/</url>
     <content><![CDATA[<span id="more"></span>
@@ -1447,41 +1482,6 @@
       </categories>
       <tags>
         <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>初识Hive</title>
-    <url>/2020/06/13/%E5%88%9D%E8%AF%86Hive/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="什么是Hive？"><a href="#什么是Hive？" class="headerlink" title="什么是Hive？"></a>什么是Hive？</h1><ol>
-<li>由Facebook实现并开源、基于Hadoop的<strong>数据仓库的工具</strong></li>
-<li>提供HQL（Hive SQL）查询功能</li>
-<li>Hive本质上是将SQL<strong>翻译</strong>转换成MapReduce任务执行</li>
-</ol>
-<h1 id="为什么使用Hive（MapReduce、Spark）？"><a href="#为什么使用Hive（MapReduce、Spark）？" class="headerlink" title="为什么使用Hive（MapReduce、Spark）？"></a>为什么使用Hive（MapReduce、Spark）？</h1><ol>
-<li>MR在实现复杂逻辑查询的时候，成本高、难度大。</li>
-<li>Spark对集群资源更高（基于内存）</li>
-</ol>
-<h1 id="Hive内部架构"><a href="#Hive内部架构" class="headerlink" title="Hive内部架构"></a>Hive内部架构</h1><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Hive/Hive%E5%86%85%E9%83%A8%E6%9E%B6%E6%9E%84.png?raw=true"></p>
-<ul>
-<li><p>Thrift Server：提供了一种让用户可以使用多种不同的语言来操作Hive</p>
-<!-- Thrift 是 Facebook 开发的一个软件框架，可以用来进行可扩展且跨语言的服务的开发， Hive 集成了该服务，能让不同的编程语言调用 Hive 的接口 -->
-</li>
-<li><p>Compiler（编译解释器）：将HiveSQL转换为抽象语法树（AST），并将语法树编译为逻辑执行计划</p>
-</li>
-<li><p>Optimizer（优化器） ： 对逻辑执行计划进行优化 </p>
-</li>
-<li><p>Executor（执行器）：调用<strong>底层的运行框架</strong>执行逻辑执行计划</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Bigdata</category>
-        <category>Hive</category>
-      </categories>
-      <tags>
-        <tag>Hive</tag>
       </tags>
   </entry>
 </search>
