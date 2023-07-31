@@ -99,6 +99,46 @@
       </tags>
   </entry>
   <entry>
+    <title>CnetOS更换镜像</title>
+    <url>/2020/06/13/CentOS%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F/</url>
+    <content><![CDATA[<span id="more"></span>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>由于新建虚拟机时，使用系统自带的CentOS镜像在使用yum命令下载各种软件的速度不太理想，因此本文用于记录更换原始镜像为国内镜像的步骤。以下是服务器信息：</p>
+<ol>
+<li>环境：自建虚拟机</li>
+<li>系统：CentOS 7</li>
+<li>镜像：阿里云</li>
+</ol>
+</blockquote>
+<!-- more -->
+
+<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><h2 id="安装wget-x2F-curl"><a href="#安装wget-x2F-curl" class="headerlink" title="安装wget&#x2F;curl"></a>安装wget&#x2F;curl</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum -y install wget</span><br><span class="line"></span><br><span class="line">yum -y install curl</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="1-备份原本的镜像"><a href="#1-备份原本的镜像" class="headerlink" title="1. 备份原本的镜像"></a>1. 备份原本的镜像</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-下载镜像并写入指定文件中"><a href="#2-下载镜像并写入指定文件中" class="headerlink" title="2. 下载镜像并写入指定文件中"></a>2. 下载镜像并写入指定文件中</h2><ul>
+<li>以下两种方式均可下载目标镜像</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#使用Wget命令</span></span><br><span class="line">wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用curl命令</span></span><br><span class="line">curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：-o后面路径+指定文件名，作用是将目标镜像中的内容写到指定目录的指定文件中</p>
+</blockquote>
+<h2 id="3-更新镜像源"><a href="#3-更新镜像源" class="headerlink" title="3. 更新镜像源"></a>3. 更新镜像源</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#清除缓存</span></span><br><span class="line">yum clean all</span><br><span class="line"></span><br><span class="line"><span class="comment">#生成缓存</span></span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：网上有一篇博客说要将跟换后的CentOS-Base.repo中的所有http开头的更改为https，作用暂时未知（可能网络安全），后续了解后，会进一步补充。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>CentOS</category>
+      </categories>
+      <tags>
+        <tag>CentOS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Flume-1.9.0安装文档</title>
     <url>/2020/06/05/Flume-1.9.0%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
     <content><![CDATA[<h2 id="一、写在最前"><a href="#一、写在最前" class="headerlink" title="一、写在最前"></a>一、写在最前</h2><hr>
@@ -172,58 +212,17 @@
 <ul>
 <li>开启Flume进程</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#控制台运行</span></span><br><span class="line">flume-ng agent -n a2 -c /home/TomFor/software/flume/conf/ -f /home/TomFor/software/flume/job/flume-file-hdfs.conf -Dflume.root.logger=info,console</span><br><span class="line"><span class="comment">#后台运行</span></span><br><span class="line"><span class="built_in">nohup</span> flume-ng agent -n a2 -c /home/TomFor/software/flume/conf/ -f /home/TomFor/software/flume/job/flume-file-hdfs.conf &gt;/dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#控制台运行</span></span><br><span class="line">flume-ng agent -n a2 -c /home/TomFor/software/flume/conf/ -f /home/TomFor/software/flume/job/flume-file-hdfs.conf -Dflume.root.logger=info,console</span><br><span class="line"></span><br><span class="line"><span class="comment">#后台运行</span></span><br><span class="line"><span class="built_in">nohup</span> flume-ng agent -n a2 -c /home/TomFor/software/flume/conf/ -f /home/TomFor/software/flume/job/flume-file-hdfs.conf &gt;/dev/null 2&gt;&amp;1 &amp;</span><br><span class="line"><span class="comment"># 检查日志有新增数据时，HDFS上是否出现新文件。若有新文件产生，则Flume采集日志文件到HDFS完成</span></span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>检查日志有新增数据时，HDFS上是否出现新文件。若有新文件产生，则Flume采集日志文件到HDFS完成</li>
-</ul>
-]]></content>
+
+
+<h2 id="五、启动脚本"><a href="#五、启动脚本" class="headerlink" title="五、启动脚本"></a>五、启动脚本</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Flume启动脚本</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> <span class="variable">$1</span> <span class="keyword">in</span></span><br><span class="line">	<span class="string">&quot;start&quot;</span> ) &#123;</span><br><span class="line">		<span class="built_in">echo</span> <span class="string">&quot;------开始启动------&quot;</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> hadoop102 hadoop103;</span><br><span class="line">		<span class="keyword">do</span></span><br><span class="line">			ssh i <span class="string">&quot;nohup /opt/moudle/flume/bin/flume-ng agent -n al -c ... &gt;dev/null 2&gt;&amp;1 &amp;&quot;</span></span><br><span class="line">		<span class="keyword">done</span>	</span><br><span class="line">	&#125;;;</span><br><span class="line">	<span class="string">&quot;stop&quot;</span> ) &#123;</span><br><span class="line">		<span class="built_in">echo</span> <span class="string">&quot;------开始关闭------&quot;</span></span><br><span class="line">		<span class="keyword">do</span></span><br><span class="line">			ssh i <span class="string">&quot;ps -ef | grep kafka_to_hdfs_log | grep -v grep | awk &#x27;&#123;print \$2&#125;&#x27; | xargs -n1 kill&quot;</span></span><br><span class="line">		<span class="keyword">done</span></span><br><span class="line">	&#125;;;</span><br><span class="line"><span class="keyword">esac</span></span><br><span class="line"><span class="comment"># 后续升级： 把conf和进程名称作为参数传进去，即可控制所有FLume采集任务的启停</span></span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Bigdata</category>
         <category>Flume</category>
       </categories>
       <tags>
         <tag>Flume</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CnetOS更换镜像</title>
-    <url>/2020/06/13/CentOS%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F/</url>
-    <content><![CDATA[<span id="more"></span>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
-<p>由于新建虚拟机时，使用系统自带的CentOS镜像在使用yum命令下载各种软件的速度不太理想，因此本文用于记录更换原始镜像为国内镜像的步骤。以下是服务器信息：</p>
-<ol>
-<li>环境：自建虚拟机</li>
-<li>系统：CentOS 7</li>
-<li>镜像：阿里云</li>
-</ol>
-</blockquote>
-<!-- more -->
-
-<h1 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h1><h2 id="安装wget-x2F-curl"><a href="#安装wget-x2F-curl" class="headerlink" title="安装wget&#x2F;curl"></a>安装wget&#x2F;curl</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum -y install wget</span><br><span class="line"></span><br><span class="line">yum -y install curl</span><br></pre></td></tr></table></figure>
-
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="1-备份原本的镜像"><a href="#1-备份原本的镜像" class="headerlink" title="1. 备份原本的镜像"></a>1. 备份原本的镜像</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-下载镜像并写入指定文件中"><a href="#2-下载镜像并写入指定文件中" class="headerlink" title="2. 下载镜像并写入指定文件中"></a>2. 下载镜像并写入指定文件中</h2><ul>
-<li>以下两种方式均可下载目标镜像</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#使用Wget命令</span></span><br><span class="line">wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用curl命令</span></span><br><span class="line">curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注：-o后面路径+指定文件名，作用是将目标镜像中的内容写到指定目录的指定文件中</p>
-</blockquote>
-<h2 id="3-更新镜像源"><a href="#3-更新镜像源" class="headerlink" title="3. 更新镜像源"></a>3. 更新镜像源</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#清除缓存</span></span><br><span class="line">yum clean all</span><br><span class="line"></span><br><span class="line"><span class="comment">#生成缓存</span></span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注：网上有一篇博客说要将跟换后的CentOS-Base.repo中的所有http开头的更改为https，作用暂时未知（可能网络安全），后续了解后，会进一步补充。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Linux</category>
-        <category>CentOS</category>
-      </categories>
-      <tags>
-        <tag>CentOS</tag>
       </tags>
   </entry>
   <entry>
@@ -675,6 +674,71 @@
       </tags>
   </entry>
   <entry>
+    <title>Hive-3.1.2安装文档</title>
+    <url>/2023/07/29/Hive-3.1.2%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<h2 id="一、写在最前"><a href="#一、写在最前" class="headerlink" title="一、写在最前"></a>一、写在最前</h2><hr>
+<blockquote>
+<p>CentOS版本： CentOS Linux release 7.9.2009 (Core)<br>jdk版本： 1.8<br>Hadoop版本： 3.1.3</p>
+</blockquote>
+<h2 id="二、下载"><a href="#二、下载" class="headerlink" title="二、下载"></a>二、下载</h2><h3 id="1-官网下载"><a href="#1-官网下载" class="headerlink" title="1. 官网下载"></a>1. 官网下载</h3><p><a href="https://mirror-hk.koddos.net/apache/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz">Apache Hive官网下载</a><br><a href="https://mirrors.tuna.tsinghua.edu.cn/apache/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz">Apache国内镜像下载</a></p>
+<blockquote>
+<p>源码也是在这个连接下面下载</p>
+</blockquote>
+<h3 id="2-服务器下载"><a href="#2-服务器下载" class="headerlink" title="2. 服务器下载"></a>2. 服务器下载</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#官网下载</span></span><br><span class="line">wget https://mirror-hk.koddos.net/apache/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz</span><br><span class="line"><span class="comment">#国内镜像下载</span></span><br><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="三、配置"><a href="#三、配置" class="headerlink" title="三、配置"></a>三、配置</h2><h3 id="1-前提条件：MySQL安装"><a href="#1-前提条件：MySQL安装" class="headerlink" title="1. 前提条件：MySQL安装"></a>1. 前提条件：<a href="%E5%AE%89%E8%A3%85%E8%BF%9E%E6%8E%A5">MySQL安装</a></h3><blockquote>
+<p>虽然Hive内置数据库管理元数据，但是一般都是单独配置到MySQL中，方便管理</p>
+</blockquote>
+<h3 id="2-将MySQL的JDBC驱动拷贝到Hive的lib目录下"><a href="#2-将MySQL的JDBC驱动拷贝到Hive的lib目录下" class="headerlink" title="2. 将MySQL的JDBC驱动拷贝到Hive的lib目录下"></a>2. 将MySQL的JDBC驱动拷贝到Hive的lib目录下</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这里安装的MySQL版本是5，所以对应的JDBC驱动也需要对应，如果是mysql8同理，驱动下载参考MySQL安装一文</span></span><br><span class="line"><span class="built_in">cp</span> mysql-connector-java-5.1.46.jar <span class="variable">$HVIE</span>/HOME/lib/</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-修改-HIVE-HOME-x2F-conf目录下的hive-site-xml文件"><a href="#3-修改-HIVE-HOME-x2F-conf目录下的hive-site-xml文件" class="headerlink" title="3. 修改$HIVE_HOME&#x2F;conf目录下的hive-site.xml文件"></a>3. 修改$HIVE_HOME&#x2F;conf目录下的hive-site.xml文件</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>jdbc:mysql://bigdata2:3306/hive_metastore?createDatabaseIfNotExist=true<span class="symbol">&amp;amp;</span>useUnicode=true<span class="symbol">&amp;amp;</span>characterEncoding=UTF-8<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>TomFor<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>tomfor<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- &lt;property&gt;</span></span><br><span class="line"><span class="comment">        &lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt;</span></span><br><span class="line"><span class="comment">        &lt;value&gt;/user/hive/warehouse&lt;/value&gt;</span></span><br><span class="line"><span class="comment">    &lt;/property&gt;</span></span><br><span class="line"><span class="comment">    </span></span><br><span class="line"><span class="comment">    &lt;property&gt;</span></span><br><span class="line"><span class="comment">        &lt;name&gt;hive.metastore.schema.verification&lt;/name&gt;</span></span><br><span class="line"><span class="comment">        &lt;value&gt;false&lt;/value&gt;</span></span><br><span class="line"><span class="comment">    &lt;/property&gt;</span></span><br><span class="line"><span class="comment">    </span></span><br><span class="line"><span class="comment">    &lt;property&gt;</span></span><br><span class="line"><span class="comment">    &lt;name&gt;hive.server2.thrift.port&lt;/name&gt;</span></span><br><span class="line"><span class="comment">    &lt;value&gt;10000&lt;/value&gt;</span></span><br><span class="line"><span class="comment">    &lt;/property&gt;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    &lt;property&gt;</span></span><br><span class="line"><span class="comment">        &lt;name&gt;hive.server2.thrift.bind.host&lt;/name&gt;</span></span><br><span class="line"><span class="comment">        &lt;value&gt;hadoop102&lt;/value&gt;</span></span><br><span class="line"><span class="comment">    &lt;/property&gt;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    &lt;property&gt;</span></span><br><span class="line"><span class="comment">        &lt;name&gt;hive.metastore.event.db.notification.api.auth&lt;/name&gt;</span></span><br><span class="line"><span class="comment">        &lt;value&gt;false&lt;/value&gt;</span></span><br><span class="line"><span class="comment">    &lt;/property&gt;</span></span><br><span class="line"><span class="comment">    </span></span><br><span class="line"><span class="comment">    &lt;property&gt;</span></span><br><span class="line"><span class="comment">        &lt;name&gt;hive.cli.print.header&lt;/name&gt;</span></span><br><span class="line"><span class="comment">        &lt;value&gt;true&lt;/value&gt;</span></span><br><span class="line"><span class="comment">    &lt;/property&gt;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    &lt;property&gt;</span></span><br><span class="line"><span class="comment">        &lt;name&gt;hive.cli.print.current.db&lt;/name&gt;</span></span><br><span class="line"><span class="comment">        &lt;value&gt;true&lt;/value&gt;</span></span><br><span class="line"><span class="comment">    &lt;/property&gt; --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-配置-HIVE-HOME-x2F-conf目录下的hive-log4j2-properties"><a href="#4-配置-HIVE-HOME-x2F-conf目录下的hive-log4j2-properties" class="headerlink" title="4. 配置$HIVE_HOME&#x2F;conf目录下的hive-log4j2.properties"></a>4. 配置$HIVE_HOME&#x2F;conf目录下的hive-log4j2.properties</h3><blockquote>
+<p>按需配置，目的是做好日志管理</p>
+</blockquote>
+<h3 id="5-创建Hive元数据库"><a href="#5-创建Hive元数据库" class="headerlink" title="5. 创建Hive元数据库"></a>5. 创建Hive元数据库</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 这里的数据库名称应该要和hive-site.xml数据库链接地址中的数据库名称保持一致</span></span><br><span class="line"><span class="keyword">CREATE</span> DATABASE hive_metastore;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-创建外部访问元数据的用户并授权"><a href="#6-创建外部访问元数据的用户并授权" class="headerlink" title="6. 创建外部访问元数据的用户并授权"></a>6. 创建外部访问元数据的用户并授权</h3><blockquote>
+<p>外部访问是指：DBeaver、Java等</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 创建用户</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">&#x27;TomFor&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;tomfor&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 授予用户相应的权限。</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> PRIVILEGES <span class="keyword">ON</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">TO</span> <span class="string">&#x27;TomFor&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 刷新权限</span></span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 注意这里的用户最好和Hadoop的用户保持一致</span></span><br><span class="line"><span class="comment">-- 因为如果想要使用DBeaver连接Hive的时候，如果你要操作HDFS上的文件，并且连接Hive的用户和Hadoop的用户不一样，会有问题。</span></span><br><span class="line"><span class="comment">-- 解决方法：</span></span><br><span class="line"><span class="comment">--   （1）把DHFS路径的权限改掉</span></span><br><span class="line"><span class="comment">--   （2）用户名与Hadoop安装用户保持一致</span></span><br><span class="line"><span class="comment">-- 使用root用户连接Hive Metastore: GRANT ALL PRIVILEGES ON *.* TO &#x27;root&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;root&#x27; WITH GRANT OPTION;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-初始化Hive元数据库"><a href="#7-初始化Hive元数据库" class="headerlink" title="7. 初始化Hive元数据库"></a>7. 初始化Hive元数据库</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">schematool -initSchema -dbType mysql -verbose</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-修改元数据库字符集"><a href="#8-修改元数据库字符集" class="headerlink" title="8. 修改元数据库字符集"></a>8. 修改元数据库字符集</h3><blockquote>
+<p>发现乱码时再改也可</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 字段注释</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> COLUMNS_V2 modify <span class="keyword">column</span> COMMENT <span class="type">VARCHAR</span>(<span class="number">256</span>) <span class="type">character</span> <span class="keyword">set</span> utf8;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 表注释</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> TABLE_PARAMS modify <span class="keyword">column</span> PARAM_VALUE mediumtext <span class="type">character</span> <span class="keyword">set</span> utf8;</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-添加环境变量-HIVE-HOME"><a href="#9-添加环境变量-HIVE-HOME" class="headerlink" title="9. 添加环境变量$HIVE_HOME"></a>9. 添加环境变量$HIVE_HOME</h3><h3 id="10-其他"><a href="#10-其他" class="headerlink" title="10. 其他"></a>10. 其他</h3><ul>
+<li>若出现日志Jar包冲突</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> log4j-slf4j-impl-2.10.0.jar log4j-slf4j-impl-2.10.0.jar.bak</span><br></pre></td></tr></table></figure>
+
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><ul>
+<li>测试</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 启动Hive客户端</span></span><br><span class="line">hive</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看Hive库、表</span></span><br><span class="line">hive (<span class="keyword">default</span>)<span class="operator">&gt;</span> <span class="keyword">show</span> databases;</span><br><span class="line">OK</span><br><span class="line"><span class="keyword">default</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用DBeaver连接Hive</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启元数据服务</span></span><br><span class="line">hive --service metastore</span><br><span class="line"><span class="built_in">nohup</span> hive --service metastore &gt;/dev/null 2&gt;&amp;1 &amp;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启hiveserver2</span></span><br><span class="line">hive --service hiveserver2</span><br><span class="line"><span class="built_in">nohup</span> hive --service hiveserver2 &gt;/dev/null 2&gt;&amp;1 &amp;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 日志管理</span></span><br><span class="line">hive --service metastore --hiveconf hive.root.logger=INFO,DRFA --hiveconf hive.log.dir=/home/TomFor/log/hive/metastore --hiveconf hive.log.file=hive.log.&lt;<span class="built_in">date</span>&gt;</span><br><span class="line">hive --service metastore --hiveconf hive.log4j.file</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="四、Hive相关服务启动脚本"><a href="#四、Hive相关服务启动脚本" class="headerlink" title="四、Hive相关服务启动脚本"></a>四、Hive相关服务启动脚本</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ================Hive启动相关服务的脚本=======================</span></span><br><span class="line"></span><br><span class="line">METASTORE_LOG_DIR=<span class="string">&quot;/home/TomFor/log/hive/metastore&quot;</span></span><br><span class="line">METASTORE_LOG_FILE=<span class="string">&quot;hive_metastore_operate_<span class="subst">$(date +&#x27;%Y-%m-%d&#x27;)</span>.log&quot;</span></span><br><span class="line"></span><br><span class="line">HIVESERVER2_LOG_DIR=<span class="string">&quot;/home/TomFor/log/hive/metastore&quot;</span></span><br><span class="line">HIVESERVER2_LOG_FILE=<span class="string">&quot;hive_server2_query_<span class="subst">$(date +&#x27;%Y-%m-%d&#x27;)</span>.log&quot;</span></span><br><span class="line"></span><br><span class="line">HIVE_HOST=<span class="string">&quot;bigdata2&quot;</span></span><br><span class="line">HIVE_USER=<span class="string">&quot;TomFor&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 信息日志</span></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">log_info</span></span>()&#123;</span><br><span class="line">  content=<span class="string">&quot;[INFO] <span class="subst">$(date &#x27;+%Y-%m-%d %H:%M:%S&#x27;)</span> <span class="variable">$@</span>&quot;</span></span><br><span class="line">  <span class="built_in">echo</span> -e <span class="string">&quot;\033[32m&quot;</span><span class="variable">$&#123;content&#125;</span> <span class="string">&quot;\033[0m&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 警告日志</span></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">log_warn</span></span>()&#123;</span><br><span class="line">  content=<span class="string">&quot;[WARN] <span class="subst">$(date &#x27;+%Y-%m-%d %H:%M:%S&#x27;)</span> <span class="variable">$@</span>&quot;</span></span><br><span class="line">  <span class="built_in">echo</span> -e <span class="string">&quot;\033[33m&quot;</span><span class="variable">$&#123;content&#125;</span> <span class="string">&quot;\033[0m&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 错误日志</span></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">log_error</span></span>()&#123;</span><br><span class="line">  content=<span class="string">&quot;[ERROR] <span class="subst">$(date &#x27;+%Y-%m-%d %H:%M:%S&#x27;)</span> <span class="variable">$@</span>&quot;</span></span><br><span class="line">  <span class="comment">#[ $LOG_LEVEL -le 3  ] &amp;&amp; echo -e &quot;\033[31m&quot; $&#123;content&#125; &quot;\033[0m&quot;</span></span><br><span class="line">  <span class="built_in">echo</span> -e <span class="string">&quot;\033[31m&quot;</span><span class="variable">$&#123;content&#125;</span> <span class="string">&quot;\033[0m&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检测文件夹或文件是否存在</span></span><br><span class="line"><span class="function"><span class="title">check_folder_or_file_exists</span></span>() &#123;</span><br><span class="line">    <span class="keyword">if</span> [[ <span class="variable">$2</span> == <span class="string">&quot;f&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">        f_flag=$(ssh <span class="variable">$1</span> <span class="string">&quot;test -f <span class="variable">$3</span> &amp;&amp; echo \&quot;1\&quot; || echo \&quot;0\&quot;&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> [[ <span class="variable">$f_flag</span> == <span class="string">&quot;1&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">        <span class="keyword">elif</span> [[ <span class="variable">$f_flag</span> == <span class="string">&quot;0&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;0&quot;</span></span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">elif</span> [[ <span class="variable">$2</span> == <span class="string">&quot;d&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">        d_flag=$(ssh <span class="variable">$1</span> <span class="string">&quot;test -d <span class="variable">$3</span> &amp;&amp; echo \&quot;1\&quot; || echo \&quot;0\&quot;&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> [[ <span class="variable">$d_flag</span> == <span class="string">&quot;1&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">        <span class="keyword">elif</span> [[ <span class="variable">$d_flag</span> == <span class="string">&quot;0&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;0&quot;</span></span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 程序主体</span></span><br><span class="line">log_info <span class="string">&quot;欢迎使用Hive启停服务脚本&quot;</span></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;\033[32m&quot;</span>请输入你要执行的操作： <span class="string">&quot;\033[0m&quot;</span></span><br><span class="line"></span><br><span class="line">operate_actions=(<span class="string">&quot;开启metastore服务&quot;</span> <span class="string">&quot;开始hiveserver2服务&quot;</span> <span class="string">&quot;同时开启metastore、hiveserver2服务&quot;</span> <span class="string">&quot;关闭metastore服务&quot;</span> <span class="string">&quot;关闭hiveserver2服务&quot;</span> <span class="string">&quot;同时关闭metastore、hiveserver2服务&quot;</span> <span class="string">&quot;退出&quot;</span>)</span><br><span class="line">select action <span class="keyword">in</span> <span class="string">&quot;<span class="variable">$&#123;operate_actions[@]&#125;</span>&quot;</span>;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="keyword">case</span> <span class="variable">$action</span> <span class="keyword">in</span></span><br><span class="line">        <span class="string">&quot;开启metastore服务&quot;</span> ) &#123;</span><br><span class="line">            result_floder=$(check_folder_or_file_exists <span class="string">&quot;<span class="variable">$HIVE_HOST</span>&quot;</span> <span class="string">&quot;d&quot;</span> <span class="string">&quot;<span class="variable">$&#123;METASTORE_LOG_DIR&#125;</span>&quot;</span>)</span><br><span class="line">            result_file=$(check_folder_or_file_exists <span class="string">&quot;<span class="variable">$HIVE_HOST</span>&quot;</span> <span class="string">&quot;f&quot;</span> <span class="string">&quot;<span class="variable">$&#123;METASTORE_LOG_DIR&#125;</span>/<span class="variable">$&#123;METASTORE_LOG_FILE&#125;</span>&quot;</span>)</span><br><span class="line">            <span class="keyword">if</span> [[ <span class="variable">$result_floder</span> == <span class="string">&quot;1&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">              <span class="keyword">if</span> [[ <span class="variable">$result_file</span> == <span class="string">&quot;1&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">                  flag=$(ssh <span class="variable">$HIVE_HOST</span> <span class="string">&quot;ps -ef | grep org.apache.hadoop.hive.metastore.HiveMetaStore |grep -v grep | awk &#x27;&#123;print \$2&#125;&#x27;&quot;</span>)</span><br><span class="line">                  <span class="keyword">if</span> [[ <span class="variable">$flag</span> == <span class="string">&quot;&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">                      <span class="built_in">echo</span> <span class="string">&quot;正在开启开启metastore服务...&quot;</span></span><br><span class="line">                      ssh <span class="variable">$HIVE_HOST</span> <span class="string">&quot;nohup hive --service metastore &gt; &quot;</span><span class="variable">$&#123;METASTORE_LOG_DIR&#125;</span>/<span class="variable">$&#123;METASTORE_LOG_FILE&#125;</span><span class="string">&quot; 2&gt;&amp;1 &amp;&quot;</span></span><br><span class="line">                      <span class="built_in">echo</span> -e <span class="string">&quot;\033[33m&quot;</span>hive metastore服务已经启动! <span class="string">&quot;\033[0m&quot;</span></span><br><span class="line">                  <span class="keyword">else</span></span><br><span class="line">                      <span class="built_in">echo</span> -e <span class="string">&quot;\033[33m&quot;</span>hive metastore服务已经在运行了! <span class="string">&quot;\033[0m&quot;</span></span><br><span class="line">                  <span class="keyword">fi</span></span><br><span class="line">              <span class="keyword">else</span></span><br><span class="line">                  <span class="built_in">echo</span> -e <span class="string">&quot;\033[32m&quot;</span>检测到日期为今天的日志文件不存在，正在为您创建...<span class="string">&quot;\033[0m&quot;</span></span><br><span class="line">                  ssh <span class="variable">$HIVE_HOST</span> <span class="string">&quot;touch <span class="variable">$&#123;METASTORE_LOG_DIR&#125;</span>/<span class="variable">$&#123;METASTORE_LOG_FILE&#125;</span>&quot;</span></span><br><span class="line">                  <span class="built_in">echo</span> <span class="string">&quot;正在启动metastore...&quot;</span></span><br><span class="line">                  ssh <span class="variable">$HIVE_HOST</span> <span class="string">&quot;nohup hive --service metastore &gt; &quot;</span><span class="variable">$&#123;METASTORE_LOG_DIR&#125;</span>/<span class="variable">$&#123;METASTORE_LOG_FILE&#125;</span><span class="string">&quot; 2&gt;&amp;1 &amp;&quot;</span></span><br><span class="line">                  <span class="built_in">echo</span> -e <span class="string">&quot;\033[33m&quot;</span>hive metastore服务已经启动! <span class="string">&quot;\033[0m&quot;</span></span><br><span class="line">              <span class="keyword">fi</span></span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">              <span class="built_in">echo</span> -e <span class="string">&quot;\033[32m&quot;</span>检测到存放日志文件的路径不存在，正在为您创建路径以及日志文件...<span class="string">&quot;\033[0m&quot;</span></span><br><span class="line">              ssh <span class="variable">$HIVE_HOST</span> <span class="string">&quot;mkdir -p <span class="variable">$&#123;METASTORE_LOG_DIR&#125;</span>&quot;</span></span><br><span class="line">              <span class="built_in">echo</span> -e <span class="string">&quot;\033[32m&quot;</span>日志路径已创建完毕<span class="string">&quot;\033[0m&quot;</span></span><br><span class="line">              ssh <span class="variable">$HIVE_HOST</span> <span class="string">&quot;touch <span class="variable">$&#123;METASTORE_LOG_DIR&#125;</span>/<span class="variable">$&#123;METASTORE_LOG_FILE&#125;</span>&quot;</span></span><br><span class="line">              <span class="built_in">echo</span> -e <span class="string">&quot;\033[32m&quot;</span>日志文件已创建完毕<span class="string">&quot;\033[0m&quot;</span></span><br><span class="line">              <span class="built_in">echo</span> <span class="string">&quot;正在启动metastore...&quot;</span></span><br><span class="line">              ssh <span class="variable">$HIVE_HOST</span> <span class="string">&quot;nohup hive --service metastore &gt; &quot;</span><span class="variable">$&#123;METASTORE_LOG_DIR&#125;</span>/<span class="variable">$&#123;METASTORE_LOG_FILE&#125;</span><span class="string">&quot; 2&gt;&amp;1 &amp;&quot;</span></span><br><span class="line">              <span class="built_in">echo</span> -e <span class="string">&quot;\033[33m&quot;</span>hive metastore服务已经启动! <span class="string">&quot;\033[0m&quot;</span></span><br><span class="line">            <span class="keyword">fi</span></span><br><span class="line">        &#125;;; </span><br><span class="line">        <span class="string">&quot;开始hiveserver2服务&quot;</span> ) &#123;</span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;开始hiveserver2服务&quot;</span></span><br><span class="line">        &#125;;;</span><br><span class="line">        <span class="string">&quot;同时开启metastore、hiveserver2服务&quot;</span> ) &#123;</span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;同时开启metastore、hiveserver2服务&quot;</span></span><br><span class="line">        &#125;;;</span><br><span class="line">        <span class="string">&quot;关闭metastore服务&quot;</span> ) &#123;</span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;正在关闭metastore服务...&quot;</span></span><br><span class="line">            flag=$(ssh <span class="variable">$HIVE_HOST</span> <span class="string">&quot;ps -ef | grep org.apache.hadoop.hive.metastore.HiveMetaStore |grep -v grep | awk &#x27;&#123;print \$2&#125;&#x27;&quot;</span>)</span><br><span class="line">            <span class="keyword">if</span> [[ <span class="variable">$flag</span> == <span class="string">&quot;&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">                <span class="built_in">echo</span> -e <span class="string">&quot;\033[33m&quot;</span>metastore服务未在运行中，请确认后再执行： <span class="string">&quot;\033[0m&quot;</span></span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                ssh <span class="variable">$HIVE_HOST</span> <span class="string">&quot;kill -9 <span class="variable">$flag</span>&quot;</span></span><br><span class="line">                <span class="built_in">echo</span> -e <span class="string">&quot;\033[32m&quot;</span>metastore服务已经关闭<span class="string">&quot;\033[0m&quot;</span></span><br><span class="line">            <span class="keyword">fi</span></span><br><span class="line">        &#125;;;</span><br><span class="line">        <span class="string">&quot;关闭hiveserver2服务&quot;</span> ) &#123;</span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;关闭hiveserver2服务&quot;</span></span><br><span class="line">        &#125;;;</span><br><span class="line">        <span class="string">&quot;同时关闭metastore、hiveserver2服务&quot;</span> ) &#123;</span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;同时关闭metastore、hiveserver2服务&quot;</span></span><br><span class="line">        &#125;;;</span><br><span class="line">        <span class="string">&quot;退出&quot;</span> ) &#123;</span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;Bye Bye&quot;</span></span><br><span class="line">            <span class="built_in">break</span></span><br><span class="line">        &#125;;;</span><br><span class="line">        * ) &#123;</span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;\033[31m&quot;</span>Invalid option: <span class="variable">$REPLY</span><span class="string">&quot;\033[0m&quot;</span></span><br><span class="line">        &#125;;;</span><br><span class="line">    <span class="keyword">esac</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动hiveserver2</span></span><br><span class="line"><span class="comment"># nohup hive --service metastore &gt; &quot;$&#123;HIVESERVER2_LOG_DIR&#125;/$&#123;HIVESERVER2_LOG_FILE&#125;&quot; 2&gt;&amp;1 &amp;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># LOG_DIR=&quot;/path/to/logs&quot;</span></span><br><span class="line"><span class="comment"># LOG_FILE=&quot;hive.log&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Get yesterday&#x27;s date in YYYY-MM-DD format</span></span><br><span class="line"><span class="comment"># YESTERDAY=$(date -d &quot;yesterday&quot; +&quot;%Y-%m-%d&quot;)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Rename yesterday&#x27;s log file with date suffix</span></span><br><span class="line"><span class="comment"># mv &quot;$&#123;LOG_DIR&#125;/$&#123;LOG_FILE&#125;&quot; &quot;$&#123;LOG_DIR&#125;/$&#123;LOG_FILE&#125;.$&#123;YESTERDAY&#125;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Create a new log file</span></span><br><span class="line"><span class="comment"># touch &quot;$&#123;LOG_DIR&#125;/$&#123;LOG_FILE&#125;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Start Hive Metastore service</span></span><br><span class="line"><span class="comment"># nohup hive --service metastore &gt; &quot;$&#123;LOG_DIR&#125;/$&#123;LOG_FILE&#125;&quot; 2&gt;&amp;1 &amp;</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Bigdata</category>
+        <category>Hive</category>
+      </categories>
+      <tags>
+        <tag>Hive</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux学习文档-文件权限与目录配置</title>
     <url>/2021/04/20/Linux%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h4 id="写在最前"><a href="#写在最前" class="headerlink" title="写在最前"></a>写在最前</h4><h2 id="1-文件属性"><a href="#1-文件属性" class="headerlink" title="1. 文件属性"></a>1. 文件属性</h2><p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Linux/%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E7%A4%BA%E6%84%8F%E5%9B%BE.png?raw=true" alt="图一（文件属性示意图）"></p>
@@ -845,84 +909,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Scala学习文档——容器</title>
-    <url>/2020/06/05/Scala%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%AE%B9%E5%99%A8/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="Collection-（容器）"><a href="#Collection-（容器）" class="headerlink" title="Collection （容器）"></a>Collection （容器）</h1><hr>
-<ul>
-<li><p>根据中元素的<code>组织方式</code>和<code>操作方式</code>，Scala中的容器Collection可以分为有序和无序容器、可变和不可变等不同的容器类别。</p>
-</li>
-<li><p>Scala用了三个包来组成容器类：</p>
-<ul>
-<li><p><strong>scala.collection</strong></p>
-</li>
-<li><p><strong>scala.collection.mutable</strong></p>
-<p><em>包含了所有<code>可变</code>的容器（例：可变集合、可变映射）</em></p>
-</li>
-<li><p><strong>scala.collection.immutable</strong></p>
-<p><em>包含了所有<code>不可变</code>的容器（可变集合、可变映射）</em></p>
-</li>
-</ul>
-</li>
-</ul>
-<!-- more -->
-
-<ul>
-<li><p>组织关系图</p>
-<ul>
-<li><p>下图显示了scala.collection包中所有的容器类。</p>
-<blockquote>
-<p>这些都是<code>高级抽象类</code>或<code>特质</code>。例如，所有容器的基本特质（trait）是Traverable特质。它为所有的容器定义了公用的foreach方法，用于对容器元素进行遍历操作</p>
-</blockquote>
-<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Scala/Scala%E5%AE%B9%E5%99%A8/scala.collection.png?raw=true"></p>
-</li>
-</ul>
-</li>
-<li><p>下图显示了scala.collection.immutable（<code>不可变</code>）包中所有的容器类</p>
-<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Scala/Scala%E5%AE%B9%E5%99%A8/scala.collection.immutable.png?raw=true"></p>
-</li>
-<li><p>下图显示了scala.collection.mutable（<code>可变</code>）中的所有容器类</p>
-<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Scala/Scala%E5%AE%B9%E5%99%A8/scala.collection.mutable.png?raw=true"></p>
-</li>
-</ul>
-<h2 id="1-列表（List）"><a href="#1-列表（List）" class="headerlink" title="1. 列表（List）"></a>1. 列表（List）</h2><hr>
-<p>列表是一种共享相同类型的<code>不可变</code>的对象序列，Scala的List定义在scala.collection.immutable包中</p>
-<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> strList = <span class="type">List</span>(<span class="string">&quot;Bigdata&quot;</span>, <span class="string">&quot;Hadoop&quot;</span>, <span class="string">&quot;Spark&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注：</p>
-<ol>
-<li>不同于Java的java.util.List，scala的List一旦被定义其值就不能改变了，因此声明List时必须初始化！</li>
-<li>这里用var声明不是说声明的List类型的strList是可变的，而是指向是可变的</li>
-</ol>
-</blockquote>
-<p>基本知识：</p>
-<ul>
-<li><p>列表有头部和尾部的概念，可以分别使用head和tail方法来获取</p>
-</li>
-<li><p>head返回的是列表第一个元素的值</p>
-</li>
-<li><p>tail返回的是除第一个元素外的其他值构成的新列表（这里体现出列表具有<code>递归</code>的<code>链表结构</code>）</p>
-</li>
-</ul>
-<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> strList = <span class="type">List</span>(<span class="string">&quot;Bigdata&quot;</span>, <span class="string">&quot;Hadoop&quot;</span>, <span class="string">&quot;Spark&quot;</span>)</span><br><span class="line"></span><br><span class="line">#下面表达式返回“<span class="type">Bigdata</span>”</span><br><span class="line"><span class="keyword">var</span> str = strList.head</span><br><span class="line"></span><br><span class="line">#下面表达式返回<span class="type">List</span>(“<span class="type">Hadoop</span>”, <span class="string">&quot;Spark&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> list = strList.tail</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-集合（Set）"><a href="#2-集合（Set）" class="headerlink" title="2. 集合（Set）"></a>2. 集合（Set）</h2><hr>
-<h2 id="3-映射（Map）"><a href="#3-映射（Map）" class="headerlink" title="3. 映射（Map）"></a>3. 映射（Map）</h2><hr>
-<h2 id="4-迭代器（Iterator）"><a href="#4-迭代器（Iterator）" class="headerlink" title="4. 迭代器（Iterator）"></a>4. 迭代器（Iterator）</h2><hr>
-<h2 id="5-数组（Array）"><a href="#5-数组（Array）" class="headerlink" title="5. 数组（Array）"></a>5. 数组（Array）</h2><hr>
-<h2 id="6-元组（Tuple）"><a href="#6-元组（Tuple）" class="headerlink" title="6. 元组（Tuple）"></a>6. 元组（Tuple）</h2><hr>
-]]></content>
-      <categories>
-        <category>编程语言</category>
-        <category>Scala</category>
-      </categories>
-      <tags>
-        <tag>Scala</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Scala学习文档——基础语法</title>
     <url>/2020/06/08/Scala%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<span id="more"></span>
@@ -1065,6 +1051,101 @@
       </tags>
   </entry>
   <entry>
+    <title>Scala学习文档——容器</title>
+    <url>/2020/06/05/Scala%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E5%AE%B9%E5%99%A8/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="Collection-（容器）"><a href="#Collection-（容器）" class="headerlink" title="Collection （容器）"></a>Collection （容器）</h1><hr>
+<ul>
+<li><p>根据中元素的<code>组织方式</code>和<code>操作方式</code>，Scala中的容器Collection可以分为有序和无序容器、可变和不可变等不同的容器类别。</p>
+</li>
+<li><p>Scala用了三个包来组成容器类：</p>
+<ul>
+<li><p><strong>scala.collection</strong></p>
+</li>
+<li><p><strong>scala.collection.mutable</strong></p>
+<p><em>包含了所有<code>可变</code>的容器（例：可变集合、可变映射）</em></p>
+</li>
+<li><p><strong>scala.collection.immutable</strong></p>
+<p><em>包含了所有<code>不可变</code>的容器（可变集合、可变映射）</em></p>
+</li>
+</ul>
+</li>
+</ul>
+<!-- more -->
+
+<ul>
+<li><p>组织关系图</p>
+<ul>
+<li><p>下图显示了scala.collection包中所有的容器类。</p>
+<blockquote>
+<p>这些都是<code>高级抽象类</code>或<code>特质</code>。例如，所有容器的基本特质（trait）是Traverable特质。它为所有的容器定义了公用的foreach方法，用于对容器元素进行遍历操作</p>
+</blockquote>
+<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Scala/Scala%E5%AE%B9%E5%99%A8/scala.collection.png?raw=true"></p>
+</li>
+</ul>
+</li>
+<li><p>下图显示了scala.collection.immutable（<code>不可变</code>）包中所有的容器类</p>
+<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Scala/Scala%E5%AE%B9%E5%99%A8/scala.collection.immutable.png?raw=true"></p>
+</li>
+<li><p>下图显示了scala.collection.mutable（<code>可变</code>）中的所有容器类</p>
+<p><img data-src="https://github.com/CharlieTao/CharlieTao.github.sources/blob/master/BigData/Pictures/Scala/Scala%E5%AE%B9%E5%99%A8/scala.collection.mutable.png?raw=true"></p>
+</li>
+</ul>
+<h2 id="1-列表（List）"><a href="#1-列表（List）" class="headerlink" title="1. 列表（List）"></a>1. 列表（List）</h2><hr>
+<p>列表是一种共享相同类型的<code>不可变</code>的对象序列，Scala的List定义在scala.collection.immutable包中</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> strList = <span class="type">List</span>(<span class="string">&quot;Bigdata&quot;</span>, <span class="string">&quot;Hadoop&quot;</span>, <span class="string">&quot;Spark&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：</p>
+<ol>
+<li>不同于Java的java.util.List，scala的List一旦被定义其值就不能改变了，因此声明List时必须初始化！</li>
+<li>这里用var声明不是说声明的List类型的strList是可变的，而是指向是可变的</li>
+</ol>
+</blockquote>
+<p>基本知识：</p>
+<ul>
+<li><p>列表有头部和尾部的概念，可以分别使用head和tail方法来获取</p>
+</li>
+<li><p>head返回的是列表第一个元素的值</p>
+</li>
+<li><p>tail返回的是除第一个元素外的其他值构成的新列表（这里体现出列表具有<code>递归</code>的<code>链表结构</code>）</p>
+</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> strList = <span class="type">List</span>(<span class="string">&quot;Bigdata&quot;</span>, <span class="string">&quot;Hadoop&quot;</span>, <span class="string">&quot;Spark&quot;</span>)</span><br><span class="line"></span><br><span class="line">#下面表达式返回“<span class="type">Bigdata</span>”</span><br><span class="line"><span class="keyword">var</span> str = strList.head</span><br><span class="line"></span><br><span class="line">#下面表达式返回<span class="type">List</span>(“<span class="type">Hadoop</span>”, <span class="string">&quot;Spark&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> list = strList.tail</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-集合（Set）"><a href="#2-集合（Set）" class="headerlink" title="2. 集合（Set）"></a>2. 集合（Set）</h2><hr>
+<h2 id="3-映射（Map）"><a href="#3-映射（Map）" class="headerlink" title="3. 映射（Map）"></a>3. 映射（Map）</h2><hr>
+<h2 id="4-迭代器（Iterator）"><a href="#4-迭代器（Iterator）" class="headerlink" title="4. 迭代器（Iterator）"></a>4. 迭代器（Iterator）</h2><hr>
+<h2 id="5-数组（Array）"><a href="#5-数组（Array）" class="headerlink" title="5. 数组（Array）"></a>5. 数组（Array）</h2><hr>
+<h2 id="6-元组（Tuple）"><a href="#6-元组（Tuple）" class="headerlink" title="6. 元组（Tuple）"></a>6. 元组（Tuple）</h2><hr>
+]]></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Scala</category>
+      </categories>
+      <tags>
+        <tag>Scala</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spark学习文档--RDD编程</title>
+    <url>/2020/12/28/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-RDD%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="RDD简介"><a href="#RDD简介" class="headerlink" title="RDD简介"></a>RDD简介</h1><h2 id="1-含义"><a href="#1-含义" class="headerlink" title="1.含义"></a>1.含义</h2><pre><code>1. RDD（Resilient Distributed Dataset）叫做弹性分布式数据集，是Spark中最基本的数据抽象。
+2. 它代表一个不可变、可分区、里面的元素可并行计算的集合。
+3. RDD具有数据流模型的特点：自动容错、位置感知性调度和可伸缩性。
+4. RDD允许用户在执行多个查询时显式地将工作集缓存在内存中，后续的查询能够重用工作集，这极大地提升了查询速度
+</code></pre>
+<h2 id="2-RDD的属性"><a href="#2-RDD的属性" class="headerlink" title="2.RDD的属性"></a>2.RDD的属性</h2><h3 id="（1）"><a href="#（1）" class="headerlink" title="（1）"></a>（1）</h3><h1 id="RDD的创建方式"><a href="#RDD的创建方式" class="headerlink" title="RDD的创建方式"></a>RDD的创建方式</h1><h1 id="RDD编程API"><a href="#RDD编程API" class="headerlink" title="RDD编程API"></a>RDD编程API</h1><h1 id="RDD的宽依赖与窄依赖"><a href="#RDD的宽依赖与窄依赖" class="headerlink" title="RDD的宽依赖与窄依赖"></a>RDD的宽依赖与窄依赖</h1>]]></content>
+      <categories>
+        <category>Bigdata</category>
+        <category>Spark</category>
+      </categories>
+      <tags>
+        <tag>Spark</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Scala概述</title>
     <url>/2020/06/04/Scala%E6%A6%82%E8%BF%B0/</url>
     <content><![CDATA[<span id="more"></span>
@@ -1153,23 +1234,6 @@
 <h3 id="2-启动Spark的历史服务进程"><a href="#2-启动Spark的历史服务进程" class="headerlink" title="2. 启动Spark的历史服务进程"></a>2. 启动Spark的历史服务进程</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 因为之前配置了启动historyServer的机器的Host（spark.yarn.historyServer.address），所以这里在Bigdata3上执行以下命令</span></span><br><span class="line">start-history-server.sh</span><br></pre></td></tr></table></figure>
 
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="1-测试Master的高可用"><a href="#1-测试Master的高可用" class="headerlink" title="1.测试Master的高可用"></a>1.测试Master的高可用</h3><h3 id="2-测试history-server"><a href="#2-测试history-server" class="headerlink" title="2.测试history-server"></a>2.测试history-server</h3>]]></content>
-      <categories>
-        <category>Bigdata</category>
-        <category>Spark</category>
-      </categories>
-      <tags>
-        <tag>Spark</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Spark学习文档--RDD编程</title>
-    <url>/2020/12/28/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-RDD%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="RDD简介"><a href="#RDD简介" class="headerlink" title="RDD简介"></a>RDD简介</h1><h2 id="1-含义"><a href="#1-含义" class="headerlink" title="1.含义"></a>1.含义</h2><pre><code>1. RDD（Resilient Distributed Dataset）叫做弹性分布式数据集，是Spark中最基本的数据抽象。
-2. 它代表一个不可变、可分区、里面的元素可并行计算的集合。
-3. RDD具有数据流模型的特点：自动容错、位置感知性调度和可伸缩性。
-4. RDD允许用户在执行多个查询时显式地将工作集缓存在内存中，后续的查询能够重用工作集，这极大地提升了查询速度
-</code></pre>
-<h2 id="2-RDD的属性"><a href="#2-RDD的属性" class="headerlink" title="2.RDD的属性"></a>2.RDD的属性</h2><h3 id="（1）"><a href="#（1）" class="headerlink" title="（1）"></a>（1）</h3><h1 id="RDD的创建方式"><a href="#RDD的创建方式" class="headerlink" title="RDD的创建方式"></a>RDD的创建方式</h1><h1 id="RDD编程API"><a href="#RDD编程API" class="headerlink" title="RDD编程API"></a>RDD编程API</h1><h1 id="RDD的宽依赖与窄依赖"><a href="#RDD的宽依赖与窄依赖" class="headerlink" title="RDD的宽依赖与窄依赖"></a>RDD的宽依赖与窄依赖</h1>]]></content>
       <categories>
         <category>Bigdata</category>
         <category>Spark</category>
@@ -1282,51 +1346,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Spark学习文档--核心原理</title>
-    <url>/2020/12/26/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="消息通信原理"><a href="#消息通信原理" class="headerlink" title="消息通信原理"></a>消息通信原理</h1><h1 id="作业执行原理"><a href="#作业执行原理" class="headerlink" title="作业执行原理"></a>作业执行原理</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="1-Application"><a href="#1-Application" class="headerlink" title="1. Application"></a>1. Application</h3><pre><code>表示本次运次的应用程序
-</code></pre>
-<h3 id="2-Driver"><a href="#2-Driver" class="headerlink" title="2. Driver"></a>2. Driver</h3><pre><code>表示main()函数，创建SparkContext。由SparkContext负责与CLusterManager通信，进行资源的申请、任务的分配和监控等。程序执行完毕后关闭SparkContext
-</code></pre>
-<h3 id="3-Executor"><a href="#3-Executor" class="headerlink" title="3. Executor"></a>3. Executor</h3><pre><code>某个Application运行在Worker节点上的一个进程，该进程负责运行某些Task，负责将数据存在内存或者磁盘上。在Spark On Yarn模式下，其进程名称为CoarseGrainedExecutorBackend，一个CoarseGrainedExecutorBackend能运行Task的数据就取决于分配给它的CPU的个数
-</code></pre>
-<h3 id="4-Worker"><a href="#4-Worker" class="headerlink" title="4. Worker"></a>4. Worker</h3><pre><code>集群中可以运行Application的节点。在Standalone模式中指的是通过slave文件配置的worker节点，在Spark On Yarn模式中指的就是NodeManager节点
-</code></pre>
-<h3 id="5-Task"><a href="#5-Task" class="headerlink" title="5. Task"></a>5. Task</h3><pre><code>在Executor进程中执行任务的工作单元，多个Task组成一个Stage
-</code></pre>
-<h3 id="6-Job"><a href="#6-Job" class="headerlink" title="6. Job"></a>6. Job</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">包含多个Task组成的并行计算，是有行动算子触发的</span><br></pre></td></tr></table></figure>
-
-<h3 id="7-Stage"><a href="#7-Stage" class="headerlink" title="7. Stage"></a>7. Stage</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">每个Job会被拆分成很多组Task，作为一个TaskSet，其名称为Stage</span><br></pre></td></tr></table></figure>
-
-<h3 id="8-DAGScheduler"><a href="#8-DAGScheduler" class="headerlink" title="8. DAGScheduler"></a>8. DAGScheduler</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">根据Job构建基于Stage的DAG，并提交Stage给TaskScheduler，其划分Stage的依据是RDD之间的依赖关系</span><br></pre></td></tr></table></figure>
-
-<h3 id="9-TaskScheduler"><a href="#9-TaskScheduler" class="headerlink" title="9. TaskScheduler"></a>9. TaskScheduler</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">将TaskSet提交给Worker（集群）运行，每个Executor运行什么Task就是在此处分配的</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注：<br>  有关Application、Driver、Job、Stage、Task之间的关系如下图所示：</p>
-</blockquote>
-<h2 id="运行流程"><a href="#运行流程" class="headerlink" title="运行流程"></a>运行流程</h2><h3 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h3><h3 id="文字说明"><a href="#文字说明" class="headerlink" title="文字说明"></a>文字说明</h3><ol>
-<li><p>构建SparkApplication的运行环境（启动SparkContext），SparkContext向资源管理器（Standalone、Mesos或者Yarn）注册并申请运行Executor资源</p>
-</li>
-<li><p>资源管理器分配Executor资源并启动StandaloneExecutorBackend，Executor运行情况将随着心跳发送到资源管理器上</p>
-</li>
-<li><p>SparkContext构成DAG图，将DAG图分解成Stage，并把TaskSet发送给Task Scheduler；Executor向SparkContext申请Task</p>
-</li>
-<li><p>Task Scheduler将Task发放给Executor运行同时SparkContext将应用程序代码发放给Executor</p>
-</li>
-<li><p>Task在Executor上运行，运行完毕释放所有资源</p>
-</li>
-</ol>
-<h1 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h1><h1 id="容错及HA"><a href="#容错及HA" class="headerlink" title="容错及HA"></a>容错及HA</h1><h1 id="监控管理"><a href="#监控管理" class="headerlink" title="监控管理"></a>监控管理</h1>]]></content>
-      <categories>
-        <category>Bigdata</category>
-        <category>Spark</category>
-      </categories>
-      <tags>
-        <tag>Spark</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Spark学习文档--运行流程</title>
     <url>/2020/12/27/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="1-Application"><a href="#1-Application" class="headerlink" title="1. Application"></a>1. Application</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">表示本次运次的应用程序</span><br></pre></td></tr></table></figure>
@@ -1363,6 +1382,51 @@
 </li>
 </ol>
 ]]></content>
+      <categories>
+        <category>Bigdata</category>
+        <category>Spark</category>
+      </categories>
+      <tags>
+        <tag>Spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spark学习文档--核心原理</title>
+    <url>/2020/12/26/Spark%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3-%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="消息通信原理"><a href="#消息通信原理" class="headerlink" title="消息通信原理"></a>消息通信原理</h1><h1 id="作业执行原理"><a href="#作业执行原理" class="headerlink" title="作业执行原理"></a>作业执行原理</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="1-Application"><a href="#1-Application" class="headerlink" title="1. Application"></a>1. Application</h3><pre><code>表示本次运次的应用程序
+</code></pre>
+<h3 id="2-Driver"><a href="#2-Driver" class="headerlink" title="2. Driver"></a>2. Driver</h3><pre><code>表示main()函数，创建SparkContext。由SparkContext负责与CLusterManager通信，进行资源的申请、任务的分配和监控等。程序执行完毕后关闭SparkContext
+</code></pre>
+<h3 id="3-Executor"><a href="#3-Executor" class="headerlink" title="3. Executor"></a>3. Executor</h3><pre><code>某个Application运行在Worker节点上的一个进程，该进程负责运行某些Task，负责将数据存在内存或者磁盘上。在Spark On Yarn模式下，其进程名称为CoarseGrainedExecutorBackend，一个CoarseGrainedExecutorBackend能运行Task的数据就取决于分配给它的CPU的个数
+</code></pre>
+<h3 id="4-Worker"><a href="#4-Worker" class="headerlink" title="4. Worker"></a>4. Worker</h3><pre><code>集群中可以运行Application的节点。在Standalone模式中指的是通过slave文件配置的worker节点，在Spark On Yarn模式中指的就是NodeManager节点
+</code></pre>
+<h3 id="5-Task"><a href="#5-Task" class="headerlink" title="5. Task"></a>5. Task</h3><pre><code>在Executor进程中执行任务的工作单元，多个Task组成一个Stage
+</code></pre>
+<h3 id="6-Job"><a href="#6-Job" class="headerlink" title="6. Job"></a>6. Job</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">包含多个Task组成的并行计算，是有行动算子触发的</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-Stage"><a href="#7-Stage" class="headerlink" title="7. Stage"></a>7. Stage</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">每个Job会被拆分成很多组Task，作为一个TaskSet，其名称为Stage</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-DAGScheduler"><a href="#8-DAGScheduler" class="headerlink" title="8. DAGScheduler"></a>8. DAGScheduler</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">根据Job构建基于Stage的DAG，并提交Stage给TaskScheduler，其划分Stage的依据是RDD之间的依赖关系</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-TaskScheduler"><a href="#9-TaskScheduler" class="headerlink" title="9. TaskScheduler"></a>9. TaskScheduler</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">将TaskSet提交给Worker（集群）运行，每个Executor运行什么Task就是在此处分配的</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：<br>  有关Application、Driver、Job、Stage、Task之间的关系如下图所示：</p>
+</blockquote>
+<h2 id="运行流程"><a href="#运行流程" class="headerlink" title="运行流程"></a>运行流程</h2><h3 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h3><h3 id="文字说明"><a href="#文字说明" class="headerlink" title="文字说明"></a>文字说明</h3><ol>
+<li><p>构建SparkApplication的运行环境（启动SparkContext），SparkContext向资源管理器（Standalone、Mesos或者Yarn）注册并申请运行Executor资源</p>
+</li>
+<li><p>资源管理器分配Executor资源并启动StandaloneExecutorBackend，Executor运行情况将随着心跳发送到资源管理器上</p>
+</li>
+<li><p>SparkContext构成DAG图，将DAG图分解成Stage，并把TaskSet发送给Task Scheduler；Executor向SparkContext申请Task</p>
+</li>
+<li><p>Task Scheduler将Task发放给Executor运行同时SparkContext将应用程序代码发放给Executor</p>
+</li>
+<li><p>Task在Executor上运行，运行完毕释放所有资源</p>
+</li>
+</ol>
+<h1 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h1><h1 id="容错及HA"><a href="#容错及HA" class="headerlink" title="容错及HA"></a>容错及HA</h1><h1 id="监控管理"><a href="#监控管理" class="headerlink" title="监控管理"></a>监控管理</h1>]]></content>
       <categories>
         <category>Bigdata</category>
         <category>Spark</category>
